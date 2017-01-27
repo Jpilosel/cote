@@ -72,5 +72,6 @@ class ResultatCommand extends ContainerAwareCommand
                 }
             }
         }
+        $output->writeln(['============','resultat fin',]);
     }
 }

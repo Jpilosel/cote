@@ -57,6 +57,6 @@ class OffreCommand extends ContainerAwareCommand
             }
         }
 
-        $output->writeln(['============','cote fin',]);
+        $output->writeln(['============','sport fin',]);
     }
 }

@@ -113,13 +113,15 @@ class SportCoteController extends Controller
                     $sportCote->setCompetition($jsonapi2['formules'][$p]['competition']);
                     $sportCote->setCompetitionId($jsonapi2['formules'][$p]['competitionId']);
                     $nbCoteAnexe = count($jsonapi2['outcomes']);
-                    if ($nbCoteAnexe == 2) {
+                    if ($nbCoteAnexe === 2) {
                         $sportCote->setUn($jsonapi2['formules'][$p]['outcomes'][0]['cote']);
                         $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][1]['cote']);
-                    } elseif ($nbCoteAnexe == 3) {
+                    } elseif ($nbCoteAnexe === 3) {
                         $sportCote->setUn($jsonapi2['formules'][$p]['outcomes'][0]['cote']);
                         $sportCote->setNul($jsonapi2['formules'][$p]['outcomes'][1]['cote']);
-                        $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][2]['cote']);
+                        if(isset($jsonapi2['formules'][$p]['outcomes'][2]['cote'])){
+                            $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][2]['cote']);
+                        }
                     }
                     var_dump($sportCote);
                     $em->persist($sportCote);
