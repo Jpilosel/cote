@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Resultats list</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-primary" type="submit">
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('resultat_new') }}">Create a new resultat</a>
+        </li>
+    </ul>
+
+    <h3> Taux de réussite {{ txReussite }}%</h3>
+    <h3> Nombre de paris {{ nbParis }}</h3>
+
+    <table class="table sortable ">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nbresult</th>
+                <th>Sport</th>
+                <th>Sexe</th>
+                <th>Date</th>
+                <th>Competition</th>
+                <th>Rencontre</th>
+                <th>Equipe1</th>
+                <th>Cote1</th>
+                <th>Cote null</th>
+                <th>Equipe2</th>
+                <th>Cote2</th>
+                <th>Resultat</th>
+                <th>Cotegagnante</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for resultat in resultats %}
+            <tr>
+                <td><a href="{{ path('resultat_show', { 'id': resultat.id }) }}">{{ resultat.id }}</a></td>
+                <td>{{ resultat.nbResult }}</td>
+                <td>{{ resultat.sport }}</td>
+                <td>{{ resultat.sexe }}</td>
+                <td>{{ resultat.date|date("d-m-Y")}}</td>
+                <td>{{ resultat.competition }}</td>
+                <td>{{ resultat.rencontre }}</td>
+                <td>{{ resultat.equipe1 }}</td>
+                <td>{{ resultat.cote1 }}</td>
+                <td>{{ resultat.coteNull }}</td>
+                <td>{{ resultat.equipe2 }}</td>
+                <td>{{ resultat.cote2 }}</td>
+                <td>{{ resultat.resultat }}</td>
+                <td>{{ resultat.coteGagnante }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('resultat_show', { 'id': resultat.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('resultat_edit', { 'id': resultat.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

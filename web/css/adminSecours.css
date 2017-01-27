@@ -1,0 +1,12 @@
+tr:nth-child(even) {
+    background-color: grey;
+}
+
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+.secours{
+    font-size: 14px;
+}

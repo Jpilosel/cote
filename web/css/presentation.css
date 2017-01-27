@@ -1,0 +1,91 @@
+
+.job{
+    color: #0078a8;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.job:visited{
+    color: #3689CE;
+    text-decoration: underline;
+}
+
+.header{
+    padding: 0;
+}
+
+.glyphicon{
+    font-size: 0.8em;
+    color: rgb(0, 55, 112);
+    font-weight: bold;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+h1,
+h2{
+    color: rgb(0, 55, 112);
+
+
+}
+
+
+h3{
+
+    color: rgb(0, 55, 112);
+
+}
+
+h2.lead{
+    font-weight: bold;
+}
+
+p.lead{
+    text-align: center;
+}
+
+strong{
+    color: rgb(0, 55, 112);
+}
+.more{
+
+    margin-top: 20px;
+}
+
+.information{
+    margin-top: 1em;
+    padding: 10px 0px 10px 70px;
+    background: #DAE1E9;
+    border-left:12px solid #003770;
+}
+
+.information .subtitle {
+    color:#003770;
+}
+
+
+
+.chiffres {
+    padding-top: 1.5em;
+    border-left:12px solid #FFCC06;
+    padding-bottom: 2em;
+    padding-left: 2em;
+    background:#FFF1BA;
+    margin-top:-1em;
+    z-index:-1;
+}
+
+.chiffres .fa, .chiffres strong {
+    color: #FFCC06;
+}
+
+i.fa{
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.first{
+    font-size: 1.2em;
+    text-align: center;
+    margin-right: 0.3em;
+}

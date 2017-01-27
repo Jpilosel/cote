@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sportcotes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Eventid</th>
+                <th>Marketid</th>
+                <th>Hascombibonus</th>
+                <th>Sportid</th>
+                <th>Indexp</th>
+                <th>Markettype</th>
+                <th>Markettypegroup</th>
+                <th>Markettypeid</th>
+                <th>End</th>
+                <th>Label</th>
+                <th>Eventtype</th>
+                <th>Competition</th>
+                <th>Competitionid</th>
+                <th>Un</th>
+                <th>Nul</th>
+                <th>Deux</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sportCote in sportCotes %}
+            <tr>
+                <td><a href="{{ path('sportcote_show', { 'id': sportCote.id }) }}">{{ sportCote.id }}</a></td>
+                <td>{{ sportCote.eventId }}</td>
+                <td>{{ sportCote.marketId }}</td>
+                <td>{{ sportCote.hasCombiBonus }}</td>
+                <td>{{ sportCote.sportId }}</td>
+                <td>{{ sportCote.indexP }}</td>
+                <td>{{ sportCote.marketType }}</td>
+                <td>{{ sportCote.marketTypeGroup }}</td>
+                <td>{{ sportCote.marketTypeId }}</td>
+                <td>{{ sportCote.end }}</td>
+                <td>{{ sportCote.label }}</td>
+                <td>{{ sportCote.eventType }}</td>
+                <td>{{ sportCote.competition }}</td>
+                <td>{{ sportCote.competitionId }}</td>
+                <td>{{ sportCote.un }}</td>
+                <td>{{ sportCote.nul }}</td>
+                <td>{{ sportCote.deux }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sportcote_show', { 'id': sportCote.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sportcote_edit', { 'id': sportCote.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sportcote_new') }}">Create a new sportCote</a>
+        </li>
+    </ul>
+{% endblock %}

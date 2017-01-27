@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sport</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sport.id }}</td>
+            </tr>
+            <tr>
+                <th>Eventid</th>
+                <td>{{ sport.eventId }}</td>
+            </tr>
+            <tr>
+                <th>Marketid</th>
+                <td>{{ sport.marketId }}</td>
+            </tr>
+            <tr>
+                <th>Hascombibonus</th>
+                <td>{% if sport.hasCombiBonus %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sportid</th>
+                <td>{{ sport.sportId }}</td>
+            </tr>
+            <tr>
+                <th>Indexp</th>
+                <td>{{ sport.indexP }}</td>
+            </tr>
+            <tr>
+                <th>Markettype</th>
+                <td>{{ sport.marketType }}</td>
+            </tr>
+            <tr>
+                <th>Markettypegroup</th>
+                <td>{{ sport.marketTypeGroup }}</td>
+            </tr>
+            <tr>
+                <th>Markettypeid</th>
+                <td>{{ sport.marketTypeId }}</td>
+            </tr>
+            <tr>
+                <th>End</th>
+                <td>{{ sport.end }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ sport.label }}</td>
+            </tr>
+            <tr>
+                <th>Eventtype</th>
+                <td>{{ sport.eventType }}</td>
+            </tr>
+            <tr>
+                <th>Competition</th>
+                <td>{{ sport.competition }}</td>
+            </tr>
+            <tr>
+                <th>Competitionid</th>
+                <td>{{ sport.competitionId }}</td>
+            </tr>
+            <tr>
+                <th>Nbmarkets</th>
+                <td>{{ sport.nbMarkets }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sport_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('sport_edit', { 'id': sport.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

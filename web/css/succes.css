@@ -1,0 +1,38 @@
+.succes{
+    text-align: center;
+}
+
+p{
+    padding-top: 8%;
+    padding-bottom: 10%;
+
+}
+
+.succes a{
+    font-size: 20px;
+}
+
+tr:nth-child(even) {
+    background-color: lightgrey;
+}
+
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+th{
+    border-right: 2px solid grey ;
+    padding-right: 30px;
+}
+
+td{
+    padding-left: 80px;
+    padding-right: 80px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.tableau{
+    padding-top: 20px;
+}

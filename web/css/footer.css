@@ -1,0 +1,81 @@
+
+footer{
+    text-align: center;
+    background-color:#253571;
+    color: white;
+    padding-top: 3em;
+    padding-bottom: 1.5em;
+
+
+}
+
+footer li {
+	margin:0.5em;
+}
+footer a {
+    color: white;
+}
+.logo-footer {
+    width:70px;
+    margin-top: -4.8em;
+    position: absolute;
+    margin-left:auto;
+    margin-right:auto;
+    z-index: 10;
+
+}
+
+.logo_WCS {
+    width:60px;
+}
+
+.scrollup {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    display: none;
+    color: white;
+    background-color: #3a3f51;
+    border: 1px solid #3a3f51;
+
+    text-align: center;
+
+}
+
+.scrollup:hover {
+    color: white;
+}
+
+.scrollup {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    display: none;
+    color: white;
+    background-color: #3a3f51;
+    border: 1px solid #3a3f51;
+
+    text-align: center;
+
+}
+ 
+.scrollup:hover {
+    color: white;
+}
+
+footer a:visited{
+    color: white;
+}
+footer a:hover{
+    color: white;
+}
+
+ul{
+    list-style: none;
+}
+
+

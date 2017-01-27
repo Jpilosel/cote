@@ -1,0 +1,82 @@
+.debut_page {
+	background-color:#253571;
+	padding:1.5em;
+	color:white;
+	margin-bottom:1em;
+	margin-top:0;
+}
+
+.form-inline {
+	display:inline-block;
+}
+
+.craue_formflow_buttons {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.flow-steps {
+    padding: 20px 50px 250px 20px;
+}
+
+.flow-form {
+    float: left;
+    width: 600px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+
+input[type="text"] {
+    width: 300px;
+}
+
+input{
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 450px;
+    height: 100px;
+}
+
+.flow-form dl dt {
+    float: left;
+    width: 100px;
+}
+
+.data-usage-notice {
+    padding: 10px 20px;
+    background-color: #f4dbdc;
+    color: #836a6b;
+    display: inline-block;
+}
+
+.clear {
+    clear: both;
+}
+
+
+
+
+.poste{
+    padding-bottom: 40px;
+
+}
+
+.navbar{
+    margin-bottom: 0px;
+}
+
+
+.form-control{
+    width: 200px;
+}
+
+
+ label input[type="radio"]:checked   {
+	padding:5em;
+	background-color:#BEF0A3;
+	color:#24731B;
+	box-shadow:0px 0px 6px #24731B inset;
+}

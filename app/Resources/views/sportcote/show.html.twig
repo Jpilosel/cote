@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sportcote</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sportCote.id }}</td>
+            </tr>
+            <tr>
+                <th>Eventid</th>
+                <td>{{ sportCote.eventId }}</td>
+            </tr>
+            <tr>
+                <th>Marketid</th>
+                <td>{{ sportCote.marketId }}</td>
+            </tr>
+            <tr>
+                <th>Hascombibonus</th>
+                <td>{{ sportCote.hasCombiBonus }}</td>
+            </tr>
+            <tr>
+                <th>Sportid</th>
+                <td>{{ sportCote.sportId }}</td>
+            </tr>
+            <tr>
+                <th>Indexp</th>
+                <td>{{ sportCote.indexP }}</td>
+            </tr>
+            <tr>
+                <th>Markettype</th>
+                <td>{{ sportCote.marketType }}</td>
+            </tr>
+            <tr>
+                <th>Markettypegroup</th>
+                <td>{{ sportCote.marketTypeGroup }}</td>
+            </tr>
+            <tr>
+                <th>Markettypeid</th>
+                <td>{{ sportCote.marketTypeId }}</td>
+            </tr>
+            <tr>
+                <th>End</th>
+                <td>{{ sportCote.end }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ sportCote.label }}</td>
+            </tr>
+            <tr>
+                <th>Eventtype</th>
+                <td>{{ sportCote.eventType }}</td>
+            </tr>
+            <tr>
+                <th>Competition</th>
+                <td>{{ sportCote.competition }}</td>
+            </tr>
+            <tr>
+                <th>Competitionid</th>
+                <td>{{ sportCote.competitionId }}</td>
+            </tr>
+            <tr>
+                <th>Un</th>
+                <td>{{ sportCote.un }}</td>
+            </tr>
+            <tr>
+                <th>Nul</th>
+                <td>{{ sportCote.nul }}</td>
+            </tr>
+            <tr>
+                <th>Deux</th>
+                <td>{{ sportCote.deux }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sportcote_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('sportcote_edit', { 'id': sportCote.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

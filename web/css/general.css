@@ -1,0 +1,30 @@
+
+@font-face {
+    font-family: myFont;
+    src: url(../fonts/BebasNeue.otf);
+}
+
+
+body{
+    width:100%;
+    font-family: 'Open Sans';
+    font-size:18px;
+}
+
+
+
+h1, h2, h3, h4, h5, h6{
+
+    font-family: myFont, sans-serif;
+}
+
+
+
+
+
+p{
+    font-size:20px;
+}
+.containerBody{
+    min-height: 24em!important;
+}

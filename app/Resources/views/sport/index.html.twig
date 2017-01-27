@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sports list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Eventid</th>
+                <th>Marketid</th>
+                <th>Hascombibonus</th>
+                <th>Sportid</th>
+                <th>Indexp</th>
+                <th>Markettype</th>
+                <th>Markettypegroup</th>
+                <th>Markettypeid</th>
+                <th>End</th>
+                <th>Label</th>
+                <th>Eventtype</th>
+                <th>Competition</th>
+                <th>Competitionid</th>
+                <th>Nbmarkets</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sport in sports %}
+            <tr>
+                <td><a href="{{ path('sport_show', { 'id': sport.id }) }}">{{ sport.id }}</a></td>
+                <td>{{ sport.eventId }}</td>
+                <td>{{ sport.marketId }}</td>
+                <td>{% if sport.hasCombiBonus %}Yes{% else %}No{% endif %}</td>
+                <td>{{ sport.sportId }}</td>
+                <td>{{ sport.indexP }}</td>
+                <td>{{ sport.marketType }}</td>
+                <td>{{ sport.marketTypeGroup }}</td>
+                <td>{{ sport.marketTypeId }}</td>
+                <td>{{ sport.end }}</td>
+                <td>{{ sport.label }}</td>
+                <td>{{ sport.eventType }}</td>
+                <td>{{ sport.competition }}</td>
+                <td>{{ sport.competitionId }}</td>
+                <td>{{ sport.nbMarkets }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sport_show', { 'id': sport.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sport_edit', { 'id': sport.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sport_new') }}">Create a new sport</a>
+        </li>
+    </ul>
+{% endblock %}

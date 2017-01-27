@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Formules list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Eventid</th>
+                <th>Indexp</th>
+                <th>Sportid</th>
+                <th>Markettype</th>
+                <th>Markettypegroup</th>
+                <th>Markettypeid</th>
+                <th>Marketid</th>
+                <th>Label</th>
+                <th>Competition</th>
+                <th>Competitionid</th>
+                <th>End</th>
+                <th>Un</th>
+                <th>N</th>
+                <th>Deux</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for formule in formules %}
+            <tr>
+                <td><a href="{{ path('formules_show', { 'id': formule.id }) }}">{{ formule.id }}</a></td>
+                <td>{{ formule.eventId }}</td>
+                <td>{{ formule.indexP }}</td>
+                <td>{{ formule.sportId }}</td>
+                <td>{{ formule.marketType }}</td>
+                <td>{{ formule.marketTypeGroup }}</td>
+                <td>{{ formule.marketTypeId }}</td>
+                <td>{{ formule.marketId }}</td>
+                <td>{{ formule.label }}</td>
+                <td>{{ formule.competition }}</td>
+                <td>{{ formule.competitionId }}</td>
+                <td>{{ formule.end }}</td>
+                <td>{{ formule.un }}</td>
+                <td>{{ formule.n }}</td>
+                <td>{{ formule.deux }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('formules_show', { 'id': formule.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('formules_edit', { 'id': formule.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('formules_new') }}">Create a new formule</a>
+        </li>
+    </ul>
+{% endblock %}

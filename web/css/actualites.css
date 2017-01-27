@@ -1,0 +1,31 @@
+
+
+h1{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    color: #001BB2;
+    font-weight: bold;
+    text-align: center;
+}
+
+h2{
+    font-size: 40px;
+}
+
+.actualites{
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+p{
+
+    padding-top: 20px;
+    text-justify: auto;
+    text-align: center;
+
+}
+
+.customrow{
+    border-bottom: 5px solid #FEEF0E;
+}

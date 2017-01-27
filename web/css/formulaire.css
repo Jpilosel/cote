@@ -1,0 +1,75 @@
+.formulaire{
+    padding-bottom: 30px;
+    color: black;
+    margin-bottom: 40px;
+
+}
+
+ul {
+    list-style-type:none;
+}
+
+.wrapper         {width:100%;height:100%;margin:0 auto;background:#ffffff}
+.h_iframe        {position:relative;}
+.h_iframe .ratio {display:block;width:100%;height:auto;}
+.h_iframe iframe {position:absolute;top:0;left:0;width:100%; height:100%;}
+
+iframe, object, embed {
+    max-width: 100%;
+}
+
+.myIframe {
+    position: relative;
+    padding-bottom: 65.25%;
+    padding-top: 10px;
+    height: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling:touch; //<<--- THIS IS THE KEY
+    border: solid black 1px;
+}
+.myIframe iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+h4.iframe{
+    position: absolute;
+    top: 0  ;
+    left: 35%;
+}
+
+.liencarte{
+    color: black;
+}
+
+.liencarte:visited{
+    color: black;
+}
+
+.contact{
+    text-align: center;
+}
+
+#form input {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.formulaire h4{
+    font-weight: bold;
+}
+
+.facebook{
+    text-decoration:none;
+
+}
+
+textarea{
+    width:100%;
+    height: 100px;
+    padding-left: 6px;
+
+}

@@ -1,0 +1,27 @@
+.page {
+    margin: 0;
+    background-image: -webkit-linear-gradient( blue 60%, transparent 60%);
+    background-image: linear-gradient(290deg,blue 60%, transparent 60%);
+    padding-top: 3em;
+    font-weight: 300;
+    height: 100%;
+    font: 14px/1 'Open Sans', sans-serif;
+    font-size: 1em;
+}
+
+.info {
+    background-color: #223E7A;
+}
+
+h1 {
+    background-color: #223E7A;
+}
+
+table {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.espace {
+    height: 500px;
+}

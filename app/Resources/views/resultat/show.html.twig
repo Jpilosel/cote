@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Resultat</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ resultat.id }}</td>
+            </tr>
+            <tr>
+                <th>Nbresult</th>
+                <td>{{ resultat.nbResult }}</td>
+            </tr>
+            <tr>
+                <th>Sport</th>
+                <td>{{ resultat.sport }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ resultat.sexe }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ resultat.date|date("d-m-Y")}}</td>
+            </tr>
+            <tr>
+                <th>Competition</th>
+                <td>{{ resultat.competition }}</td>
+            </tr>
+            <tr>
+                <th>Rencontre</th>
+                <td>{{ resultat.rencontre }}</td>
+            </tr>
+            <tr>
+                <th>Equipe1</th>
+                <td>{{ resultat.equipe1 }}</td>
+            </tr>
+            <tr>
+                <th>Cote1</th>
+                <td>{{ resultat.cote1 }}</td>
+            </tr>
+            <tr>
+                <th>Cote null</th>
+                <td>{{ resultat.coteNull }}</td>
+            </tr>
+            <tr>
+                <th>Equipe2</th>
+                <td>{{ resultat.equipe2 }}</td>
+            </tr>
+            <tr>
+                <th>Cote2</th>
+                <td>{{ resultat.cote2 }}</td>
+            </tr>
+            <tr>
+                <th>Resultat</th>
+                <td>{{ resultat.resultat }}</td>
+            </tr>
+            <tr>
+                <th>Cotegagnante</th>
+                <td>{{ resultat.coteGagnante }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('resultat_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('resultat_edit', { 'id': resultat.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

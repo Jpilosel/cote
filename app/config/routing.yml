@@ -1,0 +1,13 @@
+fdj:
+    resource: "@FdjBundle/Controller/"
+    type:     annotation
+    prefix:   /fdj
+
+result:
+    resource: "@ResultBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

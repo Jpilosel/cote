@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Formule</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ formule.id }}</td>
+            </tr>
+            <tr>
+                <th>Eventid</th>
+                <td>{{ formule.eventId }}</td>
+            </tr>
+            <tr>
+                <th>Indexp</th>
+                <td>{{ formule.indexP }}</td>
+            </tr>
+            <tr>
+                <th>Sportid</th>
+                <td>{{ formule.sportId }}</td>
+            </tr>
+            <tr>
+                <th>Markettype</th>
+                <td>{{ formule.marketType }}</td>
+            </tr>
+            <tr>
+                <th>Markettypegroup</th>
+                <td>{{ formule.marketTypeGroup }}</td>
+            </tr>
+            <tr>
+                <th>Markettypeid</th>
+                <td>{{ formule.marketTypeId }}</td>
+            </tr>
+            <tr>
+                <th>Marketid</th>
+                <td>{{ formule.marketId }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ formule.label }}</td>
+            </tr>
+            <tr>
+                <th>Competition</th>
+                <td>{{ formule.competition }}</td>
+            </tr>
+            <tr>
+                <th>Competitionid</th>
+                <td>{{ formule.competitionId }}</td>
+            </tr>
+            <tr>
+                <th>End</th>
+                <td>{{ formule.end }}</td>
+            </tr>
+            <tr>
+                <th>Un</th>
+                <td>{{ formule.un }}</td>
+            </tr>
+            <tr>
+                <th>N</th>
+                <td>{{ formule.n }}</td>
+            </tr>
+            <tr>
+                <th>Deux</th>
+                <td>{{ formule.deux }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('formules_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('formules_edit', { 'id': formule.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

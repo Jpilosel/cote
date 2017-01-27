@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Resultats list</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-primary" type="submit">
+    {{ form_end(form) }}
+
+    <div id="chart"></div>
+
+
+<table class="table sortable ">
+    <thead>
+    <tr>
+        <th class="text-right">Cote</th>
+        <th class="text-center">Recurence</th>
+        <th class="text-left">Taux de reussite</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for nbCote in nbCote2b %}
+        <tr>
+            <td class="text-right">{{ nbCote.cote }}</td>
+            <td class="text-center">{{ nbCote.nbParis }}</td>
+            <td class="text-left">{{ nbCote.taux }}%</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
+
+

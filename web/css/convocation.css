@@ -1,0 +1,31 @@
+img {
+    height: 150px;
+}
+
+h1 {
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+.adresse {
+    padding-top:20px;
+}
+
+
+.signature {
+    padding-left: 450px;
+    padding-top: 30px;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.decale {
+    padding-left: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
