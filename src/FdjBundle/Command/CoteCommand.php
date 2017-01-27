@@ -29,11 +29,11 @@ class CoteCommand extends ContainerAwareCommand
         var_dump(file_get_contents('https://www.parionssport.fr/api/date/last-update'));
 //        $em = $this->getDoctrine()->getManager();
         $em = $this->getContainer()->get('doctrine')->getManager();
-
         $api = file_get_contents('https://www.parionssport.fr/api/1n2/offre?sport=964500');//match sans resultat debut au lancement de l'api, beaucoup de match avec les cotes + cote alternative
         $jsonapi = json_decode($api, true);
         $nbMatch = count($jsonapi);
 //        var_dump($nbMatch);
+
 
         foreach ($jsonapi as $jsonapi2) {
             $formulesBdd = $em->getRepository('FdjBundle:SportCote')->findByEventId($jsonapi2['eventId']);
@@ -64,10 +64,10 @@ class CoteCommand extends ContainerAwareCommand
                 $sportCote->setCompetition($jsonapi2['competition']);
                 $sportCote->setCompetitionId($jsonapi2['competitionId']);
                 $nbCoteAnexe = count($jsonapi2['outcomes']);
-                if ($nbCoteAnexe === 2) {
+                if ($nbCoteAnexe == 2) {
                     $sportCote->setUn($jsonapi2['outcomes'][0]['cote']);
                     $sportCote->setDeux($jsonapi2['outcomes'][1]['cote']);
-                } elseif ($nbCoteAnexe === 3) {
+                } elseif ($nbCoteAnexe == 3) {
                     $sportCote->setUn($jsonapi2['outcomes'][0]['cote']);
                     $sportCote->setNul($jsonapi2['outcomes'][1]['cote']);
                     $sportCote->setDeux($jsonapi2['outcomes'][2]['cote']);
@@ -78,7 +78,7 @@ class CoteCommand extends ContainerAwareCommand
                 $nbCoteAnexe = $jsonapi2['nbMarkets'];
 //                var_dump($nbCoteAnexe);
 //                var_dump($jsonapi2);
-                for ($p = 0; $p < $nbCoteAnexe; $p++) {
+                for ($p = 0; $p < $jsonapi2['nbMarkets']; $p++) {
 
                     //                var_dump($jsonapi2['formules']);
 //                    var_dump($p);
@@ -106,6 +106,9 @@ class CoteCommand extends ContainerAwareCommand
                         $sportCote->setNul($jsonapi2['formules'][$p]['outcomes'][1]['cote']);
                         if(isset($jsonapi2['formules'][$p]['outcomes'][2]['cote'])){
                             $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][2]['cote']);
+                        }else{
+                            $sportCote->setNul(null);
+                            $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][1]['cote']);
                         }
                     }
                     var_dump($sportCote);

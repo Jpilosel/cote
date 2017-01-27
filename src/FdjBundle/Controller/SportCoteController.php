@@ -121,6 +121,9 @@ class SportCoteController extends Controller
                         $sportCote->setNul($jsonapi2['formules'][$p]['outcomes'][1]['cote']);
                         if(isset($jsonapi2['formules'][$p]['outcomes'][2]['cote'])){
                             $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][2]['cote']);
+                        }else{
+                            $sportCote->setNul(null);
+                            $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][1]['cote']);
                         }
                     }
                     var_dump($sportCote);
