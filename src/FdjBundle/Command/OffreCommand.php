@@ -18,7 +18,7 @@ class OffreCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('fdj:offre')
+            ->setName('fdj:command')
             ->setDescription('Reception des matchs avec l offre.')
             ->setHelp("Cette commande lance une requette pour recevoir les matchs correspondant au sport");
     }
