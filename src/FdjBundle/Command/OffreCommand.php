@@ -26,7 +26,7 @@ class OffreCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(['cote inputt','============',]);
-        var_dump(file_get_contents('https://www.parionssport.fr/api/date/last-update'));
+//        var_dump(file_get_contents('https://www.parionssport.fr/api/date/last-update'));
 //        $em = $this->getDoctrine()->getManager();
         $em = $this->getContainer()->get('doctrine')->getManager();
         $api =file_get_contents('https://www.parionssport.fr/api/1n2/offre');//match sans resultat debut au lancement de l'api, beaucoup de match avec les cotes + cote alternative

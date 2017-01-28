@@ -47,13 +47,15 @@ class SportCoteController extends Controller
         $api = file_get_contents('https://www.parionssport.fr/api/1n2/offre?sport=964500');//match sans resultat debut au lancement de l'api, beaucoup de match avec les cotes + cote alternative
         $jsonapi = json_decode($api, true);
         $nbMatch = count($jsonapi);
-//        var_dump($nbMatch);
+        var_dump($nbMatch);
+//        var_dump($jsonapi[0]);
+//        var_dump($jsonapi[0]['formules']);
 
 
         foreach ($jsonapi as $jsonapi2) {
             $formulesBdd = $em->getRepository('FdjBundle:SportCote')->findByEventId($jsonapi2['eventId']);
             $nbFormulesBdd = count($formulesBdd);
-//            var_dump($nbFormulesBdd);
+            var_dump($nbFormulesBdd);
 //            var_dump($jsonapi2);
             $doublon=0;
             for ($a=0; $a<$nbFormulesBdd; $a++){
@@ -63,8 +65,8 @@ class SportCoteController extends Controller
             }
             if (isset($jsonapi2['marketId']) && $doublon == 0) {
                 $sportCote = new Sportcote();
-    //            var_dump($sportCote);
-    //var_dump($jsonapi2['formules'][6]);
+                //            var_dump($sportCote);
+                //var_dump($jsonapi2['formules'][6]);
                 $sportCote->setEventId($jsonapi2['eventId']);
                 $sportCote->setMarketId($jsonapi2['marketId']);
                 $sportCote->setHasCombiBonus($jsonapi2['hasCombiBonus']);
@@ -93,11 +95,18 @@ class SportCoteController extends Controller
                 $nbCoteAnexe = $jsonapi2['nbMarkets'];
 //                var_dump($nbCoteAnexe);
 //                var_dump($jsonapi2);
-                for ($p = 0; $p < $jsonapi2['nbMarkets']; $p++) {
-
-    //                var_dump($jsonapi2['formules']);
-//                    var_dump($p);
-//                    var_dump($nbCoteAnexe);
+            }
+            for ($p = 0; $p < $jsonapi2['nbMarkets']; $p++) {
+                $doublon=0;
+                for ($a=0; $a<$nbFormulesBdd; $a++){
+                    if ( $formulesBdd[$a]->getMarketId()== $jsonapi2['formules'][$p]['marketId'] ) {
+                        $doublon = 1;
+                    }
+                }
+                if (isset($jsonapi2['formules'][$p]['marketId']) && $doublon == 0) {
+                    //                var_dump($jsonapi2['formules']);
+                    //                    var_dump($p);
+                    //                    var_dump($nbCoteAnexe);
                     $sportCote = new Sportcote();
                     $sportCote->setEventId($jsonapi2['formules'][$p]['eventId']);
                     $sportCote->setMarketId($jsonapi2['formules'][$p]['marketId']);
@@ -119,9 +128,9 @@ class SportCoteController extends Controller
                     } elseif ($nbCoteAnexe === 3) {
                         $sportCote->setUn($jsonapi2['formules'][$p]['outcomes'][0]['cote']);
                         $sportCote->setNul($jsonapi2['formules'][$p]['outcomes'][1]['cote']);
-                        if(isset($jsonapi2['formules'][$p]['outcomes'][2]['cote'])){
+                        if (isset($jsonapi2['formules'][$p]['outcomes'][2]['cote'])) {
                             $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][2]['cote']);
-                        }else{
+                        } else {
                             $sportCote->setNul(null);
                             $sportCote->setDeux($jsonapi2['formules'][$p]['outcomes'][1]['cote']);
                         }
@@ -130,9 +139,9 @@ class SportCoteController extends Controller
                     $em->persist($sportCote);
 
                     $em->flush();
-
                 }
             }
+
         }
 
 
