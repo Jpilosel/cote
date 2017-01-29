@@ -46,13 +46,13 @@ class SportController extends Controller
 //        $sport = new Sport();
         $api =file_get_contents('https://www.parionssport.fr/api/1n2/offre');//match sans resultat debut au lancement de l'api, beaucoup de match avec les cotes + cote alternative
         $jsonapi =  json_decode($api, true);
-        var_dump($jsonapi[0]);
+//        var_dump($jsonapi[0]);
         $nbMatch = count($jsonapi);
         var_dump($nbMatch);
         foreach ($jsonapi as $jsonapi2) {
             $formulesBdd = $em->getRepository('FdjBundle:SportCote')->findByEventId($jsonapi2['eventId']);
             $nbFormulesBdd = count($formulesBdd);
-            var_dump($nbFormulesBdd);
+//            var_dump($nbFormulesBdd);
 //            var_dump($jsonapi2);
             $doublon=0;
             for ($a=0; $a<$nbFormulesBdd; $a++){
