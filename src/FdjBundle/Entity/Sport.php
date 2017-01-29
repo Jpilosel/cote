@@ -116,9 +116,30 @@ class Sport
     /**
      * @var string
      *
-     * @ORM\Column(name="nbMarkets", type="string", length=255)
+     * @ORM\Column(name="nbMarkets", type="string", length=255, nullable=true)
      */
     private $nbMarkets;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="un", type="string", length=255, nullable=true)
+     */
+    private $un;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nul", type="string", length=255, nullable=true)
+     */
+    private $nul;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="deux", type="string", length=255, nullable=true)
+     */
+    private $deux;
 
     /**
      * Get id
@@ -423,6 +444,56 @@ class Sport
     {
         $this->nbMarkets = $nbMarkets;
     }
+
+    /**
+     * @return string
+     */
+    public function getUn()
+    {
+        return $this->un;
+    }
+
+    /**
+     * @param string $un
+     */
+    public function setUn($un)
+    {
+        $this->un = $un;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNul()
+    {
+        return $this->nul;
+    }
+
+    /**
+     * @param string $nul
+     */
+    public function setNul($nul)
+    {
+        $this->nul = $nul;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeux()
+    {
+        return $this->deux;
+    }
+
+    /**
+     * @param string $deux
+     */
+    public function setDeux($deux)
+    {
+        $this->deux = $deux;
+    }
+
+
 
 
 }
