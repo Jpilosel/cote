@@ -13,13 +13,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-class OffreCommand extends ContainerAwareCommand
+class TestCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('fdj:command')
-            ->setDescription('Reception des matchs avec l offre.')
+            ->setName('fdj:test')
+            ->setDescription('Reception des matchs avec les resultat.')
             ->setHelp("Cette commande lance une requette pour recevoir les matchs correspondant au sport");
     }
 
