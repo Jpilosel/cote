@@ -5,6 +5,7 @@ namespace FdjBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use FdjBundle\Entity\MatchFini;
 use FdjBundle\Entity\Formules;
 use FdjBundle\Entity\Sport;
 use FdjBundle\Entity\SportCote;
@@ -72,11 +73,9 @@ class MatchFiniCommand extends ContainerAwareCommand
                         }
                     }
                 }
-//
 //                var_dump($resultat);
 //                var_dump($match);
             }
-
         }
         $output->writeln(['============','resultat fin',]);
     }
