@@ -47,6 +47,7 @@ class FormulesController extends Controller
         $nbMatch = count($jsonapi);
         var_dump($nbMatch);
         foreach ($jsonapi as $jsonapi2) {
+            var_dump($jsonapi2);
             $nbParis = count($jsonapi2['marketRes']);
             for ($j=0; $j<$nbParis; $j++) {
                 $formulesBdd = $em->getRepository('FdjBundle:Formules')->findByEventId($jsonapi2['eventId']);

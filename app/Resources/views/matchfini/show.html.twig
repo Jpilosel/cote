@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Matchfini</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ matchFini.id }}</td>
+            </tr>
+            <tr>
+                <th>Eventid</th>
+                <td>{{ matchFini.eventId }}</td>
+            </tr>
+            <tr>
+                <th>Marketid</th>
+                <td>{{ matchFini.marketId }}</td>
+            </tr>
+            <tr>
+                <th>Hascombibonus</th>
+                <td>{% if matchFini.hasCombiBonus %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sportid</th>
+                <td>{{ matchFini.sportId }}</td>
+            </tr>
+            <tr>
+                <th>Indexp</th>
+                <td>{{ matchFini.indexP }}</td>
+            </tr>
+            <tr>
+                <th>Markettype</th>
+                <td>{{ matchFini.marketType }}</td>
+            </tr>
+            <tr>
+                <th>Markettypegroup</th>
+                <td>{{ matchFini.marketTypeGroup }}</td>
+            </tr>
+            <tr>
+                <th>Markettypeid</th>
+                <td>{{ matchFini.marketTypeId }}</td>
+            </tr>
+            <tr>
+                <th>End</th>
+                <td>{{ matchFini.end }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ matchFini.label }}</td>
+            </tr>
+            <tr>
+                <th>Eventtype</th>
+                <td>{{ matchFini.eventType }}</td>
+            </tr>
+            <tr>
+                <th>Competition</th>
+                <td>{{ matchFini.competition }}</td>
+            </tr>
+            <tr>
+                <th>Competitionid</th>
+                <td>{{ matchFini.competitionId }}</td>
+            </tr>
+            <tr>
+                <th>Nbmarkets</th>
+                <td>{{ matchFini.nbMarkets }}</td>
+            </tr>
+            <tr>
+                <th>Un</th>
+                <td>{{ matchFini.un }}</td>
+            </tr>
+            <tr>
+                <th>Nul</th>
+                <td>{{ matchFini.nul }}</td>
+            </tr>
+            <tr>
+                <th>Deux</th>
+                <td>{{ matchFini.deux }}</td>
+            </tr>
+            <tr>
+                <th>Resultat</th>
+                <td>{{ matchFini.resultat }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('matchfini_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('matchfini_edit', { 'id': matchFini.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
