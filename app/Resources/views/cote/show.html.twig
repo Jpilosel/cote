@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cote</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cote.id }}</td>
+            </tr>
+            <tr>
+                <th>Sport</th>
+                <td>{{ cote.sport }}</td>
+            </tr>
+            <tr>
+                <th>Sportid</th>
+                <td>{{ cote.sportId }}</td>
+            </tr>
+            <tr>
+                <th>Competition</th>
+                <td>{{ cote.competition }}</td>
+            </tr>
+            <tr>
+                <th>Competitionid</th>
+                <td>{{ cote.competitionId }}</td>
+            </tr>
+            <tr>
+                <th>Markettype</th>
+                <td>{{ cote.marketType }}</td>
+            </tr>
+            <tr>
+                <th>Markettypegroup</th>
+                <td>{{ cote.marketTypeGroup }}</td>
+            </tr>
+            <tr>
+                <th>Resultat</th>
+                <td>{{ cote.resultat }}</td>
+            </tr>
+            <tr>
+                <th>Cote</th>
+                <td>{{ cote.cote }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('cote_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('cote_edit', { 'id': cote.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

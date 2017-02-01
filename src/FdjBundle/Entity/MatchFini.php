@@ -149,6 +149,13 @@ class MatchFini
     private $resultat;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="matchFini", type="string", length=255, nullable=true)
+     */
+    private $matchFini;
+
+    /**
      * Get id
      *
      * @return integer
@@ -515,6 +522,26 @@ class MatchFini
     {
         $this->resultat = $resultat;
     }
+
+    /**
+     * @return string
+     */
+    public function getMatchFini()
+    {
+        return $this->matchFini;
+    }
+
+    /**
+     * @param string $matchFini
+     */
+    public function setMatchFini($matchFini)
+    {
+        $this->matchFini = $matchFini;
+    }
+
+
+
+
 
 
 }

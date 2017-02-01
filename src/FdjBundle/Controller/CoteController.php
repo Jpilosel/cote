@@ -1,32 +1,48 @@
 <?php
 
-namespace FdjBundle\Command;
+namespace FdjBundle\Controller;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use FdjBundle\Entity\Formules;
-use FdjBundle\Entity\Sport;
-use FdjBundle\Entity\SportCote;
+use FdjBundle\Entity\Cote;
+use FdjBundle\Entity\MatchFini;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-class CoteCommand extends ContainerAwareCommand
+/**
+ * Cote controller.
+ *
+ * @Route("cote")
+ */
+class CoteController extends Controller
 {
-    protected function configure()
+    /**
+     * Lists all cote entities.
+     *
+     * @Route("/", name="cote_index")
+     * @Method("GET")
+     */
+    public function indexAction()
     {
-        $this
-            ->setName('fdj:cote')
-            ->setDescription('Reception des matchs avec la cote.')
-            ->setHelp("Cette commande lance une requette pour recevoir les matchs correspondant au sport");
+        $em = $this->getDoctrine()->getManager();
+
+        $cotes = $em->getRepository('FdjBundle:Cote')->findAll();
+
+        return $this->render('cote/index.html.twig', array(
+            'cotes' => $cotes,
+        ));
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * Creates a new cote entity.
+     *
+     * @Route("/new", name="cote_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
     {
-        $output->writeln(['cote inputt','============',]);
-        $em = $this->getContainer()->get('doctrine')->getManager();
+        $em = $this->getDoctrine()->getManager();
+//        $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findByMatchFini(null);
         $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findAll();
         var_dump(count($matchfinis));
         foreach ($matchfinis as $matchfini) {
@@ -179,6 +195,84 @@ class CoteCommand extends ContainerAwareCommand
                 }
             }
         }
-        $output->writeln(['============','cote fin',]);
+
+        return $this->render('cote/new.html.twig');
+    }
+
+    /**
+     * Finds and displays a cote entity.
+     *
+     * @Route("/{id}", name="cote_show")
+     * @Method("GET")
+     */
+    public function showAction(cote $cote)
+    {
+        $deleteForm = $this->createDeleteForm($cote);
+
+        return $this->render('cote/show.html.twig', array(
+            'cote' => $cote,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing cote entity.
+     *
+     * @Route("/{id}/edit", name="cote_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editAction(Request $request, cote $cote)
+    {
+        $deleteForm = $this->createDeleteForm($cote);
+        $editForm = $this->createForm('FdjBundle\Form\coteType', $cote);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('cote_edit', array('id' => $cote->getId()));
+        }
+
+        return $this->render('cote/edit.html.twig', array(
+            'cote' => $cote,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Deletes a cote entity.
+     *
+     * @Route("/{id}", name="cote_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, cote $cote)
+    {
+        $form = $this->createDeleteForm($cote);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($cote);
+            $em->flush($cote);
+        }
+
+        return $this->redirectToRoute('cote_index');
+    }
+
+    /**
+     * Creates a form to delete a cote entity.
+     *
+     * @param cote $cote The cote entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(cote $cote)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('cote_delete', array('id' => $cote->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 }

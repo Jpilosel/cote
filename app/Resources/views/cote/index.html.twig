@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cotes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sport</th>
+                <th>Sportid</th>
+                <th>Competition</th>
+                <th>Competitionid</th>
+                <th>Markettype</th>
+                <th>Markettypegroup</th>
+                <th>Resultat</th>
+                <th>Cote</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cote in cotes %}
+            <tr>
+                <td><a href="{{ path('cote_show', { 'id': cote.id }) }}">{{ cote.id }}</a></td>
+                <td>{{ cote.sport }}</td>
+                <td>{{ cote.sportId }}</td>
+                <td>{{ cote.competition }}</td>
+                <td>{{ cote.competitionId }}</td>
+                <td>{{ cote.marketType }}</td>
+                <td>{{ cote.marketTypeGroup }}</td>
+                <td>{{ cote.resultat }}</td>
+                <td>{{ cote.cote }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('cote_show', { 'id': cote.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('cote_edit', { 'id': cote.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('cote_new') }}">Create a new cote</a>
+        </li>
+    </ul>
+{% endblock %}
