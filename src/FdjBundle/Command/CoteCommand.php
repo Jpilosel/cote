@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use FdjBundle\Entity\Cote;
 
 class CoteCommand extends ContainerAwareCommand
 {
@@ -48,9 +49,10 @@ class CoteCommand extends ContainerAwareCommand
                 $coteGagnante = $matchfini->getDeux();
             }
             var_dump($coteGagnante);
-            if ($coteGagnante){
+            $set = 0;
+            if ($coteGagnante) {
                 $cotes = $em->getRepository('FdjBundle:Cote')->findByCote($coteGagnante);
-                if (!$cotes){
+                if (!$cotes) {
                     $cote = new Cote();
                     $cote->setSportId($matchfini->getSportId());
                     $cote->setCompetition($matchfini->getCompetition());
@@ -64,16 +66,22 @@ class CoteCommand extends ContainerAwareCommand
                     var_dump($cote);
                     $em->persist($cote);
                     $em->flush();
-                }else {
+                } else {
+                    $set = 0;
+                    var_dump($matchfini);
                     foreach ($cotes as $cote) {
-                        if ($cote->getSportId() == $matchfini->getSportId() && $cote->getStatut() == 'g' && $cote->getCompetitionId() == $matchfini->getCompetitionId() && $cote->getMarketTypeGroup() == $matchfini->getMarketTypeGroup()) {
-                            $recurrence = $cote->getRecurrence() + 1;
-                            $cote->setRecurrence($recurrence);
-                            $recurrence = null;
-                            var_dump($cote);
-                            $em->persist($cote);
-                            $em->flush();
-                        } else {
+                        var_dump($cote);
+                        if ($set==0){
+                            if ($cote->getSportId() == $matchfini->getSportId() && $cote->getStatut() == 'g' && $cote->getCompetitionId() == $matchfini->getCompetitionId() && $cote->getMarketTypeGroup() == $matchfini->getMarketTypeGroup()) {
+                                $recurrence = $cote->getRecurrence() + 1;
+                                $cote->setRecurrence($recurrence);
+                                $recurrence = null;
+                                var_dump($cote);
+                                $em->persist($cote);
+                                $em->flush();
+                                $set = 1;
+                            }
+                        }elseif ($set==0){
                             $cote = new Cote();
                             $cote->setSportId($matchfini->getSportId());
                             $cote->setCompetition($matchfini->getCompetition());
@@ -88,10 +96,13 @@ class CoteCommand extends ContainerAwareCommand
                             $em->persist($cote);
                             $em->flush();
                         }
+                        var_dump($set);
                     }
                 }
-
             }
+
+
+            $set = 0;
             if ($cotePerdante1) {
                 $cotes = $em->getRepository('FdjBundle:Cote')->findByCote($cotePerdante1);
                 if (!$cotes){
@@ -109,29 +120,33 @@ class CoteCommand extends ContainerAwareCommand
                     $em->persist($cote);
                     $em->flush();
                 }else {
-                    foreach ($cotes as $cote) {
-                        if ($cote->getSportId() == $matchfini->getSportId() && $cote->getStatut() == 'p' && $cote->getCompetitionId() == $matchfini->getCompetitionId() && $cote->getMarketTypeGroup() == $matchfini->getMarketTypeGroup()) {
-                            $recurrence = $cote->getRecurrence() + 1;
-                            $cote->setRecurrence($recurrence);
-                            $recurrence = null;
-                            var_dump($cote);
-                            $em->persist($cote);
-                            $em->flush();
-                        } else {
-                            $cote = new Cote();
-                            $cote->setSportId($matchfini->getSportId());
-                            $cote->setCompetition($matchfini->getCompetition());
-                            $cote->setCompetitionId($matchfini->getCompetitionId());
-                            $cote->setMarketType($matchfini->getMarketType());
-                            $cote->setMarketTypeGroup($matchfini->getMarketTypeGroup());
-                            $cote->setResultat($matchfini->getResultat());
-                            $cote->setCote($cotePerdante1);
-                            $cote->setStatut('p');
-                            $cote->setRecurrence(1);
-                            var_dump($cote);
-                            $em->persist($cote);
-                            $em->flush();
+                    $set = 0;
+                    if ($set==0){
+                        foreach ($cotes as $cote) {
+                            if ( $cote->getSportId() == $matchfini->getSportId() && $cote->getStatut() == 'p' && $cote->getCompetitionId() == $matchfini->getCompetitionId() && $cote->getMarketTypeGroup() == $matchfini->getMarketTypeGroup()) {
+                                $recurrence = $cote->getRecurrence() + 1;
+                                $cote->setRecurrence($recurrence);
+                                $recurrence = null;
+                                var_dump($cote);
+                                $em->persist($cote);
+                                $em->flush();
+                                $set = 1;
+                            }
                         }
+                    }elseif ($set==0){
+                        $cote = new Cote();
+                        $cote->setSportId($matchfini->getSportId());
+                        $cote->setCompetition($matchfini->getCompetition());
+                        $cote->setCompetitionId($matchfini->getCompetitionId());
+                        $cote->setMarketType($matchfini->getMarketType());
+                        $cote->setMarketTypeGroup($matchfini->getMarketTypeGroup());
+                        $cote->setResultat($matchfini->getResultat());
+                        $cote->setCote($cotePerdante1);
+                        $cote->setStatut('p');
+                        $cote->setRecurrence(1);
+                        var_dump($cote);
+                        $em->persist($cote);
+                        $em->flush();
                     }
                 }
             }
@@ -152,29 +167,33 @@ class CoteCommand extends ContainerAwareCommand
                     $em->persist($cote);
                     $em->flush();
                 }else {
-                    foreach ($cotes as $cote) {
-                        if ($cote->getSportId() == $matchfini->getSportId() && $cote->getStatut() == 'p' && $cote->getCompetitionId() == $matchfini->getCompetitionId() && $cote->getMarketTypeGroup() == $matchfini->getMarketTypeGroup()) {
-                            $recurrence = $cote->getRecurrence() + 1;
-                            $cote->setRecurrence($recurrence);
-                            $recurrence = null;
-                            var_dump($cote);
-                            $em->persist($cote);
-                            $em->flush();
-                        } else {
-                            $cote = new Cote();
-                            $cote->setSportId($matchfini->getSportId());
-                            $cote->setCompetition($matchfini->getCompetition());
-                            $cote->setCompetitionId($matchfini->getCompetitionId());
-                            $cote->setMarketType($matchfini->getMarketType());
-                            $cote->setMarketTypeGroup($matchfini->getMarketTypeGroup());
-                            $cote->setResultat($matchfini->getResultat());
-                            $cote->setCote($cotePerdante2);
-                            $cote->setStatut('p');
-                            $cote->setRecurrence(1);
-                            var_dump($cote);
-                            $em->persist($cote);
-                            $em->flush();
+                    $set = 0;
+                    if ($set==0){
+                        foreach ($cotes as $cote) {
+                            if ( $cote->getSportId() == $matchfini->getSportId() && $cote->getStatut() == 'p' && $cote->getCompetitionId() == $matchfini->getCompetitionId() && $cote->getMarketTypeGroup() == $matchfini->getMarketTypeGroup()) {
+                                $recurrence = $cote->getRecurrence() + 1;
+                                $cote->setRecurrence($recurrence);
+                                $recurrence = null;
+                                var_dump($cote);
+                                $em->persist($cote);
+                                $em->flush();
+                                $set = 1;
+                            }
                         }
+                    }elseif ($set==0){
+                        $cote = new Cote();
+                        $cote->setSportId($matchfini->getSportId());
+                        $cote->setCompetition($matchfini->getCompetition());
+                        $cote->setCompetitionId($matchfini->getCompetitionId());
+                        $cote->setMarketType($matchfini->getMarketType());
+                        $cote->setMarketTypeGroup($matchfini->getMarketTypeGroup());
+                        $cote->setResultat($matchfini->getResultat());
+                        $cote->setCote($cotePerdante2);
+                        $cote->setStatut('p');
+                        $cote->setRecurrence(1);
+                        var_dump($cote);
+                        $em->persist($cote);
+                        $em->flush();
                     }
                 }
             }
