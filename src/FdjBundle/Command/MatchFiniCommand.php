@@ -30,8 +30,8 @@ class MatchFiniCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         $resultats = $em->getRepository('FdjBundle:Formules')->findByOk(1);
-        $resultats = $em->getRepository('FdjBundle:Formules')->findAll();
-        
+//        $resultats = $em->getRepository('FdjBundle:Formules')->findAll();
+
 
         foreach ($resultats as $resultat) {
             $resultat->setOk(2);
@@ -85,6 +85,7 @@ class MatchFiniCommand extends ContainerAwareCommand
                                 $matchFini->setNul($match->getNul());
                                 $matchFini->setDeux($match->getDeux());
                                 $matchFini->setResultat($resultat->getResult());
+                                $matchFini->setMatchFini(1);
                                 var_dump($matchFini);
                                 $em->persist($matchFini);
                                 $match->setOk(2);

@@ -65,6 +65,8 @@ class CoteCommand extends ContainerAwareCommand
                     $cote->setRecurrence(1);
                     var_dump($cote);
                     $em->persist($cote);
+                    $matchfini->setMatchFini(2);
+                    $em->persist($matchfini);
                     $em->flush();
                 } else {
                     $set = 0;
@@ -78,6 +80,8 @@ class CoteCommand extends ContainerAwareCommand
                                 $recurrence = null;
                                 var_dump($cote);
                                 $em->persist($cote);
+                                $matchfini->setMatchFini(2);
+                                $em->persist($matchfini);
                                 $em->flush();
                                 $set = 1;
                             }
@@ -94,6 +98,8 @@ class CoteCommand extends ContainerAwareCommand
                             $cote->setRecurrence(1);
                             var_dump($cote);
                             $em->persist($cote);
+                            $matchfini->setMatchFini(2);
+                            $em->persist($matchfini);
                             $em->flush();
                         }
                         var_dump($set);
@@ -118,6 +124,8 @@ class CoteCommand extends ContainerAwareCommand
                     $cote->setRecurrence(1);
                     var_dump($cote);
                     $em->persist($cote);
+                    $matchfini->setMatchFini(2);
+                    $em->persist($matchfini);
                     $em->flush();
                 }else {
                     $set = 0;
@@ -129,6 +137,8 @@ class CoteCommand extends ContainerAwareCommand
                                 $recurrence = null;
                                 var_dump($cote);
                                 $em->persist($cote);
+                                $matchfini->setMatchFini(2);
+                                $em->persist($matchfini);
                                 $em->flush();
                                 $set = 1;
                             }
@@ -146,6 +156,8 @@ class CoteCommand extends ContainerAwareCommand
                         $cote->setRecurrence(1);
                         var_dump($cote);
                         $em->persist($cote);
+                        $matchfini->setMatchFini(2);
+                        $em->persist($matchfini);
                         $em->flush();
                     }
                 }
@@ -165,6 +177,8 @@ class CoteCommand extends ContainerAwareCommand
                     $cote->setRecurrence(1);
                     var_dump($cote);
                     $em->persist($cote);
+                    $matchfini->setMatchFini(2);
+                    $em->persist($matchfini);
                     $em->flush();
                 }else {
                     $set = 0;
@@ -176,6 +190,8 @@ class CoteCommand extends ContainerAwareCommand
                                 $recurrence = null;
                                 var_dump($cote);
                                 $em->persist($cote);
+                                $matchfini->setMatchFini(2);
+                                $em->persist($matchfini);
                                 $em->flush();
                                 $set = 1;
                             }
@@ -193,6 +209,8 @@ class CoteCommand extends ContainerAwareCommand
                         $cote->setRecurrence(1);
                         var_dump($cote);
                         $em->persist($cote);
+                        $matchfini->setMatchFini(2);
+                        $em->persist($matchfini);
                         $em->flush();
                     }
                 }
