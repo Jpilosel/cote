@@ -31,9 +31,12 @@ class Date1Command extends ContainerAwareCommand
 
         $date1s = $em->getRepository('FdjBundle:Formules')->findAll();
         foreach ($date1s as $date1) {
-            $date1->setDateSasie(date("Y-m-d H:i:s"));
-            $em->persist($date1);
-            $em->flush();
+            $jour = date("Y-m-d");
+            $date1bdd= $date1->getDateSasie();
+            $interval = $date1bdd->diff($jour);
+            var_dump($interval);
+//            $em->persist($date1);
+//            $em->flush();
         }
 
         $output->writeln(['============','resultat fin',]);

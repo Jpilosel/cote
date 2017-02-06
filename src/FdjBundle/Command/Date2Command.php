@@ -30,11 +30,39 @@ class Date2Command extends ContainerAwareCommand
 
 
         $date1s = $em->getRepository('FdjBundle:Sport')->findAll();
+
         foreach ($date1s as $date1) {
-            $date1->setDateSasie(date("Y-m-d H:i:s"));
-            $em->persist($date1);
-            $em->flush();
+            $date1 = date("Y-m-d H:i:s");
+//            var_dump($jour);
+
+            $date2 = $date1->getDateSasie();
+//            var_dump($date1bdd);
+
+//            $interval = abs(strtotime($jour)-strtotime($date1bdd));
+            $retour = array();
+            $diff = abs($date1 - $date2); // abs pour avoir la valeur absolute, ainsi éviter d'avoir une différence négative
+
+
+            $tmp = $diff;
+            $retour['second'] = $tmp % 60;
+
+            $tmp = floor( ($tmp - $retour['second']) /60 );
+            $retour['minute'] = $tmp % 60;
+
+            $tmp = floor( ($tmp - $retour['minute'])/60 );
+            $retour['hour'] = $tmp % 24;
+
+            $tmp = floor( ($tmp - $retour['hour'])  /24 );
+            $retour['day'] = $tmp;
+            var_dump($retour['day']);
         }
+//            $em->persist($date1);
+//            $em->flush();
+//        foreach ($date1s as $date1) {
+//            $date1->setDateSasie(date("Y-m-d H:i:s"));
+//            $em->persist($date1);
+//            $em->flush();
+//        }
 
         $output->writeln(['============','resultat fin',]);
     }

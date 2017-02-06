@@ -52,6 +52,7 @@ class ResultatCommand extends ContainerAwareCommand
                     for ($k = 1; $k <= $nbResult; $k++) {
                         if ($jsonapi2['marketRes'][$j]['resultat'][$k]['winner'] == 1) {
                             $formules = new Formules();
+                            $formules->setOk(1);
                             $formules->setDateSasie(date("Y-m-d H:i:s"));
                             $formules->setEventId($jsonapi2['eventId']);
                             $formules->setLabel($jsonapi2['label']);
