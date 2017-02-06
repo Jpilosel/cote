@@ -44,6 +44,7 @@ class OffreCommand extends ContainerAwareCommand
 
                 }else {
                     $sport = new sport();
+                    $sport->setDateSasie(date("Y-m-d H:i:s"));
                     $sport->setEventId($jsonapi2['eventId']);
                     $sport->setMarketId($jsonapi2['marketId']);
                     $sport->setHasCombiBonus($jsonapi2['hasCombiBonus']);

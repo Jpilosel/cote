@@ -142,6 +142,20 @@ class Sport
     private $deux;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ok", type="string", length=255, nullable=true)
+     */
+    private $ok;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dateSasie", type="string", length=255, nullable=true)
+     */
+    private $dateSasie;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -492,6 +506,40 @@ class Sport
     {
         $this->deux = $deux;
     }
+
+    /**
+     * @return string
+     */
+    public function getOk()
+    {
+        return $this->ok;
+    }
+
+    /**
+     * @param string $ok
+     */
+    public function setOk($ok)
+    {
+        $this->ok = $ok;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateSasie()
+    {
+        return $this->dateSasie;
+    }
+
+    /**
+     * @param string $dateSasie
+     */
+    public function setDateSasie($dateSasie)
+    {
+        $this->dateSasie = $dateSasie;
+    }
+
+
 
 
 

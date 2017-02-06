@@ -44,7 +44,7 @@ class CoteController extends Controller
         $em = $this->getDoctrine()->getManager();
 //        $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findByMatchFini(null);
         $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findAll();
-        var_dump(count($matchfinis));
+//        var_dump(count($matchfinis));
         foreach ($matchfinis as $matchfini) {
             $coteGagnante = $cotePerdante1 = $cotePerdante2 = null;
 //            var_dump($matchfini);
@@ -63,7 +63,7 @@ class CoteController extends Controller
                 $cotePerdante2= $matchfini->getNul();
                 $coteGagnante = $matchfini->getDeux();
             }
-            var_dump($coteGagnante);
+//            var_dump($coteGagnante);
             $set = 0;
             if ($coteGagnante) {
                 $cotes = $em->getRepository('FdjBundle:Cote')->findByCote($coteGagnante);
@@ -80,12 +80,15 @@ class CoteController extends Controller
                     $cote->setRecurrence(1);
                     var_dump($cote);
                     $em->persist($cote);
+                    $matchfini->setMatchFini(5);
+                    $em->persist($matchfini);
+
                     $em->flush();
                 } else {
                     $set = 0;
-                    var_dump($matchfini);
+//                    var_dump($matchfini);
                     foreach ($cotes as $cote) {
-                        var_dump($cote);
+//                        var_dump($cote);
                         if ($set==0){
                             if ($cote->getSportId() == $matchfini->getSportId() && $cote->getStatut() == 'g' && $cote->getCompetitionId() == $matchfini->getCompetitionId() && $cote->getMarketTypeGroup() == $matchfini->getMarketTypeGroup()) {
                                 $recurrence = $cote->getRecurrence() + 1;
@@ -93,6 +96,8 @@ class CoteController extends Controller
                                 $recurrence = null;
                                 var_dump($cote);
                                 $em->persist($cote);
+                                $matchfini->setMatchFini(5);
+                                $em->persist($matchfini);
                                 $em->flush();
                                 $set = 1;
                             }
@@ -109,6 +114,8 @@ class CoteController extends Controller
                             $cote->setRecurrence(1);
                             var_dump($cote);
                             $em->persist($cote);
+                            $matchfini->setMatchFini(5);
+                            $em->persist($matchfini);
                             $em->flush();
                         }
                         var_dump($set);
@@ -133,6 +140,8 @@ class CoteController extends Controller
                     $cote->setRecurrence(1);
                     var_dump($cote);
                     $em->persist($cote);
+                    $matchfini->setMatchFini(5);
+                    $em->persist($matchfini);
                     $em->flush();
                 }else {
                     $set = 0;
@@ -144,6 +153,8 @@ class CoteController extends Controller
                                 $recurrence = null;
                                 var_dump($cote);
                                 $em->persist($cote);
+                                $matchfini->setMatchFini(5);
+                                $em->persist($matchfini);
                                 $em->flush();
                                 $set = 1;
                             }
@@ -161,6 +172,8 @@ class CoteController extends Controller
                         $cote->setRecurrence(1);
                         var_dump($cote);
                         $em->persist($cote);
+                        $matchfini->setMatchFini(5);
+                        $em->persist($matchfini);
                         $em->flush();
                     }
                 }
@@ -180,6 +193,8 @@ class CoteController extends Controller
                     $cote->setRecurrence(1);
                     var_dump($cote);
                     $em->persist($cote);
+                    $matchfini->setMatchFini(5);
+                    $em->persist($matchfini);
                     $em->flush();
                 }else {
                     $set = 0;
@@ -191,6 +206,8 @@ class CoteController extends Controller
                                 $recurrence = null;
                                 var_dump($cote);
                                 $em->persist($cote);
+                                $matchfini->setMatchFini(5);
+                                $em->persist($matchfini);
                                 $em->flush();
                                 $set = 1;
                             }
@@ -208,6 +225,8 @@ class CoteController extends Controller
                         $cote->setRecurrence(1);
                         var_dump($cote);
                         $em->persist($cote);
+                        $matchfini->setMatchFini(5);
+                        $em->persist($matchfini);
                         $em->flush();
                     }
                 }

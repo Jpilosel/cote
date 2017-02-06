@@ -47,22 +47,27 @@ class MatchFiniController extends Controller
 
         foreach ($resultats as $resultat) {
             $eventId = $resultat->getEventId();
-//var_dump($resultat);
+
             $matchs = $em->getRepository('FdjBundle:Sport')->findByEventId($eventId);
+//            var_dump($matchs);
             if ($matchs) {
 
-                $matchFini = new Matchfini();
+
 //                var_dump($matchFini);
                 foreach ($matchs as $match) {
+//                    var_dump($match);
                     $marketId = $match->getMarketId();
                     $matchsFinis = $em->getRepository('FdjBundle:MatchFini')->findByMarketId($marketId);
+
                     if ($matchsFinis){
-//                    var_dump($matchsFinis);
+//                        var_dump($matchsFinis[0]->getMarketTypeGroup());
+//                        var_dump($matchsFinis[0]->getSportId());
                     }else {
 //                    var_dump($resultat->getMarketType());
 //                    var_dump($match->getMarketType());
 //                    var_dump($match->getMarketTypeGroup());
-                        if ($match->getMarketType() === $resultat->getMarketType() || $match->getMarketTypeGroup() === $resultat->getMarketType()) {
+                        if ($match->getMarketTypeGroup() == $resultat->getMarketType()) {
+                            $matchFini = new Matchfini();
                             $matchFini->setEventId($match->getEventId());
                             $matchFini->setMarketId($match->getMarketId());
                             $matchFini->setHasCombiBonus($match->getHasCombiBonus());
@@ -83,6 +88,10 @@ class MatchFiniController extends Controller
                             $matchFini->setResultat($resultat->getResult());
                             var_dump($matchFini);
                             $em->persist($matchFini);
+                            $match->setOk(1);
+                            $em->persist($match);
+                            $resultat->setOk(1);
+                            $em->persist($resultat);
                             $em->flush();
                         }
                     }
