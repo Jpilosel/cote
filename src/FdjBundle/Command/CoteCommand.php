@@ -28,7 +28,7 @@ class CoteCommand extends ContainerAwareCommand
     {
         $output->writeln(['cote inputt','============',]);
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findByMatchFini(null);
+        $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findByMatchFini(1);
         var_dump(count($matchfinis));
         foreach ($matchfinis as $matchfini) {
             $coteGagnante = $cotePerdante1 = $cotePerdante2 = null;
