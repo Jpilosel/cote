@@ -4,13 +4,129 @@ namespace FdjBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="resultat_coteList")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
+    {
+        $form = $this->createForm('FdjBundle\Form\CoteListType');
+        $form->handleRequest($request);
+        $gagnant = $perdant = $tauxReussite = $cote = $max = 0;
+        $exist = $nbaris = $listes = $listes = null;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $data = $form->getData();
+            $cote = $data['cote'];
+            $cote2decimal = number_format($cote, 2, ',', '');
+//            $cote= str_replace('.',',',$data['cote']);
+            $data['cote']=$cote2decimal;
+            $cotes = $em->getRepository('FdjBundle:CoteList')->findAll();
+            foreach ($cotes as $cotetemp) {
+                $temp = $cotetemp->getCote();
+//                var_dump($temp);
+                if ($max < $temp) {
+                    $max = $temp;
+                }
+            }
+
+            $resultats = $em->getRepository('FdjBundle:CoteList')->findByCoteListResult($data);
+            $nbaris = count($resultats);
+            if (!$nbaris){
+                $exist = 1;
+            }
+            foreach ($resultats as $resultat) {
+                if ($resultat->getResultat() == 'g'){
+                    $gagnant++;
+                }elseif ($resultat->getResultat() == 'p'){
+                    $perdant++;
+                }
+
+            }
+//            var_dump($nbaris);
+//            var_dump($gagnant);
+//            var_dump($perdant);
+            if ($nbaris) {
+                $tauxReussite = round(($gagnant / $nbaris) * 100, 2);
+            }else{
+                $tauxReussite = 'pas de paris pour cette selection';
+            }
+
+            $a=0;
+
+            for ($i=1; $i<=$max; $i=$i+0.01){
+//var_dump($i);
+//var_dump($data);
+                $ivirgule = number_format($i, 2, ',', '');
+                $cotestring = (string)$ivirgule;
+//                var_dump($cotestring);
+                $data['cote']=$cotestring;
+//                var_dump($data);
+                $listeGagnant= $listePerdant =0;
+                $coteResultats = $em->getRepository('FdjBundle:CoteList')->findByCoteListResult($data);
+
+                if ($coteResultats) {
+                    $listes[$a]['gagnant'] = 0 ;
+                    $listes[$a]['perdant'] = 0 ;
+                    $nbaris = count($coteResultats);
+//                    var_dump($nbaris);
+
+                    foreach ($coteResultats as $coteResultat) {
+
+
+//                        var_dump($coteResultat);
+                        if ($coteResultat->getResultat() == 'g'){
+                            $listeGagnant=$listeGagnant+1;
+                            $listes[$a]['gagnant'] = $listeGagnant ;
+
+                        }elseif ($coteResultat->getResultat() == 'p'){
+                            $listePerdant=$listePerdant+1;
+                            $listes[$a]['perdant'] = $listePerdant ;
+
+                        }
+//                        var_dump($listes);
+                    }
+                    $listes[$a]['cote']=$cotestring ;
+                    $listes[$a]['nbParis']=$listeGagnant+$listePerdant ;
+                    $listes[$a]['txreussite']=round(($listeGagnant/($listeGagnant+$listePerdant))*100,2) ;
+                    $a++;
+                }
+            }
+//            var_dump($listes);
+
+
+            return $this->render('FdjBundle:Default:index.html.twig', array(
+                'form' => $form->createView(),
+                'cote'=>$cote,
+                'nbParis' => $nbaris,
+                'nbGagnant' => $gagnant,
+                'nbPerdant' => $perdant,
+                'tauxreussite' => $tauxReussite,
+                'exist' =>$exist,
+                'listes' =>$listes,
+            ));
+        }
+
+        return $this->render('FdjBundle:Default:index.html.twig', array(
+            'form' => $form->createView(),
+            'cote'=>$cote,
+            'nbParis' => $nbaris,
+            'nbGagnant' => $gagnant,
+            'nbPerdant' => $perdant,
+            'tauxreussite' => $tauxReussite,
+            'exist' =>$exist,
+            'listes' =>$listes,
+            ));
+    }
+
+    /**
+     * @Route("/test", name="test")
+     */
+    public function testAction()
     {
 //        $api =file_get_contents('https://www.parionssport.fr/api/1n2/resultats');//9 resultat sans cote
 //        $api =file_get_contents('https://www.parionssport.fr/parisouverts/football');//9 resultat sans cote

@@ -12,4 +12,27 @@ use Doctrine\ORM\EntityRepository;
  */
 class CoteListRepository extends EntityRepository
 {
+
+    public function findByCoteListResult($data)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.cote = :cote')
+            ->setParameter('cote', $data['cote']);
+        if($data['sport']) {
+            $qb->andWhere('c.sportId = :sport')
+                ->setParameter('sport', $data['sport']);
+        }
+        if($data['typeResultat']) {
+            $qb->andWhere('c.marketTypeId = :typeResultat')
+                ->setParameter('typeResultat', $data['typeResultat']);
+        }
+//        if($data['typeResultMarketType']) {
+//            $qb->andWhere('c.marketType = :marketType')
+//                ->setParameter('marketType', $data['marketType']);
+//        }
+
+
+        ;
+        return  $qb->getQuery()->getResult();
+    }
 }

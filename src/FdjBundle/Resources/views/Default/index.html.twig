@@ -1,1 +1,47 @@
-Hello World!
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Resultats list</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-primary" type="submit">
+    {{ form_end(form) }}
+
+    <div>
+        {% if nbParis %}
+            <p>Pour la cote {{ cote }},</p>
+            <p>il y a eu {{ nbGagnant }} paris gagnant et {{ nbPerdant }} paris perdant</p>
+            <p>soit un taux de reussite est de {{ tauxreussite }} % sur {{ nbParis }} paris.</p>
+        {% else %}
+            <p>aucun paris répertorié</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <table class="table sortable ">
+            <thead>
+            <tr>
+                <th>cote</th>
+                <th>NbParis</th>
+                <th>Taux de réussite</th>
+                <th>Nb paris gagnant</th>
+                <th>Nb de paris perdant</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for liste in listes %}
+                <tr>
+                    <td>{{ liste.cote }}</td>
+                    <td>{{ liste.nbParis }} </td>
+                    <td>{{ liste.txreussite }}%</td>
+                    <td>{{ liste.gagnant }}</td>
+                    <td>{{ liste.perdant }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
