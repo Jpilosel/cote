@@ -140,14 +140,20 @@ class DefaultController extends Controller
 //        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat
 //        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/bet_get/winamaxfr/0'); //winamax
         $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat juste avec ID
+
         $jsonapi =  json_decode($api, true);
 //        $jsonLastMaj =  json_decode($lastMaj, true);
 //        var_dump($jsonapi[0]['formules'][0]['outcomes']);
 //        var_dump($jsonLastMaj);
-          var_dump($jsonapi['doc'][0]['data'][6]); //winamax nom
-          var_dump($jsonapi['doc'][0]['data'][6]['match']['teams']); //winamax nom
+//          var_dump($jsonapi['doc'][0]['data'][6]); //winamax nom
+//          var_dump($jsonapi['doc'][0]['data'][6]['match']['teams']); //winamax nom
+//          var_dump($jsonapi['doc'][0]['data'][6]['match']['periods']); //winamax nom
 //          var_dump($jsonapi['doc'][0]['data'][3]['match']['result']);//winamax result
-//        var_dump($api);
+        var_dump($jsonapi['doc'][0]['data'][0]);//result unibet
+        var_dump($jsonapi['doc'][0]['data']);//result unibet
+
+
+
 
 
         return $this->render('FdjBundle:Default:index.html.twig');

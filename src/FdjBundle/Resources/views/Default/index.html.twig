@@ -13,7 +13,7 @@
         {% if nbParis %}
             <p>Pour la cote {{ cote }},</p>
             <p>il y a eu {{ nbGagnant }} paris gagnant et {{ nbPerdant }} paris perdant</p>
-            <p>soit un taux de reussite est de {{ tauxreussite }} % sur {{ nbParis }} paris.</p>
+            <p>soit un taux de reussite est de {{ tauxreussite }} % sur {{ nbGagnant + nbPerdant }} paris.</p>
         {% else %}
             <p>aucun paris répertorié</p>
         {% endif %}
