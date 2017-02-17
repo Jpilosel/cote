@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Tennisscore</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tennisScore.id }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ tennisScore.label }}</td>
+            </tr>
+            <tr>
+                <th>Eventid</th>
+                <td>{{ tennisScore.eventId }}</td>
+            </tr>
+            <tr>
+                <th>Resultat</th>
+                <td>{{ tennisScore.resultat }}</td>
+            </tr>
+            <tr>
+                <th>Equipe1</th>
+                <td>{{ tennisScore.equipe1 }}</td>
+            </tr>
+            <tr>
+                <th>Equipe2</th>
+                <td>{{ tennisScore.equipe2 }}</td>
+            </tr>
+            <tr>
+                <th>Datedesaisie</th>
+                <td>{{ tennisScore.dateDeSaisie }}</td>
+            </tr>
+            <tr>
+                <th>Competition</th>
+                <td>{{ tennisScore.competition }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tennisscore_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('tennisscore_edit', { 'id': tennisScore.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

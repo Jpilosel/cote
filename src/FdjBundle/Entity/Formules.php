@@ -94,9 +94,11 @@ class Formules
     /**
      * @var string
      *
-     * @ORM\Column(name="ok", type="string", length=255, nullable=true)
+     * @ORM\Column(name="scoreTennis", type="string", length=255, nullable=true)
      */
-    private $ok;
+    private $scoreTennis;
+
+
 
     /**
      * @var string
@@ -359,6 +361,22 @@ class Formules
     /**
      * @return string
      */
+    public function getScoreTennis()
+    {
+        return $this->scoreTennis;
+    }
+
+    /**
+     * @param string $scoreTennis
+     */
+    public function setScoreTennis($scoreTennis)
+    {
+        $this->scoreTennis = $scoreTennis;
+    }
+
+    /**
+     * @return string
+     */
     public function getDateSasie()
     {
         return $this->dateSasie;
@@ -371,9 +389,5 @@ class Formules
     {
         $this->dateSasie = $dateSasie;
     }
-
-
-
-
 
 }

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Tennisscores list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Eventid</th>
+                <th>Resultat</th>
+                <th>Equipe1</th>
+                <th>Equipe2</th>
+                <th>Datedesaisie</th>
+                <th>Competition</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tennisScore in tennisScores %}
+            <tr>
+                <td><a href="{{ path('tennisscore_show', { 'id': tennisScore.id }) }}">{{ tennisScore.id }}</a></td>
+                <td>{{ tennisScore.label }}</td>
+                <td>{{ tennisScore.eventId }}</td>
+                <td>{{ tennisScore.resultat }}</td>
+                <td>{{ tennisScore.equipe1 }}</td>
+                <td>{{ tennisScore.equipe2 }}</td>
+                <td>{{ tennisScore.dateDeSaisie }}</td>
+                <td>{{ tennisScore.competition }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('tennisscore_show', { 'id': tennisScore.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('tennisscore_edit', { 'id': tennisScore.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tennisscore_new') }}">Create a new tennisScore</a>
+        </li>
+    </ul>
+{% endblock %}

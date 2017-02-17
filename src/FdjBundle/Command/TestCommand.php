@@ -29,10 +29,10 @@ class TestCommand extends ContainerAwareCommand
         $output->writeln(['cote inputt', '============',]);
         $em = $this->getContainer()->get('doctrine')->getManager();
 //
-            $matchFinis = $em->getRepository('FdjBundle:MatchFini')->findAll();
+            $matchFinis = $em->getRepository('FdjBundle:Formules')->findAll();
 
         foreach ($matchFinis as $matchFini) {
-                $matchFini->setMatchFini(1);
+                $matchFini->setScoreTennis(1);
                 $em->persist($matchFini);
                 $em->flush();
             }
