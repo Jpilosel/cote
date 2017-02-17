@@ -42,7 +42,7 @@ class TennisScoreController extends Controller
         $form = $this->createForm('FdjBundle\Form\TennisScore2Type');
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
-        $deuxZero = $deuxUn = $zeroDeux = $troisUn = $zeroTrois = $troisDeux = $troisZero = $unDeux = $unTrois = $deuxTrois = $deuxSet = $toisSet = $deuxSetFani = $troisSetFani = 0;
+        $perdant = $gagnant =$deuxZero = $deuxUn = $zeroDeux = $troisUn = $zeroTrois = $troisDeux = $troisZero = $unDeux = $unTrois = $deuxTrois = $deuxSet = $toisSet = $deuxSetFani = $troisSetFani = 0;
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,6 +60,11 @@ class TennisScoreController extends Controller
                     $deuxZero++;
                     $deuxSet++;
                     $deuxSetFani++;
+                    if($tennisScore->getUn() > $tennisScore->getDeux()){
+                        $perdant++;
+                    }elseif($tennisScore->getUn() < $tennisScore->getDeux()){
+                        $gagnant++;
+                    }
                 }else if ($tennisScore->getResultat() == '2 - 1'){
                     $deuxUn++;
                     $deuxSet++;
@@ -67,6 +72,11 @@ class TennisScoreController extends Controller
                     $zeroDeux++;
                     $deuxSet++;
                     $deuxSetFani++;
+                    if($tennisScore->getUn() < $tennisScore->getDeux()){
+                        $perdant++;
+                    }elseif($tennisScore->getUn() > $tennisScore->getDeux()){
+                        $gagnant++;
+                    }
                 }else if ($tennisScore->getResultat() == '1 - 2'){
                     $unDeux++;
                     $deuxSet++;
@@ -74,6 +84,11 @@ class TennisScoreController extends Controller
                     $troisZero++;
                     $toisSet++;
                     $troisSetFani++;
+                    if($tennisScore->getUn() > $tennisScore->getDeux()){
+                        $perdant++;
+                    }elseif($tennisScore->getUn() < $tennisScore->getDeux()){
+                        $gagnant++;
+                    }
                 }else if ($tennisScore->getResultat() == '3 - 1'){
                     $troisUn++;
                     $toisSet++;
@@ -84,6 +99,11 @@ class TennisScoreController extends Controller
                     $zeroTrois++;
                     $toisSet++;
                     $troisSetFani++;
+                    if($tennisScore->getUn() < $tennisScore->getDeux()){
+                        $perdant++;
+                    }elseif($tennisScore->getUn() > $tennisScore->getDeux()){
+                        $gagnant++;
+                    }
                 }else if ($tennisScore->getResultat() == '1 - 3'){
                     $unTrois++;
                     $toisSet++;
@@ -110,6 +130,8 @@ class TennisScoreController extends Controller
                 'troisSet'=>$toisSet,
                 'deuxSetFani'=>$deuxSetFani,
                 'troisSetFani'=>$troisSetFani,
+                'gagnant'=>$gagnant,
+                'perdant'=>$perdant
             ));
         }
 
