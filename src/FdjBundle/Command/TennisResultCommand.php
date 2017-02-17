@@ -31,47 +31,49 @@ class TennisResultCommand extends ContainerAwareCommand
 
         foreach ($formules as $formule) {
             if($formule->getMarketTypeGroup() == 'Score exact' && $formule->getScoreTennis() == 1 ){
-                $tennisScore = new Tennisscore();
+
                 $eventId = $formule->getEventId();
                 $matchsFinis = $em->getRepository('FdjBundle:MatchFini')->findByEventId($eventId);
                 foreach ($matchsFinis as $matchsFini) {
 
 //                    var_dump($matchsFini);
                     if ($matchsFini->getMarketTypeId() == 1){
+                        $tennisScore = new Tennisscore();
                         $cote1 = $matchsFini->getUn();
                         $cote2 = $matchsFini->getDeux();
                         $tennisScore->setUn($cote1);
                         $tennisScore->setDeux($cote2);
+                        $tennisScore->setLabel($formule->getLabel());
+                        $tennisScore->setEventId($formule->getEventId());
+                        $tennisScore->setResultat($formule->getResult());
+                        $tennisScore->setCompetition($formule->getCompetition());
+                        $tennisScore->setCompetitionId($formule->getCompetitionId());
+                        $tennisScore->setDateDeSaisie(date("Y-m-d H:i:s"));
+                        $tab = explode(" - ", $formule->getResult());
+                        $tennisScore->setEquipe1($tab[0]);
+                        $tennisScore->setEquipe2($tab[1]);
+                        $tennisScore->setNbSetPartie($tab[0]+$tab[1]);
+                        if($tab[0]<$tab[1]) {
+                            $tennisScore->setNbSetGagnant($tab[1]);
+                        }else{
+                            $tennisScore->setNbSetGagnant($tab[0]);
+                        }
+                        if ($tab[0 == 0 || $tab[1]==0]){
+                            $tennisScore->setFani(1);
+                        }else{
+                            $tennisScore->setFani(0);
+                        }
+
+                        $em->persist($tennisScore);
+                        $formule->setScoreTennis(2);
+                        $em->persist($formule);
+                        var_dump($tennisScore);
+                        $em->flush();
                     }
 
                 }
 
-                $tennisScore->setLabel($formule->getLabel());
-                $tennisScore->setEventId($formule->getEventId());
-                $tennisScore->setResultat($formule->getResult());
-                $tennisScore->setCompetition($formule->getCompetition());
-                $tennisScore->setCompetitionId($formule->getCompetitionId());
-                $tennisScore->setDateDeSaisie(date("Y-m-d H:i:s"));
-                $tab = explode(" - ", $formule->getResult());
-                $tennisScore->setEquipe1($tab[0]);
-                $tennisScore->setEquipe2($tab[1]);
-                $tennisScore->setNbSetPartie($tab[0]+$tab[1]);
-                if($tab[0]<$tab[1]) {
-                    $tennisScore->setNbSetGagnant($tab[1]);
-                }else{
-                    $tennisScore->setNbSetGagnant($tab[0]);
-                }
-                if ($tab[0 == 0 || $tab[1]==0]){
-                    $tennisScore->setFani(1);
-                }else{
-                    $tennisScore->setFani(0);
-                }
 
-                $em->persist($tennisScore);
-                $formule->setScoreTennis(2);
-                $em->persist($formule);
-                var_dump($tennisScore);
-                $em->flush();
             }
         }
         $output->writeln(['============','resultat fin',]);
