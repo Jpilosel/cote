@@ -22,8 +22,9 @@ class TennisScore2Type extends AbstractType
                     4 => '4',
                     5 => '5',
                 ],])
-            ->add('cote')
-                
+            ->add('coteMin')
+            ->add('coteMax')
+
 
         ;
     }

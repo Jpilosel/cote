@@ -15,16 +15,17 @@ class TennisScoreRepository extends EntityRepository
     public function findByTennisResult($data)
     {
         $qb = $this->createQueryBuilder('t');
-        $qb->where('t.minCote <= :minCote')
-                ->setParameter('minCote', $data['cote'])
+        $qb->where('t.minCote BETWEEN :minCote AND :maxCote')
+                ->setParameter('minCote', $data['coteMin'])
+                ->setParameter('maxCote', $data['coteMax'])
             ->andWhere('t.nbSetGagnant = :nbSetGagnant')
             ->setParameter('nbSetGagnant', $data['nbSetGagnant']);
+//        $qb->where('t.minCote <= :minCote')
+//            ->setParameter('minCote', $data['cote'])
+//            ->andWhere('t.nbSetGagnant = :nbSetGagnant')
+//            ->setParameter('nbSetGagnant', $data['nbSetGagnant']);
 
 
-        //        if($data['typeResultMarketType']) {
-        //            $qb->andWhere('c.marketType = :marketType')
-        //                ->setParameter('marketType', $data['marketType']);
-        //        }
 
 
         ;

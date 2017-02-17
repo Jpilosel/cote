@@ -47,7 +47,13 @@ class TennisScoreController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $nbSetGagnant=$data['nbSetGagnant'];
+            $cote1 = $data['coteMin'];
+
+            $cote2decimal1 = number_format($cote1, 2, ',', '');
+            $data['coteMin']=$cote2decimal1;
+            $cote2 = $data['coteMax'];
+            $cote2decimal2 = number_format($cote2, 2, ',', '');
+            $data['coteMax']=$cote2decimal2;
             $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findByTennisResult($data);
             foreach ($tennisScores as $tennisScore) {
                 if ($tennisScore->getResultat() == '2 - 0'){
