@@ -64,6 +64,7 @@ class ResultatCommand extends ContainerAwareCommand
                             $formules->setMarketTypeGroup($jsonapi2['marketRes'][$j]['marketTypeGroup']);
                             $formules->setMarketTypeId($jsonapi2['marketRes'][$j]['marketTypeId']);
                             $formules->setResult($jsonapi2['marketRes'][$j]['resultat'][$k]['label']);
+                            $formules->setScoreTennis(1);
                         }
                         if (isset($formules)) {
                             var_dump($formules);
