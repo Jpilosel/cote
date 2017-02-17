@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <div>
+    {% if deuxSet !=0 %}
+        <p>0-2 => {{ zeroDeux }} => Taux de réussite {{ (zeroDeux/deuxSet*100)|round}}%</p>
+        <p>1-2 => {{ unDeux }} => Taux de réussite {{ (unDeux/deuxSet*100)|round}}%</p>
+        <p>2-0 => {{ deuxZero }} => Taux de réussite {{ (deuxZero/deuxSet*100)|round}}%</p>
+        <p>2-1 => {{ deuxUn }} => Taux de réussite {{ (deuxUn/deuxSet*100)|round}}%</p>
+        <p>le taux de victoire par 2-0 est de {{ (deuxSetFani/deuxSet*100)|round }}%</p>
+        <p>la statistique à été faite sur {{ deuxSet }} paris</p>
+
+    {% endif %}
+    </div>
+
+    <div>
+        {% if troisSet !=0 %}
+            <p>0-3 => {{ zeroTrois }} => Taux de réussite {{ (zeroTrois/troisSet*100)|round}}%</p>
+            <p>1-3 => {{ unTrois }} => Taux de réussite {{ (unTrois/troisSet*100)|round}}%</p>
+            <p>2-3 => {{ deuxTrois }} => Taux de réussite {{ (deuxTrois/troisSet*100)|round}}%</p>
+            <p>3-0 => {{ troisZero }} => Taux de réussite {{ (troisZero/troisSet*100)|round}}%</p>
+            <p>3-1 => {{ troisUn }} => Taux de réussite {{ (troisUn/troisSet*100)|round}}%</p>
+            <p>3-2 => {{ troisDeux }} => Taux de réussite {{ (troisDeux/troisSet*100)|round}}%</p>
+            <p>le taux de victoire par 3-0 est de {{ (troisSetFani/troisSet*100)|round }}%</p>
+            <p>la statistique à été faite sur {{ troisSet }} paris</p>
+
+        {% endif %}
+    </div>
+{#'deuxUn'=>$deuxUn,#}
+{#'zeroDeux'=>$zeroDeux,#}
+{#'troisUn'=>$troisUn,#}
+{#'zeroTrois'=>$zeroTrois,#}
+{#'troisDeux'=>$troisDeux,#}
+{#'troisZero'=>$troisZero,#}
+{#'unDeux'=>$unDeux,#}
+{#'unTrois'=>$unTrois,#}
+{#'deuxTrois'=>$deuxTrois,#}
+{#'deuxSet'=>$deuxSet,#}
+{#'troisSet'=>$toisSet#}
+
+{% endblock %}

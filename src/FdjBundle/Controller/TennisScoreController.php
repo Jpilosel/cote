@@ -17,7 +17,7 @@ class TennisScoreController extends Controller
     /**
      * Lists all tennisScore entities.
      *
-     * @Route("/", name="tennisscore_index")
+     * @Route("/result", name="tennisscore_result")
      * @Method("GET")
      */
     public function indexAction()
@@ -28,6 +28,99 @@ class TennisScoreController extends Controller
 
         return $this->render('tennisscore/index.html.twig', array(
             'tennisScores' => $tennisScores,
+        ));
+    }
+
+    /**
+     * Lists all tennisScore entities.
+     *
+     * @Route("/", name="tennisscore_index")
+     * @Method({"GET", "POST"})
+     */
+    public function resultAction(Request $request)
+    {
+        $form = $this->createForm('FdjBundle\Form\TennisScore2Type');
+        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $deuxZero = $deuxUn = $zeroDeux = $troisUn = $zeroTrois = $troisDeux = $troisZero = $unDeux = $unTrois = $deuxTrois = $deuxSet = $toisSet = $deuxSetFani = $troisSetFani = 0;
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $nbSetGagnant=$data['nbSetGagnant'];
+            $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findBynbSetGagnant($nbSetGagnant);
+            foreach ($tennisScores as $tennisScore) {
+                if ($tennisScore->getResultat() == '2 - 0'){
+                    $deuxZero++;
+                    $deuxSet++;
+                    $deuxSetFani++;
+                }else if ($tennisScore->getResultat() == '2 - 1'){
+                    $deuxUn++;
+                    $deuxSet++;
+                }else if ($tennisScore->getResultat() == '0 - 2'){
+                    $zeroDeux++;
+                    $deuxSet++;
+                    $deuxSetFani++;
+                }else if ($tennisScore->getResultat() == '1 - 2'){
+                    $unDeux++;
+                    $deuxSet++;
+                }else if ($tennisScore->getResultat() == '3 - 0'){
+                    $troisZero++;
+                    $toisSet++;
+                    $troisSetFani++;
+                }else if ($tennisScore->getResultat() == '3 - 1'){
+                    $troisUn++;
+                    $toisSet++;
+                }else if ($tennisScore->getResultat() == '3 - 2'){
+                    $troisDeux++;
+                    $toisSet++;
+                }else if ($tennisScore->getResultat() == '0 - 3'){
+                    $zeroTrois++;
+                    $toisSet++;
+                    $troisSetFani++;
+                }else if ($tennisScore->getResultat() == '1 - 3'){
+                    $unTrois++;
+                    $toisSet++;
+                }else if ($tennisScore->getResultat() == '2 - 3'){
+                    $deuxTrois++;
+                    $toisSet++;
+                }
+            }
+
+            return $this->render('tennisscore/result.html.twig', array(
+                'tennisScores' => $tennisScores,
+                'form' => $form->createView(),
+                'deuxZero'=>$deuxZero,
+                'deuxUn'=>$deuxUn,
+                'zeroDeux'=>$zeroDeux,
+                'troisUn'=>$troisUn,
+                'zeroTrois'=>$zeroTrois,
+                'troisDeux'=>$troisDeux,
+                'troisZero'=>$troisZero,
+                'unDeux'=>$unDeux,
+                'unTrois'=>$unTrois,
+                'deuxTrois'=>$deuxTrois,
+                'deuxSet'=>$deuxSet,
+                'troisSet'=>$toisSet,
+                'deuxSetFani'=>$deuxSetFani,
+                'troisSetFani'=>$troisSetFani,
+            ));
+        }
+
+        return $this->render('tennisscore/result.html.twig', array(
+            'form' => $form->createView(),
+            'deuxZero'=>$deuxZero,
+            'deuxUn'=>$deuxUn,
+            'zeroDeux'=>$zeroDeux,
+            'troisUn'=>$troisUn,
+            'zeroTrois'=>$zeroTrois,
+            'troisDeux'=>$troisDeux,
+            'troisZero'=>$troisZero,
+            'unDeux'=>$unDeux,
+            'unTrois'=>$unTrois,
+            'deuxTrois'=>$deuxTrois,
+            'deuxSet'=>$deuxSet,
+            'troisSet'=>$toisSet
         ));
     }
 
