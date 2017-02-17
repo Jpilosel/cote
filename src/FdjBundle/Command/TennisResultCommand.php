@@ -30,7 +30,7 @@ class TennisResultCommand extends ContainerAwareCommand
             $formules = $em->getRepository('FdjBundle:Formules')->findBySportId(600);
 
         foreach ($formules as $formule) {
-            if($formule->getMarketTypeGroup() == 'Score exact' && $formule->getScoreTennis() == 2 ){
+            if($formule->getMarketTypeGroup() == 'Score exact' && $formule->getScoreTennis() == 1 ){
                 $tennisScore = new Tennisscore();
                 $eventId = $formule->getEventId();
                 $matchsFinis = $em->getRepository('FdjBundle:MatchFini')->findByEventId($eventId);
