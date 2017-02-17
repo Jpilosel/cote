@@ -63,6 +63,11 @@ class TennisResultCommand extends ContainerAwareCommand
                         }else{
                             $tennisScore->setFani(0);
                         }
+                        if($tennisScore->getUn() <= $tennisScore->getDeux() ){
+                            $tennisScore->setMincote($tennisScore->getUn());
+                        }elseif ($tennisScore->getUn() > $tennisScore->getDeux()){
+                            $tennisScore->setMincote($tennisScore->getDeux());
+                        }
 
                         $em->persist($tennisScore);
                         $formule->setScoreTennis(2);
