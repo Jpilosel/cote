@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class TennisScoreRepository extends EntityRepository
 {
+    public function findByTennisResult($data)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->where('t.minCote <= :minCote')
+                ->setParameter('minCote', $data['cote'])
+            ->andWhere('t.nbSetGagnant = :nbSetGagnant')
+            ->setParameter('nbSetGagnant', $data['nbSetGagnant']);
+
+
+        //        if($data['typeResultMarketType']) {
+        //            $qb->andWhere('c.marketType = :marketType')
+        //                ->setParameter('marketType', $data['marketType']);
+        //        }
+
+
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use FdjBundle\Entity\MatchFini;
+use FdjBundle\Entity\TennisScore;
 
 class TestCommand extends ContainerAwareCommand
 {
@@ -32,12 +33,12 @@ class TestCommand extends ContainerAwareCommand
             $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findAll();
 
         foreach ($tennisScores as $tennisScore) {
-            if($tennisScore->getEquipe1() == 0 || $tennisScore->getEquipe2()== 0 ){
-                $tennisScore->setFani(1);
+            if($tennisScore->getUn() <= $tennisScore->getDeux() ){
+                $tennisScore->setMincote($tennisScore->getUn());
                 $em->persist($tennisScore);
                 $em->flush();
-            }else{
-                $tennisScore->setFani(0);
+            }elseif ($tennisScore->getUn() > $tennisScore->getDeux()){
+                $tennisScore->setMincote($tennisScore->getDeux());
                 $em->persist($tennisScore);
                 $em->flush();
             }

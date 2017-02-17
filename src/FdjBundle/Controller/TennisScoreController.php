@@ -48,7 +48,7 @@ class TennisScoreController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $nbSetGagnant=$data['nbSetGagnant'];
-            $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findBynbSetGagnant($nbSetGagnant);
+            $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findByTennisResult($data);
             foreach ($tennisScores as $tennisScore) {
                 if ($tennisScore->getResultat() == '2 - 0'){
                     $deuxZero++;

@@ -112,6 +112,13 @@ class TennisScore
      */
     private $deux;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mincote", type="string", nullable=true)
+     */
+    private $minCote;
+
 
     /**
      * Get id
@@ -378,6 +385,22 @@ class TennisScore
     public function setDeux($deux)
     {
         $this->deux = $deux;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMinCote()
+    {
+        return $this->minCote;
+    }
+
+    /**
+     * @param string $minCote
+     */
+    public function setMinCote($minCote)
+    {
+        $this->minCote = $minCote;
     }
 
 
