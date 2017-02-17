@@ -58,7 +58,7 @@ class TennisResultCommand extends ContainerAwareCommand
                         }else{
                             $tennisScore->setNbSetGagnant($tab[0]);
                         }
-                        if ($tab[0 == 0 || $tab[1]==0]){
+                        if ($tab[0] == 0 || $tab[1]==0){
                             $tennisScore->setFani(1);
                         }else{
                             $tennisScore->setFani(0);
