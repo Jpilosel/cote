@@ -58,6 +58,7 @@ class OffreCommand extends ContainerAwareCommand
                     $sport->setEventType($jsonapi2['eventType']);
                     $sport->setCompetition($jsonapi2['competition']);
                     $sport->setCompetitionId($jsonapi2['competitionId']);
+                    $sport->setOk(1);
                     $nbResultCote = count($jsonapi2['outcomes']);
                     if ($nbResultCote == 2) {
                         $sport->setUn($jsonapi2['outcomes'][0]['cote']);
@@ -97,6 +98,7 @@ class OffreCommand extends ContainerAwareCommand
                             $sport->setEventType($jsonapi2['eventType']);
                             $sport->setCompetition($jsonapi3['competition']);
                             $sport->setCompetitionId($jsonapi3['competitionId']);
+                            $sport->setOk(1);
                             $nbResultCote = count($jsonapi3['outcomes']);
                             if ($nbResultCote == 2) {
                                 $sport->setUn($jsonapi3['outcomes'][0]['cote']);

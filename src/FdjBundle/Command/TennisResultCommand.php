@@ -33,14 +33,14 @@ class TennisResultCommand extends ContainerAwareCommand
             if($formule->getMarketTypeGroup() == 'Score exact' && $formule->getScoreTennis() == 1 ){
 
                 $eventId = $formule->getEventId();
-                var_dump($eventId);
+//                var_dump($eventId);
                 $matchsFinis = $em->getRepository('FdjBundle:MatchFini')->findByEventId($eventId);
-                var_dump($matchsFinis);
+//                var_dump($matchsFinis);
                 foreach ($matchsFinis as $matchsFini) {
-                    var_dump($matchsFini);
+//                    var_dump($matchsFini);
 //                    var_dump($matchsFini);
                     if ($matchsFini->getMarketTypeId() == 1){
-                        var_dump($eventId);
+//                        var_dump($eventId);
                         $tennisScore = new Tennisscore();
                         $cote1 = $matchsFini->getUn();
                         $cote2 = $matchsFini->getDeux();
