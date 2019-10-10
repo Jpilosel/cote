@@ -29,8 +29,8 @@ class MatchFiniCommand extends ContainerAwareCommand
         $output->writeln(['cote inputt', '============',]);
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        $resultats = $em->getRepository('FdjBundle:Formules')->findByOk(1);
-//        $resultats = $em->getRepository('FdjBundle:Formules')->findAll();
+//        $resultats = $em->getRepository('FdjBundle:Formules')->findByOk(1);
+        $resultats = $em->getRepository('FdjBundle:Formules')->findAll();
 
 
         foreach ($resultats as $resultat) {

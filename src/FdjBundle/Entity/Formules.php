@@ -31,6 +31,13 @@ class Formules
     /**
      * @var string
      *
+     * @ORM\Column(name="Ok", type="string", length=255)
+     */
+    private $Ok;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="indexP", type="string", length=255)
      */
     private $indexP;
