@@ -66,6 +66,13 @@ class MatchFini
     /**
      * @var string
      *
+     * @ORM\Column(name="Ok", type="string", length=255)
+     */
+    private $Ok;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="marketTypeGroup", type="string", length=255)
      */
     private $marketTypeGroup;
@@ -539,6 +546,22 @@ class MatchFini
     public function setMatchFini($matchFini)
     {
         $this->matchFini = $matchFini;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOk()
+    {
+        return $this->Ok;
+    }
+
+    /**
+     * @param string $Ok
+     */
+    public function setOk($Ok)
+    {
+        $this->Ok = $Ok;
     }
 
 
