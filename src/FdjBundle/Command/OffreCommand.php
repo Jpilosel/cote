@@ -108,6 +108,7 @@ class OffreCommand extends ContainerAwareCommand
                                 $sport->setNul($jsonapi3['outcomes'][1]['cote']);
                                 $sport->setDeux($jsonapi3['outcomes'][2]['cote']);
                             }
+                            $sport->getDateSasie(date("Y-m-d H:i:s"));
                             $em->persist($sport);
                             var_dump($sport);
                             $em->flush();
