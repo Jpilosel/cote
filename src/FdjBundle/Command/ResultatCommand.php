@@ -18,7 +18,8 @@ class ResultatCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('fdj:offre')
+//            ->setName('fdj:offre')
+            ->setName('fdj:resultat')
             ->setDescription('Reception des matchs avec les resultat.')
             ->setHelp("Cette commande lance une requette pour recevoir les matchs correspondant au sport");
     }
@@ -29,6 +30,16 @@ class ResultatCommand extends ContainerAwareCommand
 //        var_dump(file_get_contents('https://www.parionssport.fr/api/date/last-update'));
 //        $em = $this->getDoctrine()->getManager();
         $em = $this->getContainer()->get('doctrine')->getManager();
+
+        $resultats = $em->getRepository('FdjBundle:Formules')->findAll();
+        foreach ($resultats as $resultat){
+            $resultat->setOk(1);
+            $em->persist($resultat);
+            $em->flush();
+        }
+        die;
+
+
 
         $api = file_get_contents('https://www.parionssport.fr/api/1n2/resultats');//9 resultat sans cote
         $jsonapi = json_decode($api, true);
@@ -65,7 +76,6 @@ class ResultatCommand extends ContainerAwareCommand
                             $formules->setMarketTypeId($jsonapi2['marketRes'][$j]['marketTypeId']);
                             $formules->setResult($jsonapi2['marketRes'][$j]['resultat'][$k]['label']);
                             $formules->setScoreTennis(1);
-                            $formules->setOk(1);
                         }
                         if (isset($formules)) {
                             var_dump($formules);

@@ -39,45 +39,49 @@ class TennisResultCommand extends ContainerAwareCommand
                 foreach ($matchsFinis as $matchsFini) {
 //                    var_dump($matchsFini);
 //                    var_dump($matchsFini);
-                    if ($matchsFini->getMarketTypeId() == 1){
+                    $doublon = $em->getRepository('FdjBundle:TennisScore')->findByEventId($eventId);
+                    if ($doublon == null){
+                        if ($matchsFini->getMarketTypeId() == 1){
 //                        var_dump($eventId);
-                        $tennisScore = new Tennisscore();
-                        $cote1 = $matchsFini->getUn();
-                        $cote2 = $matchsFini->getDeux();
-                        $tennisScore->setUn($cote1);
-                        $tennisScore->setDeux($cote2);
-                        $tennisScore->setLabel($formule->getLabel());
-                        $tennisScore->setEventId($formule->getEventId());
-                        $tennisScore->setResultat($formule->getResult());
-                        $tennisScore->setCompetition($formule->getCompetition());
-                        $tennisScore->setCompetitionId($formule->getCompetitionId());
-                        $tennisScore->setDateDeSaisie(date("Y-m-d H:i:s"));
-                        $tab = explode(" - ", $formule->getResult());
-                        $tennisScore->setEquipe1($tab[0]);
-                        $tennisScore->setEquipe2($tab[1]);
-                        $tennisScore->setNbSetPartie($tab[0]+$tab[1]);
-                        if($tab[0]<$tab[1]) {
-                            $tennisScore->setNbSetGagnant($tab[1]);
-                        }else{
-                            $tennisScore->setNbSetGagnant($tab[0]);
-                        }
-                        if ($tab[0] == 0 || $tab[1]==0){
-                            $tennisScore->setFani(1);
-                        }else{
-                            $tennisScore->setFani(0);
-                        }
-                        if($tennisScore->getUn() <= $tennisScore->getDeux() ){
-                            $tennisScore->setMincote($tennisScore->getUn());
-                        }elseif ($tennisScore->getUn() > $tennisScore->getDeux()){
-                            $tennisScore->setMincote($tennisScore->getDeux());
-                        }
+                            $tennisScore = new Tennisscore();
+                            $cote1 = $matchsFini->getUn();
+                            $cote2 = $matchsFini->getDeux();
+                            $tennisScore->setUn($cote1);
+                            $tennisScore->setDeux($cote2);
+                            $tennisScore->setLabel($formule->getLabel());
+                            $tennisScore->setEventId($formule->getEventId());
+                            $tennisScore->setResultat($formule->getResult());
+                            $tennisScore->setCompetition($formule->getCompetition());
+                            $tennisScore->setCompetitionId($formule->getCompetitionId());
+                            $tennisScore->setDateDeSaisie(date("Y-m-d H:i:s"));
+                            $tab = explode(" - ", $formule->getResult());
+                            $tennisScore->setEquipe1($tab[0]);
+                            $tennisScore->setEquipe2($tab[1]);
+                            $tennisScore->setNbSetPartie($tab[0]+$tab[1]);
+                            if($tab[0]<$tab[1]) {
+                                $tennisScore->setNbSetGagnant($tab[1]);
+                            }else{
+                                $tennisScore->setNbSetGagnant($tab[0]);
+                            }
+                            if ($tab[0] == 0 || $tab[1]==0){
+                                $tennisScore->setFani(1);
+                            }else{
+                                $tennisScore->setFani(0);
+                            }
+                            if($tennisScore->getUn() <= $tennisScore->getDeux() ){
+                                $tennisScore->setMincote($tennisScore->getUn());
+                            }elseif ($tennisScore->getUn() > $tennisScore->getDeux()){
+                                $tennisScore->setMincote($tennisScore->getDeux());
+                            }
 
-                        $em->persist($tennisScore);
-                        $formule->setScoreTennis(2);
-                        $em->persist($formule);
-                        var_dump($tennisScore);
-                        $em->flush();
+                            $em->persist($tennisScore);
+                            $formule->setScoreTennis(2);
+                            $em->persist($formule);
+                            var_dump($tennisScore);
+                            $em->flush();
+                        }
                     }
+
 
                 }
 
