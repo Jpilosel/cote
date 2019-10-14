@@ -88,7 +88,7 @@ class MatchFiniCommand extends ContainerAwareCommand
                                 $matchFini->setResultat($resultat->getResult());
                                 $matchFini->setMatchFini(1);
                                 $matchFini->setOk(1);
-                                var_dump($matchFini);
+//                                var_dump($matchFini);
                                 $em->persist($matchFini);
                                 $match->setOk(2);
                                 $em->persist($match);
