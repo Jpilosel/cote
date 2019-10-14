@@ -31,9 +31,9 @@ class Formules
     /**
      * @var string
      *
-     * @ORM\Column(name="ok", type="string", length=255, nullable=true)
+     * @ORM\Column(name="Ok", type="string", length=255, nullable=true)
      */
-    private $ok;
+    private $Ok;
 
     /**
      * @var string

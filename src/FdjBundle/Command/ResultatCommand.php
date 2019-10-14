@@ -31,16 +31,6 @@ class ResultatCommand extends ContainerAwareCommand
 //        $em = $this->getDoctrine()->getManager();
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        $resultats = $em->getRepository('FdjBundle:Formules')->findAll();
-        foreach ($resultats as $resultat){
-            $resultat->setOk(1);
-            $em->persist($resultat);
-            $em->flush();
-        }
-        die;
-
-
-
         $api = file_get_contents('https://www.parionssport.fr/api/1n2/resultats');//9 resultat sans cote
         $jsonapi = json_decode($api, true);
         $nbMatch = count($jsonapi);
