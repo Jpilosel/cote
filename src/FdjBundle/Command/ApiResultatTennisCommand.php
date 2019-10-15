@@ -34,7 +34,7 @@ class ApiResultatTennisCommand extends ContainerAwareCommand
 //        for ($i=1; $i<100; $i++){
             $now->modify('-1 day');
             $lien = 'https://api.sportradar.com/tennis-t2/fr/schedules/'.$now->format('Y-m-d').'/results.json?api_key=dysqrwevnpemdfvanjr4rwtc';
-            var_dump($lien);
+//            var_dump($lien);
             $api = file_get_contents($lien);
             $matchs = json_decode($api, true);
 
