@@ -112,6 +112,19 @@ class JoueursTennis
      */
     private $type;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nomAdversaire", type="string", length=255, nullable=true)
+     */
+    private $nomAdversaire;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="classementAtpAdversaire", type="string", length=255, nullable=true)
+     */
+    private $classementAtpAdversaire;
 
     /**
      * Get id
@@ -421,4 +434,38 @@ class JoueursTennis
     {
         return $this->type;
     }
+
+    /**
+     * @return string
+     */
+    public function getNomAdversaire()
+    {
+        return $this->nomAdversaire;
+    }
+
+    /**
+     * @param string $nomAdversaire
+     */
+    public function setNomAdversaire($nomAdversaire)
+    {
+        $this->nomAdversaire = $nomAdversaire;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClassementAtpAdversaire()
+    {
+        return $this->classementAtpAdversaire;
+    }
+
+    /**
+     * @param string $classementAtpAdversaire
+     */
+    public function setClassementAtpAdversaire($classementAtpAdversaire)
+    {
+        $this->classementAtpAdversaire = $classementAtpAdversaire;
+    }
+
+
 }

@@ -149,6 +149,21 @@ class DefaultController extends Controller
                     dump($joueur1Nom);
                     $apiClassementJoueurs = $em->getRepository('FdjBundle:ClassementJoueurs')->findByNom($joueur1Nom);
                     dump($apiClassementJoueurs);
+                    if ($apiClassementJoueurs == null){
+
+                    }
+                    elseif (count($apiClassementJoueurs) == 1){
+                        $apiJoueur = $apiClassementJoueurs[0];
+                    }else{
+                        $apiJoueur = $apiClassementJoueurs[0];
+
+                        foreach ($apiClassementJoueurs as $apiClassementJoueur) {
+                            if ($apiClassementJoueur->getId() > $apiJoueur->getId()){
+                                $apiJoueur = $apiClassementJoueur;
+                            }
+                        }
+                    }
+                    dump($apiJoueur);
                 }
 
             }
