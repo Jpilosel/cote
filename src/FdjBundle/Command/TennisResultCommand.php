@@ -58,6 +58,7 @@ class TennisResultCommand extends ContainerAwareCommand
                             $tennisScore->setEquipe1($tab[0]);
                             $tennisScore->setEquipe2($tab[1]);
                             $tennisScore->setNbSetPartie($tab[0]+$tab[1]);
+                            $tennisScore->setJoueursTennis(1);
                             if($tab[0]<$tab[1]) {
                                 $tennisScore->setNbSetGagnant($tab[1]);
                             }else{

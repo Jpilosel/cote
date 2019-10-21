@@ -78,7 +78,7 @@ class CoteController extends Controller
                     $cote->setCote($coteGagnante);
                     $cote->setStatut('g');
                     $cote->setRecurrence(1);
-                    var_dump($cote);
+//                    var_dump($cote);
                     $em->persist($cote);
                     $matchfini->setMatchFini(5);
                     $em->persist($matchfini);
@@ -94,7 +94,7 @@ class CoteController extends Controller
                                 $recurrence = $cote->getRecurrence() + 1;
                                 $cote->setRecurrence($recurrence);
                                 $recurrence = null;
-                                var_dump($cote);
+//                                var_dump($cote);
                                 $em->persist($cote);
                                 $matchfini->setMatchFini(5);
                                 $em->persist($matchfini);
@@ -112,13 +112,13 @@ class CoteController extends Controller
                             $cote->setCote($coteGagnante);
                             $cote->setStatut('g');
                             $cote->setRecurrence(1);
-                            var_dump($cote);
+//                            var_dump($cote);
                             $em->persist($cote);
                             $matchfini->setMatchFini(5);
                             $em->persist($matchfini);
                             $em->flush();
                         }
-                        var_dump($set);
+//                        var_dump($set);
                     }
                 }
             }
@@ -138,7 +138,7 @@ class CoteController extends Controller
                     $cote->setCote($cotePerdante1);
                     $cote->setStatut('p');
                     $cote->setRecurrence(1);
-                    var_dump($cote);
+//                    var_dump($cote);
                     $em->persist($cote);
                     $matchfini->setMatchFini(5);
                     $em->persist($matchfini);
@@ -151,7 +151,7 @@ class CoteController extends Controller
                                 $recurrence = $cote->getRecurrence() + 1;
                                 $cote->setRecurrence($recurrence);
                                 $recurrence = null;
-                                var_dump($cote);
+//                                var_dump($cote);
                                 $em->persist($cote);
                                 $matchfini->setMatchFini(5);
                                 $em->persist($matchfini);
@@ -170,7 +170,7 @@ class CoteController extends Controller
                         $cote->setCote($cotePerdante1);
                         $cote->setStatut('p');
                         $cote->setRecurrence(1);
-                        var_dump($cote);
+//                        var_dump($cote);
                         $em->persist($cote);
                         $matchfini->setMatchFini(5);
                         $em->persist($matchfini);
@@ -191,7 +191,7 @@ class CoteController extends Controller
                     $cote->setCote($cotePerdante2);
                     $cote->setStatut('p');
                     $cote->setRecurrence(1);
-                    var_dump($cote);
+//                    var_dump($cote);
                     $em->persist($cote);
                     $matchfini->setMatchFini(5);
                     $em->persist($matchfini);
@@ -204,7 +204,7 @@ class CoteController extends Controller
                                 $recurrence = $cote->getRecurrence() + 1;
                                 $cote->setRecurrence($recurrence);
                                 $recurrence = null;
-                                var_dump($cote);
+//                                var_dump($cote);
                                 $em->persist($cote);
                                 $matchfini->setMatchFini(5);
                                 $em->persist($matchfini);
@@ -223,7 +223,7 @@ class CoteController extends Controller
                         $cote->setCote($cotePerdante2);
                         $cote->setStatut('p');
                         $cote->setRecurrence(1);
-                        var_dump($cote);
+//                        var_dump($cote);
                         $em->persist($cote);
                         $matchfini->setMatchFini(5);
                         $em->persist($matchfini);

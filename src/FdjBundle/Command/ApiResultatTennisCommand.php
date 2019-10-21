@@ -30,7 +30,7 @@ class ApiResultatTennisCommand extends ContainerAwareCommand
         $output->writeln(['cote inputt', '============',]);
         $em = $this->getContainer()->get('doctrine')->getManager();
         $now = new \DateTime();
-//        $now = new \DateTime('2019/10/10');
+//        $now = new \DateTime('2019/07/03');
 //        for ($i=1; $i<100; $i++){
             $now->modify('-1 day');
             $lien = 'https://api.sportradar.com/tennis-t2/fr/schedules/'.$now->format('Y-m-d').'/results.json?api_key=dysqrwevnpemdfvanjr4rwtc';

@@ -119,6 +119,31 @@ class TennisScore
      */
     private $minCote;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="joueursTennis", type="string", nullable=true)
+     */
+    private $joueursTennis;
+
+    /**
+     * @return string
+     */
+    public function getJoueursTennis()
+    {
+        return $this->joueursTennis;
+    }
+
+    /**
+     * @param string $joueursTennis
+     */
+    public function setJoueursTennis($joueursTennis)
+    {
+        $this->joueursTennis = $joueursTennis;
+    }
+
+
+
 
     /**
      * Get id
