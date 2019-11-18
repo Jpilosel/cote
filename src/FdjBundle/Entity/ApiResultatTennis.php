@@ -87,7 +87,7 @@ class ApiResultatTennis
     /**
      * @var string
      *
-     * @ORM\Column(name="joueur1Nationalite", type="string", length=255)
+     * @ORM\Column(name="joueur1Nationalite", type="string", length=255, nullable=true)
      */
     private $joueur1Nationalite;
 
@@ -122,7 +122,7 @@ class ApiResultatTennis
     /**
      * @var string
      *
-     * @ORM\Column(name="joueur2Nationalite", type="string", length=255)
+     * @ORM\Column(name="joueur2Nationalite", type="string", length=255, nullable=true)
      */
     private $joueur2Nationalite;
 

@@ -12,4 +12,51 @@ use Doctrine\ORM\EntityRepository;
  */
 class ClassementJoueursRepository extends EntityRepository
 {
+        public function findByJoueur($idJoueur)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.idJoueur = :idJoueur')
+            ->setParameter('idJoueur', $idJoueur)
+            ->orderBy('c.semaine', 'ASC');
+
+        ;
+        return  $qb->getQuery()->getResult();
+    }
+
+    public function findByIdJoueur($idJoueur)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.idJoueur = :idJoueur')
+            ->setParameter('idJoueur', $idJoueur)
+            ->orderBy('c.semaine', 'DESC');
+
+        ;
+        return  $qb->getQuery()->getResult();
+    }
+
+    public function findByWeek($idJoueur, $week, $year)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.idJoueur = :idJoueur AND c.semaine >= :week AND c.annee = :year')
+            ->setParameter('idJoueur', $idJoueur)
+            ->setParameter('week', $week)
+            ->setParameter('year', $year)
+            ->orderBy('c.semaine', 'ASC');
+
+        ;
+        return  $qb->getQuery()->getResult();
+    }
+
+    public function findByWeekInf($idJoueur, $week, $year)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.idJoueur = :idJoueur AND c.semaine >= :week AND c.annee = :year')
+            ->setParameter('idJoueur', $idJoueur)
+            ->setParameter('week', $week)
+            ->setParameter('year', $year)
+            ->orderBy('c.semaine', 'ASC');
+
+        ;
+        return  $qb->getQuery()->getResult();
+    }
 }

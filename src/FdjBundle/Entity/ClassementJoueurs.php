@@ -45,7 +45,7 @@ class ClassementJoueurs
     /**
      * @var string
      *
-     * @ORM\Column(name="nomJoueurs", type="string", length=255)
+     * @ORM\Column(name="nomJoueurs", type="string", length=255, nullable=true)
      */
     private $nomJoueurs;
 
@@ -59,21 +59,21 @@ class ClassementJoueurs
     /**
      * @var string
      *
-     * @ORM\Column(name="prenom", type="string", length=255)
+     * @ORM\Column(name="prenom", type="string", length=255, nullable=true)
      */
     private $prenom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="idJoueur", type="string", length=255)
+     * @ORM\Column(name="idJoueur", type="string", length=255, nullable=true)
      */
     private $idJoueur;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nationalite", type="string", length=255)
+     * @ORM\Column(name="nationalite", type="string", length=255, nullable=true)
      */
     private $nationalite;
 
@@ -94,14 +94,14 @@ class ClassementJoueurs
     /**
      * @var string
      *
-     * @ORM\Column(name="rangMouvement", type="string", length=255)
+     * @ORM\Column(name="rangMouvement", type="string", length=255, nullable=true)
      */
     private $rangMouvement;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tournoisJoue", type="string", length=255)
+     * @ORM\Column(name="tournoisJoue", type="string", length=255, nullable=true)
      */
     private $tournoisJoue;
 

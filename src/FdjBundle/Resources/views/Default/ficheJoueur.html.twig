@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-primary" type="submit">
+    {{ form_end(form) }}
+    {% if classementAtp != null %}
+        <div>
+            Nom : {{ classementAtp.nom }} <br>
+            Prénom : {{ classementAtp.prenom }} <br>
+            Nationalite : {{ classementAtp.nationalite }} <br>
+            Rang {{ classementAtp.type }} : {{ classementAtp.rang }} <br>
+            Points : {{ classementAtp.points }} <br>
+            Nombre de tournois joué : {{ classementAtp.tournoisJoue }} <br>
+            Evolution du classement :<br>
+            {% for classementAtp1 in classementAtps %}
+                {{ classementAtp1.rang }}
+            {% endfor %}<br>
+            Classement moyen : {{ moyenne }} <br>
+            
+
+            <table class="table table-striped">
+                <tr>
+                    <td>Date</td>
+                    <td>Nom Tournois</td>
+                    <td>Manche</td>
+                    <td>Nb set</td>
+                    <td>Adversaire</td>
+                    <td>Status</td>
+                    <td>Cote adversaire</td>
+                    <td>Classement ATP</td>
+                    <td>Classement adversaire</td>
+                    <td>Classement moyen adversaire</td>
+                </tr>
+
+
+
+                    {% for key, listeMatch in listeMatchs %}
+                        <tr>
+                            <td>{{ listeMatch.date|date("d/m/Y") }}</td>
+                            <td>{{ listeMatch.nomTournois }}</td>
+                            <td>{{ listeMatch.manche }}</td>
+                            <td>{{ listeMatch.resultatMatchJ1 + listeMatch.resultatMatchJ2 }} </td>
+                            {% if listeMatch.joueur1Nom == classementAtp.nomJoueurs %}
+                                <td>{{ listeMatch.joueur2Nom }}</td>
+                            {% else %}
+                                <td>{{ listeMatch.joueur1Nom }}</td>
+                            {% endif %}
+                                {% set status = null %}
+                            {% if listeMatch.idGagnant == classementAtp.idJoueur %}
+                                <td style="color: darkgreen">Gagnant</td>
+                                {% set status = 'gagnant' %}
+                            {% else %}
+                                <td style="color: red">Perdant</td>
+                                {% set status = 'perdant' %}
+                            {% endif %}
+                            <td></td>
+                            {% if status == 'gagnant' and listeClassements[key].classementJ1 > listeClassements[key].adversaire  %}
+                                <td style="background-color: darkgreen">
+                            {% elseif status == 'perdant' and listeClassements[key].classementJ1 < listeClassements[key].adversaire %}
+                                <td style="background-color: red">
+                            {% else %}
+                                <td>
+                            {% endif %}
+                             {{ listeClassements[key].classementJ1 }}</td>
+                            <td> {{ listeClassements[key].adversaire }}</td>
+                            <td> {{ listeClassements[key].adversaireMoyenne }}</td>
+                        </tr>
+                    {% endfor %}
+
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}
+
+

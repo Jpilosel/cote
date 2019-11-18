@@ -4,12 +4,14 @@ namespace FdjBundle\Controller;
 
 use FdjBundle\Entity\ApiResultatTennis;
 use FdjBundle\Entity\ClassementJoueurs;
+use FdjBundle\Entity\JoueursTennis;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use FdjBundle\Entity\CoteList;
 use Symfony\Component\Validator\Constraints\DateTime;
 use FdjBundle\Entity\TennisScore;
+use FdjBundle\Entity\TableCorrespondance;
 
 class DefaultController extends Controller
 {
@@ -135,36 +137,150 @@ class DefaultController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findById(1);
-        dump($tennisScores);
+        $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findByJoueursTennis(1);
+//        dump($tennisScores);
         if ($tennisScores != null){
             foreach ($tennisScores as $tennisScore){
-                dump($tennisScore);
-                if (substr_count($tennisScore->getLabel(), '/' ) == 0){
-                    $noms = explode('-', $tennisScore->getLabel());
-                    dump($noms);
-                    $joueur1 = $noms[0];
-                    $joueur2 = $noms[1];
-                    $joueur1Nom = explode('.', $joueur1)[1];
-                    dump($joueur1Nom);
-                    $apiClassementJoueurs = $em->getRepository('FdjBundle:ClassementJoueurs')->findByNom($joueur1Nom);
-                    dump($apiClassementJoueurs);
-                    if ($apiClassementJoueurs == null){
+//                dump($tennisScore);
+                $doublon = $em->getRepository('FdjBundle:JoueursTennis')->findByIdEvent($tennisScore->getEventId());
+                if($doublon == null){
+                    if ($tennisScore->getEventID())
+//                dump($tennisScore);
+                        if (substr_count($tennisScore->getLabel(), '/' ) == 0) {
+                            $noms = explode('-', $tennisScore->getLabel());
+//                            dump($noms);
+                            $joueur1 = $noms[0];
+                            $joueur2 = $noms[1];
+                            dump($joueur1);
+                            dump($joueur2);
+                            dump(stripos($joueur1, '.'));
+                            dump(stripos($joueur2, '.'));
+                            if (stripos($joueur1, '.') != null){
+                                $joueur1Nom = explode('.', $joueur1)[1];
+                            }
+                            if (stripos($joueur2, '.') != null){
+                                $joueur2Nom = explode('.', $joueur2)[1];
+                            }else{
+                                $joueur2Nom = $joueur2;
+                            }
+                    dump($joueur2Nom);
+                            $apiClassementJoueurs1 = null;
+                            $apiClassementJoueurs1 = $em->getRepository('FdjBundle:ClassementJoueurs')->findByNom($joueur1Nom);
 
-                    }
-                    elseif (count($apiClassementJoueurs) == 1){
-                        $apiJoueur = $apiClassementJoueurs[0];
-                    }else{
-                        $apiJoueur = $apiClassementJoueurs[0];
+                    dump($apiClassementJoueurs1);
+                            if ($apiClassementJoueurs1 == null) {
+                                $apiJoueur1 = null;
+                            } elseif (count($apiClassementJoueurs1) == 1) {
+                                $apiJoueur1 = $apiClassementJoueurs1[0];
+                            } else {
+                                $apiJoueur1 = $apiClassementJoueurs1[0];
 
-                        foreach ($apiClassementJoueurs as $apiClassementJoueur) {
-                            if ($apiClassementJoueur->getId() > $apiJoueur->getId()){
-                                $apiJoueur = $apiClassementJoueur;
+                                foreach ($apiClassementJoueurs1 as $apiClassementJoueur1) {
+                                    if ($apiClassementJoueur1->getId() > $apiJoueur1->getId()) {
+                                        $apiJoueur1 = $apiClassementJoueur1;
+                                    }
+                                }
+                            }
+                    dump($apiJoueur1);
+                            $joueursTennis = new JoueursTennis();
+                            $joueursTennis->setNom($joueur1Nom);
+                            if ($apiJoueur1 != null) {
+                                $joueursTennis->setPrenom($apiJoueur1->getPrenom());
+                                if ($apiJoueur1 != null) {
+                                    $joueursTennis->setFullIdJoueurs($apiJoueur1->getIdJoueur());
+
+                                    $idJoueurs1 = explode(':', $apiJoueur1->getIdJoueur())[2];
+                                    $joueursTennis->setIdJoueur($idJoueurs1);
+                                    $sexe = null;
+                                    if ($apiJoueur1->getType() == "ATP") {
+                                        $sexe = 'Homme';
+                                    } elseif ($apiJoueur1->getType() == "WTA") {
+                                        $sexe = 'Femme';
+                                    }
+//                    dump($sexe);
+                                    $joueursTennis->setSexe($sexe);
+                                    if ($apiJoueur1 != null) {
+                                        $joueursTennis->setClassementAtpWta($apiJoueur1->getRang());
+                                    }
+                                }
+                                $joueursTennis->setIdEvent($tennisScore->getEventId());
+                                if ($tennisScore->getEquipe1() > $tennisScore->getEquipe2()) {
+                                    $joueursTennis->setStatus('Gagnant');
+                                } elseif ($tennisScore->getEquipe1() < $tennisScore->getEquipe2()) {
+                                    $joueursTennis->setStatus('Perdant');
+                                }
+                                $joueursTennis->setCote($tennisScore->getUn());
+                                $joueursTennis->setCoteAdversaire($tennisScore->getDeux());
+                                $joueursTennis->setNbSet($tennisScore->getEquipe1() + $tennisScore->getEquipe2());
+                                $joueursTennis->setIdCompetiton($tennisScore->getcompetitionId());
+                                $joueursTennis->setType('single');
+                                $joueursTennis->setNomAdversaire($joueur2);
+
+                                $apiClassementJoueurs2 = null;
+                                $apiClassementJoueurs2 = $em->getRepository('FdjBundle:ClassementJoueurs')->findByNom($joueur2Nom);
+
+                    dump($apiClassementJoueurs2);
+                                if ($apiClassementJoueurs2 == null) {
+                                    $apiJoueur2 = null;
+                                } elseif (count($apiClassementJoueurs2) == 1) {
+                                    $apiJoueur2 = $apiClassementJoueurs2[0];
+                                } else {
+                                    $apiJoueur2 = $apiClassementJoueurs2[0];
+
+                                    foreach ($apiClassementJoueurs2 as $apiClassementJoueur2) {
+                                        if ($apiClassementJoueur2->getId() > $apiJoueur2->getId()) {
+                                            $apiJoueur2 = $apiClassementJoueur2;
+                                        }
+                                    }
+                                }
+                                dump($apiJoueur1);
+                                dump($apiJoueur2);
+                                if ($apiJoueur2 != null) {
+                                    $joueursTennis->setClassementAtpAdversaire($apiJoueur2->getRang());
+                                }
+                                $em->persist($joueursTennis);
+                                $em->flush();
+                                dump($apiJoueur2);
+                                $joueursTennis2 = new JoueursTennis();
+
+                                $joueursTennis2->setNom($joueur2Nom);
+                                if ($apiJoueur2 == null) {
+                                    $joueursTennis2->setPrenom($joueur2);
+                                }
+                                if ($apiJoueur2 != null) {
+                                    $joueursTennis2->setPrenom($apiJoueur2->getPrenom());
+                                    $joueursTennis2->setFullIdJoueurs($apiJoueur2->getIdJoueur());
+                                    $idJoueurs2 = explode(':', $apiJoueur2->getIdJoueur())[2];
+                                    $joueursTennis2->setIdJoueur($idJoueurs2);
+                                    $joueursTennis2->setSexe($sexe);
+                                    if ($apiJoueur2 != null) {
+                                        $joueursTennis2->setClassementAtpWta($apiJoueur2->getRang());
+                                    }
+                                }
+                                $joueursTennis2->setIdEvent($tennisScore->getEventId());
+                                if ($tennisScore->getEquipe2() > $tennisScore->getEquipe1()) {
+                                    $joueursTennis2->setStatus('Gagnant');
+                                } elseif ($tennisScore->getEquipe2() < $tennisScore->getEquipe1()) {
+                                    $joueursTennis2->setStatus('Perdant');
+                                }
+                                $joueursTennis2->setCote($tennisScore->getDeux());
+                                $joueursTennis2->setCoteAdversaire($tennisScore->getUn());
+                                $joueursTennis2->setNbSet($tennisScore->getEquipe1() + $tennisScore->getEquipe2());
+                                $joueursTennis2->setIdCompetiton($tennisScore->getcompetitionId());
+                                $joueursTennis2->setType('single');
+                                $joueursTennis2->setNomAdversaire($joueur1);
+
+                                if ($apiJoueur1 != null) {
+                                    $joueursTennis2->setClassementAtpAdversaire($apiJoueur1->getRang());
+                                }
+//                    dump($joueursTennis2);
+                                $em->persist($joueursTennis2);
+                                $em->flush();
+
                             }
                         }
-                    }
-                    dump($apiJoueur);
                 }
+
 
             }
         }
@@ -173,17 +289,228 @@ class DefaultController extends Controller
 //        dump($tennisScores);
 
 
-
-die;
         return $this->render('FdjBundle:Default:index.html.twig');
 
     }
+
+    /**
+     * @Route("/ficheJoueur", name="ficheJoueur")
+     */
+    public function JoueurAction(Request $request)
+    {
+        $form = $this->createForm('FdjBundle\Form\JoueurTennisType');
+        $form->handleRequest($request);
+        $classementAtp = $listeMatchs = $classementAtps = $listeClassements= $moyenne = null;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            dump($form->getData()['nomJoueur']);
+            $listeMatchs = $em->getRepository('FdjBundle:ApiResultatTennis')->findByFullIdJoueurs($form->getData()['nomJoueur']);
+            $classementAtp = $em->getRepository('FdjBundle:ClassementJoueurs')->findByIdJoueur($form->getData()['nomJoueur']);
+            $classementAtps = $em->getRepository('FdjBundle:ClassementJoueurs')->findByJoueur($form->getData()['nomJoueur']);
+            $cumul = $nb = 0;
+            foreach ($classementAtp as $classement){
+                $cumul = $cumul + $classement->getRang();
+                $nb++;
+            }
+            $moyenne = round($cumul/$nb);
+            dump($listeMatchs);
+            dump($classementAtp);
+            foreach ($listeMatchs as $key=>$listeMatch){
+                $nSemaine = $listeMatch->getDate()->format('W');
+                $annee = $listeMatch->getDate()->format('Y');
+                $matchClassementAtpsJ1 = $em->getRepository('FdjBundle:ClassementJoueurs')->findByWeek($form->getData()['nomJoueur'], $nSemaine, $annee);
+                if ($matchClassementAtpsJ1 == []){
+                    $listeClassements[$key]['classementJ1'] = null;
+                }else{
+                    dump($matchClassementAtpsJ1);
+                    $listeClassements[$key]['classementJ1'] = $matchClassementAtpsJ1[0]->getRang();
+                }
+
+                if ( $form->getData()['nomJoueur'] == $listeMatch->getJoueur1Id()){
+                    $adversaire = $listeMatch->getJoueur2Id();
+                }else {
+                    $adversaire = $listeMatch->getJoueur1Id();
+                }
+                dump($listeMatch->getJoueur1Id());
+                dump($form->getData()['nomJoueur']);
+                $matchClassementAtpsJ2 = $em->getRepository('FdjBundle:ClassementJoueurs')->findByWeek($adversaire, $nSemaine, $annee);
+                if ($matchClassementAtpsJ2 == []){
+                    $listeClassements[$key]['adversaire'] = $listeClassements[$key]['adversaireMoyenne'] = null;
+                }else{
+                    dump($matchClassementAtpsJ2);
+                    $listeClassements[$key]['adversaire'] = $matchClassementAtpsJ2[0]->getRang();
+                    $classementAdversaires = $em->getRepository('FdjBundle:ClassementJoueurs')->findByWeekInf($form->getData()['nomJoueur'], $nSemaine, $annee);
+                    $cumul2 = $nb2 = 0;
+                    foreach ($classementAdversaires as $classement){
+                        $cumul2 = $cumul2 + $classement->getRang();
+                        $nb2++;
+                    }
+                    $moyenne = round($cumul2/$nb2);
+                    $listeClassements[$key]['adversaireMoyenne'] = $moyenne;
+                }
+
+                dump($listeClassements);
+            }
+
+        }
+
+
+
+        return $this->render('FdjBundle:Default:ficheJoueur.html.twig', array(
+            'form' => $form->createView(),
+            'classementAtp' => $classementAtp[0],
+            'classementAtps' => $classementAtps,
+            'listeMatchs' => $listeMatchs,
+            'listeClassements' => $listeClassements,
+            'moyenne'=> $moyenne,
+        ));
+    }
+
+    /**
+     * @Route("/test2", name="test2")
+     */
+    public function test2Action()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $correspondances  = $em->getRepository('FdjBundle:TableCorrespondance')->findAll();
+        foreach ($correspondances as $correspondance){
+            $bdds  = $em->getRepository('FdjBundle:ClassementJoueurs')->findByJoueur($correspondance->getIdSportRadar());
+            $tour =1;
+            foreach ($bdds as $bdd){
+                dump($bdd->getSemaine());
+                dump($bdd->getRang());
+//                dump($bdd->getRangMouvement());
+
+                if ($tour == 1){
+                    $oldClassement = $bdd->getRang();
+                    dump($oldClassement);
+                    $tour = 2;
+                }else{
+                    $evolClassement = $bdd->getRang() - $oldClassement;
+                    dump($evolClassement);
+                    if ($bdd->getRangMouvement() == null){
+                        $bdd->setRangMouvement($evolClassement);
+                        $em->persist($bdd);
+                        $em->flush();
+                    }
+                }
+
+
+            }
+
+        }
+die;
+
+
+
+            }
 
     /**
      * @Route("/test", name="test")
      */
     public function testAction()
     {
+        $em = $this->getDoctrine()->getManager();
+//        $api = '';
+//        $datas = json_decode($api, true);
+//        foreach ($datas['result']['extractorData']['data'][0]['group'] as $data) {
+//            if (isset($data['Link'])) {
+//                $nomComplet = $data['Link'][0]['text'];
+//                $doublon = $em->getRepository('FdjBundle:TableCorrespondance')->findByImportScraper($nomComplet);
+//                if ($doublon == null) {
+//                    $joueur = new TableCorrespondance();
+//                    $joueur->setImportScraper($nomComplet);
+//                    $em->persist($joueur);
+//                    $em->flush();
+//                }
+//            }
+//        }
+//        die;
+//        $bdds = $em->getRepository('FdjBundle:TableCorrespondance')->findAll();
+////        dump($bdds);
+//        foreach ($bdds as $bdd) {
+//            if ($bdd->getSportRadar() == null) {
+//                $nomEnregistre = $bdd->getImportScraper();
+//                $nomExplod = explode(' ', $nomEnregistre);
+//                $prenom = $nomExplod[0];
+//                if (count($nomExplod) > 1) {
+//                    $nom = $nomExplod[count($nomExplod) - 2];
+//                    $classementjoueur = $em->getRepository('FdjBundle:ClassementJoueurs')->findOneByNom($nom);
+//                    if ($classementjoueur == null) {
+//                        $classementjoueur = $em->getRepository('FdjBundle:ClassementJoueurs')->findOneByPrenom($prenom);
+//                    }
+//                    dump($classementjoueur);
+//                    $bdd->setSportRadar($classementjoueur->getNomJoueurs());
+//                    $bdd->setIdSportRadar($classementjoueur->getIdJoueur());
+//                    $em->persist($bdd);
+//                    $em->flush();
+//
+//                }
+//            }
+//        }
+//        die;
+
+
+//        $semaine = '1';
+//        $annee = '2019';
+//        $type = 'ATP';
+//        $api = '';
+//        $datas = json_decode($api, true);
+////        dump($scrap);
+////        dump($datas['result']['extractorData']['data'][0]['group'][1]);
+//        foreach ($datas['result']['extractorData']['data'][0]['group'] as $data){
+//            if (isset($data['Link'])){
+////                dump($data);
+//                $joueur = new ClassementJoueurs();
+//                $joueur->setType($type);
+//                $joueur->setAnnee($annee);
+//                $joueur->setSemaine($semaine);
+//                $nomComplet = $data['Link'][0]['text'];
+//                $correspondance  = $em->getRepository('FdjBundle:TableCorrespondance')->findOneByImportScraper($nomComplet);
+//                $nomExplod = explode(' ', $nomComplet);
+//                if (count($nomExplod) > 1){
+//                    $nomJoueur = $nomExplod[count($nomExplod)-2];
+//                    dump($nomJoueur);
+//                    if ($correspondance != null){
+//                        $bdds  = $em->getRepository('FdjBundle:ClassementJoueurs')->findOneByIdJoueur($correspondance->getIdSportRadar());
+//                        //                    dump($bdds);
+//                        if ($bdds != null){
+//                            $joueur->setIdJoueur($bdds->getIdJoueur());
+//                            if ($bdds->getNomJoueurs() != null){
+//                                $joueur->setNomJoueurs($bdds->getNomJoueurs());
+//                            }else{
+//                                $joueur->setNom($nomJoueur);
+//                            }
+//                            $joueur->setNomJoueurs($bdds->getNomJoueurs());
+//                            $joueur->setPrenom($bdds->getPrenom());
+//                            $joueur->setNationalite($bdds->getNationalite());
+//                        }else{
+//                            $joueur->setNomJoueurs($data['Link'][0]['text']);
+//                            $tableCorrespondance = new TableCorrespondance();
+//                            $tableCorrespondance->setImportScraper($data['Link'][0]['text']);
+//                            $em->persist($tableCorrespondance);
+//                            $em->flush();
+//                        }
+//                        $joueur->setNom($nomJoueur);
+//                        $joueur->setRang($data['W20'][0]['text']);
+//                        $joueur->setPoints($data['W50'][0]['text']);
+////                $joueur->setRangMouvement($classement["ranking_movement"]);
+////                $joueur->setTournoisJoue($classement["tournaments_played"]);
+//
+//                    }
+//    //                    dump($joueur);
+//                    $joueur->setNom($nomJoueur);
+//                    $joueur->setRang($data['W20'][0]['text']);
+//                    $joueur->setPoints($data['W50'][0]['text']);
+//                    $em->persist($joueur);
+//                    $em->flush();
+//                }
+//            }
+//
+//        }
+//
+//        die;
 //        $api =file_get_contents('https://www.parionssport.fr/api/1n2/resultats');//9 resultat sans cote
 //        $api =file_get_contents('https://www.parionssport.fr/parisouverts/football');//9 resultat sans cote
 //        $api =file_get_contents('https://www.parionssport.fr/api/competitions/1n2/100');//liste des competition nom + id
@@ -192,24 +519,26 @@ die;
 //        $api =file_get_contents('https://www.parionssport.fr/api/combi-bonus/resultats');// beaucoup de resultat sur des pronostic pas de resultat precis
 //        $api =file_get_contents('https://www.parionssport.fr/api/1n2/resultats?sport=600'); //9 résultat sans cote trier par sport
 //        $lastMaj =file_get_contents('https://www.parionssport.fr/api/date/last-update'); //dernière MAJ
-//        $api =file_get_contents('https://www.unibet.fr/zones/calendar/nextbets.json?limitHours=&from=07/02/2017&willBeLive=false&isOnPlayer=false'); //unibet
+        $api =file_get_contents('https://www.unibet.fr/zones/calendar/nextbets.json?limitHours=&from=07/02/2017&willBeLive=false&isOnPlayer=false'); //unibet
 //        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat
 //        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/bet_get/winamaxfr/0'); //winamax
-        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat juste avec ID
+//        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat juste avec ID
 
         $jsonapi =  json_decode($api, true);
 //        $jsonLastMaj =  json_decode($lastMaj, true);
 //        var_dump($jsonapi[0]['formules'][0]['outcomes']);
 //        var_dump($jsonLastMaj);
-//          var_dump($jsonapi['doc'][0]['data'][6]); //winamax nom
-//          var_dump($jsonapi['doc'][0]['data'][6]['match']['teams']); //winamax nom
-//          var_dump($jsonapi['doc'][0]['data'][6]['match']['periods']); //winamax nom
-//          var_dump($jsonapi['doc'][0]['data'][3]['match']['result']);//winamax result
-        var_dump($jsonapi['doc'][0]['data'][0]);//result unibet
-        var_dump($jsonapi['doc'][0]['data']);//result unibet
+//          dump($jsonapi['doc'][0]['data'][6]); //winamax nom
+//          dump($jsonapi['doc'][0]['data'][6]['match']['teams']); //winamax nom
+//          dump($jsonapi['doc'][0]['data'][6]['match']['periods']); //winamax nom
+//          dump($jsonapi['doc'][0]['data'][6]['match']['result']);//winamax result
+//          dump($jsonapi['doc'][0]['data']);//winamax result
+//        dump($jsonapi['doc'][0]['data'][0]);//result unibet
+        dump($jsonapi[1]['selections']);//result unibet
+//        dump($jsonapi['doc'][0]['data']);//result unibet
 
 
-
+die;
 
 
         return $this->render('FdjBundle:Default:index.html.twig');

@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class JoueursTennisRepository extends EntityRepository
 {
+
+//    public function findByJoueur($nom)
+//    {
+//        $qb = $this->createQueryBuilder('j');
+//        $qb->where('j.nom = :nom OR j.nomAdversaire = :nomAdversaire')
+//            ->setParameter('nom', $nom)
+//            ->setParameter('nomAdversaire', $nom);
+//
+//        ;
+//        return  $qb->getQuery()->getResult();
+//    }
 }
