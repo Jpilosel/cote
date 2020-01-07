@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="h1">
+            match : {{ match.label }}
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Joueur 1 : {{ JNoms.0 }}<br>
+                cote : {{ match.un }}<br>
+                Taux de victoire de la cote : {{ txVictoireCote1 }}% sur {{ totalMatchJ1 }} matchs <br>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Date</td>
+                        <td>Competition</td>
+                        <td>Cote</td>
+                        <td>Resultat</td>
+                        <td>Victoire</td>
+                        <td>Adversaire</td>
+                        <td>coteAdversaire</td>
+                    </tr>
+                {% for j1historique in j1Historiques %}
+                    <tr>
+                        <td>{{ j1historique.date|date("d/m/Y") }}</td>
+                        <td><{{ j1historique.competiton }}/td>
+                        <td>{{ j1historique.cote }}</td>
+                        <td>{{ j1historique.resultat }}</td>
+                        <td>{{ j1historique.victoire }}</td>
+                        <td>{{ j1historique.nomAdversaire }}</td>
+                        <td>{{ j1historique.coteAdversaire }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+
+
+
+            </div>
+            <div class="col-6">
+                Joueur 2 : {{ JNoms.1 }}<br>
+                cote : {{ match.deux }}<br>
+                Taux de victoire de la cote : {{ txVictoireCote2 }}% sur {{ totalMatchJ2 }} matchs <br>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Date</td>
+                        <td>Competition</td>
+                        <td>Cote</td>
+                        <td>Resultat</td>
+                        <td>Victoire</td>
+                        <td>Adversaire</td>
+                        <td>coteAdversaire</td>
+                    </tr>
+                    {% for j2historique in j2Historiques %}
+                        <tr>
+                            <td>{{ j2historique.date|date("d/m/Y") }}</td>
+                            <td><{{ j2historique.competiton }}/td>
+                            <td>{{ j2historique.cote }}</td>
+                            <td>{{ j2historique.resultat }}</td>
+                            <td>{{ j2historique.victoire }}</td>
+                            <td>{{ j2historique.nomAdversaire }}</td>
+                            <td>{{ j2historique.coteAdversaire }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}

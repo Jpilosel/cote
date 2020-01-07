@@ -80,6 +80,45 @@ class TennisResultCommand extends ContainerAwareCommand
                             $em->persist($formule);
                             var_dump($tennisScore);
                             $em->flush();
+
+                            $joueur1s = explode("-", $tennisScore->getLabel());
+                            dump($joueur1s);
+                            $date = new \datetime($tennisScore->getDateDeSaisie());
+
+                            $joueur1 = new JoueurTennisScoreCote();
+                            $joueur1->setNom($joueur1s[0]);
+                            $joueur1->setCote($tennisScore->getUn());
+                            $joueur1->setNomAdversaire($joueur1s[1]);
+                            $joueur1->setCoteAdversaire($tennisScore->getDeux());
+                            $joueur1->setDate($date);
+                            $joueur1->setCompetiton($tennisScore->getCompetition());
+                            $joueur1->setResultat($tennisScore->getResultat());
+                            if ($tennisScore->getEquipe1() > $tennisScore->getEquipe2() ){
+                                $joueur1->setVictoire(1);
+                            }elseif ($tennisScore->getEquipe1() < $tennisScore->getEquipe2()){
+                                $joueur1->setVictoire(0);
+                            }
+
+                            $joueur2 = new JoueurTennisScoreCote();
+                            $joueur2->setNom($joueur1s[1]);
+                            $joueur2->setCote($tennisScore->getDeux());
+                            $joueur2->setNomAdversaire($joueur1s[0]);
+                            $joueur2->setCoteAdversaire($tennisScore->getUn());
+                            $joueur2->setDate($date);
+                            $joueur2->setCompetiton($tennisScore->getCompetition());
+                            $joueur2->setResultat($tennisScore->getResultat());
+                            if ($tennisScore->getEquipe1() > $tennisScore->getEquipe2() ){
+                                $joueur2->setVictoire(0);
+                            }elseif ($tennisScore->getEquipe1() < $tennisScore->getEquipe2()){
+                                $joueur2->setVictoire(1);
+                            }
+
+
+                            $tennisScore->setJoueursTennis('2');
+                            $em->persist($joueur1);
+                            $em->persist($joueur2);
+                            $em->persist($tennisScore);
+                            $em->flush();
                         }
                     }
 

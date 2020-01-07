@@ -5,6 +5,7 @@ namespace FdjBundle\Controller;
 use FdjBundle\Entity\ApiResultatTennis;
 use FdjBundle\Entity\ClassementJoueurs;
 use FdjBundle\Entity\JoueursTennis;
+use FdjBundle\Entity\JoueurTennisScoreCote;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ use FdjBundle\Entity\CoteList;
 use Symfony\Component\Validator\Constraints\DateTime;
 use FdjBundle\Entity\TennisScore;
 use FdjBundle\Entity\TableCorrespondance;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class DefaultController extends Controller
 {
@@ -543,4 +545,154 @@ die;
 
         return $this->render('FdjBundle:Default:index.html.twig');
     }
+
+    /**
+     * @Route("/test3", name="test3")
+     */
+    public function test3Action()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $now = new \datetime();
+        $startTxt = $now->format('Y-m-d') . ' 00:00:00';
+        dump($startTxt);
+        $matchs  = $em->getRepository('FdjBundle:Sport')->findByMatchAVenir($startTxt, '600');
+        dump($matchs);
+//        die;
+
+        return $this->render('FdjBundle:Default:listeMatchTennis.html.twig', array(
+            'matchs' => $matchs,
+        ));
+    }
+
+    /**
+     * @Route("/analyseTennis{id}", name="analyseTennis")
+     * @Method({"GET", "POST"})
+     */
+    public function analyseAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $match  = $em->getRepository('FdjBundle:Sport')->findOneById($id);
+//        dump($match);
+        $JNoms = explode("-", $match->getLabel());
+        $J1Nom = $JNoms[0];
+        $J2Nom = $JNoms[1];
+//        dump($J1Nom);
+//        dump($J2Nom);
+        $j1Historiques = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findByNom($J1Nom);
+        $j2Historiques = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findByNom($J2Nom);
+//        dump($j1Historiques);
+//        dump($j2Historiques);
+        $victoireCote1s = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findBycote($match->getUn());
+        $calculVictoireCote1 = 0;
+        $totalMatchJ1 =0;
+        foreach ($victoireCote1s as $victoireCote1){
+            $totalMatchJ1++;
+//            dump($victoireCote1);
+            if ($victoireCote1->getCote() == $match->getUn()){
+                if ($victoireCote1->getVictoire() == '1'){
+                    $calculVictoireCote1++;
+//                    dump($calculVictoireCote1);
+                }
+            }
+        }
+        if ($calculVictoireCote1 == 0){
+            $txVictoireCote1 = 0;
+        }else{
+            $txVictoireCote1 = round($calculVictoireCote1/$totalMatchJ1*100);
+        }
+
+
+
+        $victoireCote2s = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findBycote($match->getDeux());
+        dump($victoireCote2s);
+        $calculVictoireCote2 = 0;
+        $totalMatchJ2 =0;
+        foreach ($victoireCote2s as $victoireCote2){
+            $totalMatchJ2++;
+            dump($victoireCote2);
+            if ($victoireCote2->getCote() == $match->getDeux()){
+                if ($victoireCote2->getVictoire() == '1'){
+                    $calculVictoireCote2++;
+                    dump($calculVictoireCote2);
+                }
+            }
+        }
+        if ($calculVictoireCote2 == 0){
+            $txVictoireCote2 = 0;
+        }else{
+            $txVictoireCote2 = round($calculVictoireCote2/$totalMatchJ2*100);
+        }
+
+
+        return $this->render('FdjBundle:Default:analyseTennis.html.twig', array(
+            'JNoms' => $JNoms,
+            'match' => $match,
+            'j1Historiques' => $j1Historiques,
+            'j2Historiques' => $j2Historiques,
+            'txVictoireCote1' => $txVictoireCote1,
+            'txVictoireCote2' => $txVictoireCote2,
+            'totalMatchJ1' => $totalMatchJ1,
+            'totalMatchJ2' => $totalMatchJ2,
+        ));
+    }
+
+//    /**
+//     * @Route("/temp", name="temp")
+//     * @Method({"GET", "POST"})
+//     */
+//    public function tempAction()
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//        $matchs = $em->getRepository('FdjBundle:TennisScore')->findAll();
+//        foreach ($matchs as $match){
+//            if ($match->getJoueursTennis() == 1){
+//                $joueur1s = explode("-", $match->getLabel());
+//                dump($joueur1s);
+//                $date = new \datetime($match->getDateDeSaisie());
+//
+//                $joueur1 = new JoueurTennisScoreCote();
+//                $joueur1->setNom($joueur1s[0]);
+//                $joueur1->setCote($match->getUn());
+//                $joueur1->setNomAdversaire($joueur1s[1]);
+//                $joueur1->setCoteAdversaire($match->getDeux());
+//                $joueur1->setDate($date);
+//                $joueur1->setCompetiton($match->getCompetition());
+//                $joueur1->setResultat($match->getResultat());
+//                if ($match->getEquipe1() > $match->getEquipe2() ){
+//                    $joueur1->setVictoire(1);
+//                }elseif ($match->getEquipe1() < $match->getEquipe2()){
+//                    $joueur1->setVictoire(0);
+//                }
+//
+//                $joueur2 = new JoueurTennisScoreCote();
+//                $joueur2->setNom($joueur1s[1]);
+//                $joueur2->setCote($match->getDeux());
+//                $joueur2->setNomAdversaire($joueur1s[0]);
+//                $joueur2->setCoteAdversaire($match->getUn());
+//                $joueur2->setDate($date);
+//                $joueur2->setCompetiton($match->getCompetition());
+//                $joueur2->setResultat($match->getResultat());
+//                if ($match->getEquipe1() > $match->getEquipe2() ){
+//                    $joueur2->setVictoire(0);
+//                }elseif ($match->getEquipe1() < $match->getEquipe2()){
+//                    $joueur2->setVictoire(1);
+//                }
+//
+//
+//                $match->setJoueursTennis('2');
+//                $em->persist($joueur1);
+//                $em->persist($joueur2);
+//                $em->persist($match);
+//                $em->flush();
+//                dump($joueur1);
+//                dump($joueur2);
+//            }
+//
+//
+//
+//        }
+//die;
+//
+//    }
+
 }

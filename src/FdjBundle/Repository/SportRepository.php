@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class SportRepository extends EntityRepository
 {
+    public function findByMatchAVenir($date, $sportId)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->where('s.sportId = :sportId AND s.end >= :date AND s.marketTypeId = 1')
+            ->setParameter('sportId', $sportId)
+            ->setParameter('date', $date)
+            ->orderBy('s.end', 'ASC')
+            ;
+
+        ;
+        return  $qb->getQuery()->getResult();
+    }
 }
