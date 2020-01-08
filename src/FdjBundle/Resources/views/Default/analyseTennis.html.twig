@@ -8,8 +8,9 @@
         <div class="row">
             <div class="col-6">
                 Joueur 1 : {{ JNoms.0 }}<br>
-                cote : {{ match.un }}<br>
-                Taux de victoire de la cote : {{ txVictoireCote1 }}% sur {{ totalMatchJ1 }} matchs <br>
+                cote : {{ match.un }} (+/- 0.10)<br>
+                Taux de victoire de la cote : {{ txVictoireCote1 }}% sur {{ totalMatchJ1 }} matchs au global tennis <br>
+                Taux de victoire de la cote (+/- 0.20): {{ coteJ1HistoriqueFinale }}% sur {{ coteJ1HistoriqueTotal }} matchs au global du joueur <br>
                 <table class="table table-striped">
                     <tr>
                         <td>Date</td>
@@ -38,8 +39,9 @@
             </div>
             <div class="col-6">
                 Joueur 2 : {{ JNoms.1 }}<br>
-                cote : {{ match.deux }}<br>
-                Taux de victoire de la cote : {{ txVictoireCote2 }}% sur {{ totalMatchJ2 }} matchs <br>
+                cote : {{ match.deux }} (+/- 0.10)<br>
+                Taux de victoire de la cote (+/- 0.10): {{ txVictoireCote2 }}% sur {{ totalMatchJ2 }} matchs au global tennis <br>
+                Taux de victoire de la cote (+/- 0.20): {{ coteJ2HistoriqueFinale }}% sur {{ coteJ2HistoriqueTotal }} matchs au global du joueur <br>
                 <table class="table table-striped">
                     <tr>
                         <td>Date</td>

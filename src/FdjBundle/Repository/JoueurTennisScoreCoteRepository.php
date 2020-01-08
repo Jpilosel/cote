@@ -12,11 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class JoueurTennisScoreCoteRepository extends EntityRepository
 {
-    public function findByCote($cote)
+    public function findByCote($minCote, $maxCote)
     {
         $qb = $this->createQueryBuilder('j');
-        $qb->where('j.cote = :cote')
-            ->setParameter('cote', $cote)
+        $qb->where('j.cote >= :minCote AND j.cote <= :maxCote')
+            ->setParameter('minCote', $minCote)
+            ->setParameter('maxCote', $maxCote)
 //            ->orderBy('s.end', 'ASC')
         ;
 

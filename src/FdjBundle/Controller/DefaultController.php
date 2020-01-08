@@ -573,6 +573,8 @@ die;
         $em = $this->getDoctrine()->getManager();
         $match  = $em->getRepository('FdjBundle:Sport')->findOneById($id);
 //        dump($match);
+
+//----------------------------joueur1-----------------------------------------//
         $JNoms = explode("-", $match->getLabel());
         $J1Nom = $JNoms[0];
         $J2Nom = $JNoms[1];
@@ -580,15 +582,18 @@ die;
 //        dump($J2Nom);
         $j1Historiques = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findByNom($J1Nom);
         $j2Historiques = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findByNom($J2Nom);
-//        dump($j1Historiques);
+        dump($j1Historiques);
 //        dump($j2Historiques);
-        $victoireCote1s = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findBycote($match->getUn());
+        $coteInitiale1 = str_replace(',', '.',$match->getUn());
+        $minCote1 = $coteInitiale1 -0.1;
+        $maxCote1 = $coteInitiale1 +0.1;
+        $victoireCote1s = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findBycote($minCote1, $maxCote1);
         $calculVictoireCote1 = 0;
         $totalMatchJ1 =0;
         foreach ($victoireCote1s as $victoireCote1){
             $totalMatchJ1++;
 //            dump($victoireCote1);
-            if ($victoireCote1->getCote() == $match->getUn()){
+            if ($victoireCote1->getCote() >= $minCote1 && $victoireCote1->getCote() <= $maxCote1){
                 if ($victoireCote1->getVictoire() == '1'){
                     $calculVictoireCote1++;
 //                    dump($calculVictoireCote1);
@@ -600,20 +605,43 @@ die;
         }else{
             $txVictoireCote1 = round($calculVictoireCote1/$totalMatchJ1*100);
         }
+        $minCote1 = $minCote1 -0.1;
+        $maxCote1 = $maxCote1 +0.1;
+        $coteJ1HistoriqueTotal = 0;
+        $coteJ1Historique = 0;
+        foreach ($j1Historiques as $j1Historique){
+            if ($j1Historique->getCote() >= $minCote1 && $j1Historique->getCote() <= $maxCote1){
+                if ($j1Historique->getCote() >= $minCote1 && $j1Historique->getCote() <= $maxCote1) {
+                    $coteJ1HistoriqueTotal++;
+                    if ($j1Historique->getVictoire() == 1) {
+                        $coteJ1Historique++;
+                    }
+                }
+            }
+        }
+        if ($coteJ1Historique == 0){
+            $coteJ1HistoriqueFinale = 0;
+        }else{
+            $coteJ1HistoriqueFinale = round($coteJ1Historique/$coteJ1HistoriqueTotal*100);
+        }
 
 
+//---------------------------------------------------------joueur2------------------------------------------------//
+        $coteInitiale2 = str_replace(',', '.',$match->getDeux());
+        $minCote2 = $coteInitiale2 -0.1;
+        $maxCote2 = $coteInitiale2 +0.1;
 
-        $victoireCote2s = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findBycote($match->getDeux());
-        dump($victoireCote2s);
+        $victoireCote2s = $em->getRepository('FdjBundle:JoueurTennisScoreCote')->findBycote($minCote2, $maxCote2);
+//        dump($victoireCote2s);
         $calculVictoireCote2 = 0;
         $totalMatchJ2 =0;
         foreach ($victoireCote2s as $victoireCote2){
             $totalMatchJ2++;
-            dump($victoireCote2);
-            if ($victoireCote2->getCote() == $match->getDeux()){
+//            dump($victoireCote2);
+            if ($victoireCote2->getCote() >= $minCote2 && $victoireCote2->getCote() <= $maxCote2){
                 if ($victoireCote2->getVictoire() == '1'){
                     $calculVictoireCote2++;
-                    dump($calculVictoireCote2);
+//                    dump($calculVictoireCote2);
                 }
             }
         }
@@ -621,6 +649,25 @@ die;
             $txVictoireCote2 = 0;
         }else{
             $txVictoireCote2 = round($calculVictoireCote2/$totalMatchJ2*100);
+        }
+
+        $minCote2 = $minCote2 -0.1;
+        $maxCote2 = $maxCote2 +0.1;
+        $coteJ2HistoriqueTotal = 0;
+        $coteJ2Historique = 0;
+        foreach ($j2Historiques as $j2Historique){
+            if ($j2Historique->getCote() >= $minCote2 && $j2Historique->getCote() <= $maxCote2){
+                $coteJ2HistoriqueTotal ++;
+                if ($j2Historique->getVictoire() == 1){
+                    $coteJ2Historique++;
+                }
+
+            }
+        }
+        if ($coteJ2Historique == 0){
+            $coteJ2HistoriqueFinale = 0;
+        }else{
+            $coteJ2HistoriqueFinale = round($coteJ2Historique/$coteJ2HistoriqueTotal*100);
         }
 
 
@@ -633,6 +680,10 @@ die;
             'txVictoireCote2' => $txVictoireCote2,
             'totalMatchJ1' => $totalMatchJ1,
             'totalMatchJ2' => $totalMatchJ2,
+            'coteJ1HistoriqueFinale' => $coteJ1HistoriqueFinale,
+            'coteJ1HistoriqueTotal' => $coteJ1HistoriqueTotal,
+            'coteJ2HistoriqueFinale' => $coteJ2HistoriqueFinale,
+            'coteJ2HistoriqueTotal' => $coteJ2HistoriqueTotal,
         ));
     }
 
@@ -694,5 +745,6 @@ die;
 //die;
 //
 //    }
+
 
 }

@@ -83,13 +83,15 @@ class TennisResultCommand extends ContainerAwareCommand
 
                             $joueur1s = explode("-", $tennisScore->getLabel());
                             dump($joueur1s);
+                            $cote1 = str_replace(',', '.',$tennisScore->getUn());
+                            $cote2 = str_replace(',', '.',$tennisScore->getDeux());
                             $date = new \datetime($tennisScore->getDateDeSaisie());
 
                             $joueur1 = new JoueurTennisScoreCote();
                             $joueur1->setNom($joueur1s[0]);
-                            $joueur1->setCote($tennisScore->getUn());
+                            $joueur1->setCote($cote1);
                             $joueur1->setNomAdversaire($joueur1s[1]);
-                            $joueur1->setCoteAdversaire($tennisScore->getDeux());
+                            $joueur1->setCoteAdversaire($cote2);
                             $joueur1->setDate($date);
                             $joueur1->setCompetiton($tennisScore->getCompetition());
                             $joueur1->setResultat($tennisScore->getResultat());
@@ -101,9 +103,10 @@ class TennisResultCommand extends ContainerAwareCommand
 
                             $joueur2 = new JoueurTennisScoreCote();
                             $joueur2->setNom($joueur1s[1]);
-                            $joueur2->setCote($tennisScore->getDeux());
+
+                            $joueur2->setCote($cote2);
                             $joueur2->setNomAdversaire($joueur1s[0]);
-                            $joueur2->setCoteAdversaire($tennisScore->getUn());
+                            $joueur2->setCoteAdversaire($cote1);
                             $joueur2->setDate($date);
                             $joueur2->setCompetiton($tennisScore->getCompetition());
                             $joueur2->setResultat($tennisScore->getResultat());
