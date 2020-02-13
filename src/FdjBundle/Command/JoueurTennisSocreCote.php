@@ -1,35 +1,31 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: joel
+ * Date: 13/02/20
+ * Time: 15:24
+ */
 
 namespace FdjBundle\Command;
 
+use FdjBundle\Entity\TennisScore;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use FdjBundle\Entity\Formules;
-use FdjBundle\Entity\Sport;
-use FdjBundle\Entity\SportCote;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use FdjBundle\Entity\MatchFini;
-use FdjBundle\Entity\TennisScore;
 
-class TestCommand extends ContainerAwareCommand
+class JoueurTennisSocreCote extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('fdj:test')
-            ->setDescription('Reception des matchs avec les resultat.')
-            ->setHelp("Cette commande lance une requette pour recevoir les matchs correspondant au sport");
+            ->setName('fdj:JoueurTennisScoreCote')
+            ->setDescription('MAJ JoueurTennisScoreCote.')
+            ->setHelp("Cette commande lance une requette pour mettre a jour la table JoueurTennisScoreCote");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(['cote inputt', '============',]);
-        $em = $this->getContainer()->get('doctrine')->getManager();
-//
         $em = $this->getContainer()->get('doctrine')->getManager();
         $matchs = $em->getRepository('FdjBundle:TennisScore')->findAll();
         foreach ($matchs as $match){
@@ -76,9 +72,7 @@ class TestCommand extends ContainerAwareCommand
                 dump($joueur2);
             }
         }
-
-
-
         $output->writeln(['============','resultat fin',]);
     }
+
 }
