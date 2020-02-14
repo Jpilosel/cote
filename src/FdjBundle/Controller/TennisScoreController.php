@@ -42,7 +42,7 @@ class TennisScoreController extends Controller
         $form = $this->createForm('FdjBundle\Form\TennisScore2Type');
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
-        $perdant = $gagnant =$deuxZero = $deuxUn = $zeroDeux = $troisUn = $zeroTrois = $troisDeux = $troisZero = $unDeux = $unTrois = $deuxTrois = $deuxSet = $toisSet = $deuxSetFani = $troisSetFani = 0;
+        $win = $loose = $total = $perdant = $gagnant =$deuxZero = $deuxUn = $zeroDeux = $troisUn = $zeroTrois = $troisDeux = $troisZero = $unDeux = $unTrois = $deuxTrois = $deuxSet = $toisSet = $deuxSetFani = $troisSetFani = 0;
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -55,6 +55,7 @@ class TennisScoreController extends Controller
             $cote2decimal2 = number_format($cote2, 2, ',', '');
             $data['coteMax']=$cote2decimal2;
             $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findByTennisResult($data);
+//            dump($tennisScores);
             foreach ($tennisScores as $tennisScore) {
                 if ($tennisScore->getResultat() == '2 - 0'){
                     $deuxZero++;
@@ -112,6 +113,14 @@ class TennisScoreController extends Controller
                     $toisSet++;
                 }
             }
+            $tennisCoteCumuls = $em->getRepository('FdjBundle:TennisCoteCumul')->findByTennisCumulCote($data);
+
+            foreach ($tennisCoteCumuls as $coteCumul){
+                $win = $win + $coteCumul->getWin();
+                $loose = $loose + $coteCumul->getloose();
+                $total = $total + $coteCumul->getWin() + $coteCumul->getloose();
+
+            }
 
             return $this->render('tennisscore/result.html.twig', array(
                 'tennisScores' => $tennisScores,
@@ -131,7 +140,10 @@ class TennisScoreController extends Controller
                 'deuxSetFani'=>$deuxSetFani,
                 'troisSetFani'=>$troisSetFani,
                 'gagnant'=>$gagnant,
-                'perdant'=>$perdant
+                'perdant'=>$perdant,
+                'win'=> $win,
+                'loose'=>$loose,
+                'total'=>$total
             ));
         }
 
@@ -148,7 +160,10 @@ class TennisScoreController extends Controller
             'unTrois'=>$unTrois,
             'deuxTrois'=>$deuxTrois,
             'deuxSet'=>$deuxSet,
-            'troisSet'=>$toisSet
+            'troisSet'=>$toisSet,
+            'win'=> $win,
+            'loose'=>$loose,
+            'total'=>$total
         ));
     }
 

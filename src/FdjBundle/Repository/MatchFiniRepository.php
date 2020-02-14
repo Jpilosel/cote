@@ -12,4 +12,40 @@ use Doctrine\ORM\EntityRepository;
  */
 class MatchFiniRepository extends EntityRepository
 {
+    public function findByTennisResult($data)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb->where('m.minCote BETWEEN :minCote AND :maxCote')
+            ->setParameter('minCote', $data['coteMin'])
+            ->setParameter('maxCote', $data['coteMax'])
+            ->andWhere('m.nbSetGagnant = :nbSetGagnant')
+            ->setParameter('nbSetGagnant', $data['nbSetGagnant']);
+//        $qb->where('t.minCote <= :minCote')
+//            ->setParameter('minCote', $data['cote'])
+//            ->andWhere('t.nbSetGagnant = :nbSetGagnant')
+//            ->setParameter('nbSetGagnant', $data['nbSetGagnant']);
+
+
+
+
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByMatchFini()
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb->where('m.matchFini = 1')
+            ->andWhere('m.sportId = 1')
+//        $qb->where('t.minCote <= :minCote')
+//            ->setParameter('minCote', $data['cote'])
+//            ->andWhere('t.nbSetGagnant = :nbSetGagnant')
+//            ->setParameter('nbSetGagnant', $data['nbSetGagnant']);
+
+
+
+
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -3,9 +3,11 @@
 namespace FdjBundle\Controller;
 
 use FdjBundle\Entity\ApiResultatTennis;
+use FdjBundle\Entity\Calculette;
 use FdjBundle\Entity\ClassementJoueurs;
 use FdjBundle\Entity\JoueursTennis;
 use FdjBundle\Entity\JoueurTennisScoreCote;
+use FdjBundle\Entity\TennisCoteCumul;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +44,6 @@ class DefaultController extends Controller
                     $max = $temp;
                 }
             }
-
             $resultats = $em->getRepository('FdjBundle:CoteList')->findByCoteListResult($data);
             $nbaris = count($resultats);
             if (!$nbaris){
@@ -414,6 +415,46 @@ die;
     public function testAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $coteListes = $em->getRepository('FdjBundle:CoteList')->findByCoteListTennisCote(600,1,1);
+//        dump($coteListes);
+        foreach ($coteListes as $coteListe){
+            dump($coteListe->getCote());
+            $tennisCoteCumul = $em->getRepository('FdjBundle:TennisCoteCumul')->findOneByCote($coteListe->getCote());
+            dump($tennisCoteCumul);
+            if ($tennisCoteCumul == null){
+                $newTennisCoteCumul = new TennisCoteCumul();
+                $newTennisCoteCumul->setCote($coteListe->getCote());
+                if ($coteListe->getResultat() == 'g'){
+                    $newTennisCoteCumul->setWin(1);
+                    $newTennisCoteCumul->setLoose(0);
+                }elseif($coteListe->getResultat() == 'p'){
+                    $newTennisCoteCumul->setWin(0);
+                    $newTennisCoteCumul->setLoose(1);
+                }
+                dump($newTennisCoteCumul);
+                $em->persist($newTennisCoteCumul);
+                $em->flush();
+            }else{
+                if ($coteListe->getResultat() == 'g'){
+                    $win = $tennisCoteCumul->getWin();
+                    $win++;
+                    $tennisCoteCumul->setWin($win);
+
+                }elseif($coteListe->getResultat() == 'p'){
+                    $loose = $tennisCoteCumul->getLoose();
+                    $loose++;
+                    $tennisCoteCumul->setLoose($loose);
+                }
+                $em->persist($tennisCoteCumul);
+                $em->flush();
+                $coteListe->setStatut(2);
+                $em->persist($coteListe);
+                $em->flush();
+            }
+
+        }
+
+        die;
 //        $api = '';
 //        $datas = json_decode($api, true);
 //        foreach ($datas['result']['extractorData']['data'][0]['group'] as $data) {
@@ -561,6 +602,93 @@ die;
 
         return $this->render('FdjBundle:Default:listeMatchTennis.html.twig', array(
             'matchs' => $matchs,
+        ));
+    }
+
+    /**
+     * @Route("/calculette", name="calculette")
+     */
+    public function calculetteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm('FdjBundle\Form\CalculeteType');
+        $form->handleRequest($request);
+
+
+        $donnees =  $em->getRepository('FdjBundle:Calculette')->findAll();
+
+        if ($donnees === []){
+
+            $calculette = new Calculette();
+            $calculette->setPerte(0);
+            $calculette->setSerieGain(0);
+            $calculette->setPertePrecedente(0);
+            $calculette->setPalier(0);
+            $em->persist($calculette);
+            $em->flush();
+            $donnee = $calculette;
+        }else{
+            $donnee = $donnees[0];
+        }
+//        dump($donnee);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $marge = 0.1; //---------------------------------------valeur a parametrer-----------------------------//
+//            dump($form->getData(''));
+            if ($form->getData()['cote'] != null && $form->getData()['poucentVictoire'] != null ){
+                $nbPalier= ceil(($form->getData()['poucentVictoire']/(100-$form->getData()['poucentVictoire'])));
+                if($donnee->getSerieGain() == 0){
+                    $gainAGenerer = round($donnee->getPerte()/$nbPalier,2, PHP_ROUND_HALF_UP);
+                    $mise = round(($gainAGenerer+0.1)/($form->getData()['cote']-1),3);
+//                    dump($nbPalier);
+//                    dump($gainAGenerer);
+                }elseif ($donnee->getSerieGain() <=3){
+                    $gainAGenerer = round($donnee->getPertePrecedente()/$donnee->getPalier(),2);
+//                    dump($gainAGenerer);
+                    $mise = round(($gainAGenerer+$marge)/($form->getData()['cote']-1),3,PHP_ROUND_HALF_UP);
+                }else{
+                    $mise = round(($marge)/($form->getData()['cote']-1),3,PHP_ROUND_HALF_UP);
+                }
+//                dump($mise);
+                if ($form->getData()['miseEffectue'] != null && $form->getData()['victoire1OuPerte2'] != null ){
+                    if ($form->getData()['victoire1OuPerte2'] == 1){
+                        if ($donnee->getSerieGain() == 0){
+                            $donnee->setPalier($nbPalier);
+                        }
+                        $donnee->setSerieGain($donnee->getSerieGain()+1);
+                        $donnee->setPerte($donnee->getPerte()-($form->getData()['miseEffectue']*$form->getData()['cote']- $form->getData()['miseEffectue']));
+                        if ($donnee->getSerieGain() > $donnee->getPalier(0)){
+                            $donnee->setSerieGain(0);
+                            $donnee->setPertePrecedente(0);
+                            $donnee->setPerte(0);
+                            $donnee->setPalier(0);
+                        }
+                        $em->persist($donnee);
+                        $em->flush();
+                    }elseif ($form->getData()['victoire1OuPerte2'] == 2){
+                        $donnee->setSerieGain(1);
+                        $donnee->setPertePrecedente($donnee->getPerte()+ $form->getData()['miseEffectue']+ $marge);
+                        $donnee->setPerte($donnee->getPerte()+ $form->getData()['miseEffectue']+ $marge);
+                        $donnee->setSerieGain(0);
+                        $donnee->setPalier(0);
+                        $em->persist($donnee);
+                        $em->flush();
+                    }
+                }
+                dump($donnee);
+            }
+
+            return $this->render('FdjBundle:Default:calculette.html.twig', array(
+                'form' => $form->createView(),
+                'donnee' => $donnee,
+                'mise' => $mise,
+            ));
+        }
+
+
+        return $this->render('FdjBundle:Default:calculette.html.twig', array(
+            'form' => $form->createView(),
+            'donnee' => $donnee,
         ));
     }
 

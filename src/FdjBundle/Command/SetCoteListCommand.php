@@ -29,8 +29,10 @@ class SetCoteListCommand extends ContainerAwareCommand
     {
         $output->writeln(['cote inputt','============',]);
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findByMatchFini(1);
+        $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findByMatchFini();
+//        $matchfinis = $em->getRepository('FdjBundle:MatchFini')->findByMatchFini(1);
         var_dump(count($matchfinis));
+
         foreach ($matchfinis as $matchfini) {
             $label = $matchfini->getLabel();
             $tab = explode("-", $label);

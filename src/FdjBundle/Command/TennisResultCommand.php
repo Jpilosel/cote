@@ -27,20 +27,21 @@ class TennisResultCommand extends ContainerAwareCommand
         $output->writeln(['cote inputt', '============',]);
         $em = $this->getContainer()->get('doctrine')->getManager();
 //
-            $formules = $em->getRepository('FdjBundle:Formules')->findBySportId(600);
+        $formules = $em->getRepository('FdjBundle:Formules')->findByFormule();
+//            $formules = $em->getRepository('FdjBundle:Formules')->findBySportId(600);
 
         foreach ($formules as $formule) {
-            if($formule->getMarketTypeGroup() == 'Score exact' && $formule->getScoreTennis() == 1 ){
-
-                $eventId = $formule->getEventId();
+//            if($formule->getMarketTypeGroup() == 'Score exact' && $formule->getScoreTennis() == 1 ){
+//                dump($formule);
+            $eventId = $formule->getEventId();
 //                var_dump($eventId);
-                $matchsFinis = $em->getRepository('FdjBundle:MatchFini')->findByEventId($eventId);
+            $matchsFinis = $em->getRepository('FdjBundle:MatchFini')->findByEventId($eventId);
 //                var_dump($matchsFinis);
-                foreach ($matchsFinis as $matchsFini) {
+            foreach ($matchsFinis as $matchsFini) {
 //                    var_dump($matchsFini);
 //                    var_dump($matchsFini);
-                    $doublon = $em->getRepository('FdjBundle:TennisScore')->findByEventId($eventId);
-                    if ($doublon == null){
+                $doublon = $em->getRepository('FdjBundle:TennisScore')->findByEventId($eventId);
+                if ($doublon == null){
                         if ($matchsFini->getMarketTypeId() == 1){
 //                        var_dump($eventId);
                             $tennisScore = new Tennisscore();
@@ -129,7 +130,7 @@ class TennisResultCommand extends ContainerAwareCommand
                 }
 
 
-            }
+
         }
         $output->writeln(['============','resultat fin',]);
     }

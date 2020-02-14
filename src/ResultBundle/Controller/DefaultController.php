@@ -17,7 +17,6 @@ class DefaultController extends Controller
         $form = $this->createForm('ResultBundle\Form\FiltreIndexType');
 
         $form->handleRequest($request);
-
         $em = $this->getDoctrine()->getManager();
         $txReussite = $nbParis = 0;
         $coteGraph = $nbParisGraph = "";

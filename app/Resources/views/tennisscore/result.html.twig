@@ -36,6 +36,12 @@
 
         {% endif %}
     </div>
+    <div>
+        {% if win != 0 %}
+        <p>Pourcentage de victoire de cote est {{ (win / total *100)|round }}% sur un échantillon de {{ total }} match</p>
+        {% endif %}
+
+    </div>
 {#'deuxUn'=>$deuxUn,#}
 {#'zeroDeux'=>$zeroDeux,#}
 {#'troisUn'=>$troisUn,#}

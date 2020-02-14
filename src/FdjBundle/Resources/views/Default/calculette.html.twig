@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <p>Serie de gain : {{ donnee.serieGain }}</p>
+        <p>Montant perdu : {{ donnee.perte }}</p>
+        <p>Montant perte en début de cycle : {{ donnee.pertePrecedente }}</p>
+        <p>Nombre de pallier : {{ donnee.palier }}</p>
+    </div>
+    <div>
+        <p>-------------------------------------</p>
+        <p>la prochaine mise doit etre de : {{ mise }}</p>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-primary" type="submit">
+    {{ form_end(form) }}
+
+
+
+
+{% endblock %}

@@ -35,4 +35,17 @@ class CoteListRepository extends EntityRepository
         ;
         return  $qb->getQuery()->getResult();
     }
+
+    public function findByCoteListTennisCote($sportId, $marketTypeId, $statut)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.sportId = :sportId AND c.marketTypeId = :marketTypeId AND c.statut = :statut')
+            ->setParameter('sportId', $sportId)
+            ->setParameter('statut', $statut)
+            ->setParameter('marketTypeId', $marketTypeId);
+
+
+        ;
+        return  $qb->getQuery()->getResult();
+    }
 }

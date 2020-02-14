@@ -12,4 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class FormulesRepository extends EntityRepository
 {
+    public function findByFormule()
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->where('f.sportId = :sport')
+            ->setParameter('sport', '600')
+            ->andWhere('f.marketTypeGroup = :marketTypeGroup')
+            ->setParameter('marketTypeGroup', 'Score Exact')
+            ->andWhere('f.scoreTennis = :scoreTennis')
+            ->setParameter('scoreTennis', '1');
+
+
+
+
+
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }

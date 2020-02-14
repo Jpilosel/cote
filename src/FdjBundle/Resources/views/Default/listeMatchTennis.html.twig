@@ -13,6 +13,8 @@
                     <td>Date</td>
                     <td>Competiton</td>
                     <td>NomJoueurs</td>
+                    <td>Cote 1</td>
+                    <td>Cote 2</td>
                     <td>Annalyse</td>
 
                 </tr>
@@ -24,6 +26,8 @@
                         <td>{{ match.end|date("d/m/Y") }}</td>
                         <td>{{ match.competition }}</td>
                         <td>{{ match.label }}</td>
+                        <td>{{ match.un }}</td>
+                        <td>{{ match.deux }}</td>
                         <td><a href="{{ path('analyseTennis', {id: match.id}) }}" class="btn btn-success">Voir</a></td>
                     </tr>
                 {% endfor %}
