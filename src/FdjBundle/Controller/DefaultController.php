@@ -424,6 +424,7 @@ die;
             if ($tennisCoteCumul == null){
                 $newTennisCoteCumul = new TennisCoteCumul();
                 $newTennisCoteCumul->setCote($coteListe->getCote());
+                $newTennisCoteCumul->setMarketTypeId(1);
                 if ($coteListe->getResultat() == 'g'){
                     $newTennisCoteCumul->setWin(1);
                     $newTennisCoteCumul->setLoose(0);
@@ -453,6 +454,7 @@ die;
             }
 
         }
+        
 
         die;
 //        $api = '';
