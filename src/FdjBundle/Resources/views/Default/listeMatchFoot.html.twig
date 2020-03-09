@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {#{{ form_start(form) }}#}
+    {#{{ form_widget(form) }}#}
+    {#<input class="btn btn-primary" type="submit">#}
+    {#{{ form_end(form) }}#}
+    {% if matchs != null %}
+        <div>
+            <table class="table table-striped">
+                <tr>
+                    <td>Date</td>
+                    <td>Competiton</td>
+                    <td>NomJoueurs</td>
+                    <td>Cote 1</td>
+                    <td>Nul</td>
+                    <td>Cote 2</td>
+                    <td>Annalyse</td>
+
+                </tr>
+
+
+
+                {% for match in matchs %}
+                    <tr>
+                        <td>{{ match.end|date("d/m/Y") }}</td>
+                        <td>{{ match.competition }}</td>
+                        <td>{{ match.label }}</td>
+                        <td>{{ match.un }}</td>
+                        <td>{{ match.nul }}</td>
+                        <td>{{ match.deux }}</td>
+                        <td><a href="{{ path('analyseFoot', {id: match.id}) }}" class="btn btn-success">Voir</a></td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

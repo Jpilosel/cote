@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="h1">
+            match : {{ match.label }}
+        </div>
+        <div class="h2">
+            Pourcentage de chance de victoire :
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <td>Type</td>
+                <td>1 ou plus </td>
+                <td>2 ou moins </td>
+            </tr>
+
+            {% for key, allPari in allParis %}
+                <tr>
+                    <td>{{ allPari.marketType}}</td>
+                    {% if allPari.marketTypeId == 17 or allPari.marketTypeId == 7 %}
+                        <td> Plus : {{ allPari.coteCumul}} % </td>
+                        <td> Moins : {{ 100 - allPari.coteCumul }} %</td>
+                    {% else %}
+                        <td> 1 : {{ allPari.coteCumul}} % {{ allPari.un }}</td>
+                        <td> 2 : {{ 100 - allPari.coteCumul }} % {{ allPari.deux }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+{% endblock %}

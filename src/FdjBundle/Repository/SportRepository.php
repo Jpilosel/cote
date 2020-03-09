@@ -19,8 +19,19 @@ class SportRepository extends EntityRepository
             ->setParameter('sportId', $sportId)
             ->setParameter('date', $date)
             ->orderBy('s.end', 'ASC')
+            ->orderBy('s.competition', 'ASC')
             ;
 
+        ;
+        return  $qb->getQuery()->getResult();
+    }
+
+    public function findByCoteListTennisCote($eventId, $marketType)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->where('s.eventId = :eventId AND s.marketType = :marketType')
+            ->setParameter('eventId', $eventId)
+            ->setParameter('marketType', $marketType);
         ;
         return  $qb->getQuery()->getResult();
     }

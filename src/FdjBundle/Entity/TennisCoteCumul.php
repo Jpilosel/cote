@@ -24,7 +24,14 @@ class TennisCoteCumul
     /**
      * @var string
      *
-     * @ORM\Column(name="cote", type="string", length=255, unique=true)
+     * @ORM\Column(name="marketTypeId", type="integer")
+     */
+    private $marketTypeId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cote", type="string", length=255)
      */
     private $cote;
 
@@ -121,4 +128,21 @@ class TennisCoteCumul
     {
         return $this->loose;
     }
+
+    /**
+     * @return string
+     */
+    public function getMarketTypeId()
+    {
+        return $this->marketTypeId;
+    }
+
+    /**
+     * @param string $marketTypeId
+     */
+    public function setMarketTypeId($marketTypeId)
+    {
+        $this->marketTypeId = $marketTypeId;
+    }
+
 }

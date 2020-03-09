@@ -5,71 +5,98 @@
         <div class="h1">
             match : {{ match.label }}
         </div>
-        <div class="row">
-            <div class="col-6">
-                Joueur 1 : {{ JNoms.0 }}<br>
-                cote : {{ match.un }} (+/- 0.10)<br>
-                Taux de victoire de la cote : {{ txVictoireCote1 }}% sur {{ totalMatchJ1 }} matchs au global tennis <br>
-                Taux de victoire de la cote (+/- 0.20): {{ coteJ1HistoriqueFinale }}% sur {{ coteJ1HistoriqueTotal }} matchs au global du joueur <br>
-                <table class="table table-striped">
-                    <tr>
-                        <td>Date</td>
-                        <td>Competition</td>
-                        <td>Cote</td>
-                        <td>Resultat</td>
-                        <td>Victoire</td>
-                        <td>Adversaire</td>
-                        <td>coteAdversaire</td>
-                    </tr>
-                {% for j1historique in j1Historiques %}
-                    <tr>
-                        <td>{{ j1historique.date|date("d/m/Y") }}</td>
-                        <td><{{ j1historique.competiton }}/td>
-                        <td>{{ j1historique.cote }}</td>
-                        <td>{{ j1historique.resultat }}</td>
-                        <td>{{ j1historique.victoire }}</td>
-                        <td>{{ j1historique.nomAdversaire }}</td>
-                        <td>{{ j1historique.coteAdversaire }}</td>
-                    </tr>
-                {% endfor %}
-                </table>
-
-
-
-            </div>
-            <div class="col-6">
-                Joueur 2 : {{ JNoms.1 }}<br>
-                cote : {{ match.deux }} (+/- 0.10)<br>
-                Taux de victoire de la cote (+/- 0.10): {{ txVictoireCote2 }}% sur {{ totalMatchJ2 }} matchs au global tennis <br>
-                Taux de victoire de la cote (+/- 0.20): {{ coteJ2HistoriqueFinale }}% sur {{ coteJ2HistoriqueTotal }} matchs au global du joueur <br>
-                <table class="table table-striped">
-                    <tr>
-                        <td>Date</td>
-                        <td>Competition</td>
-                        <td>Cote</td>
-                        <td>Resultat</td>
-                        <td>Victoire</td>
-                        <td>Adversaire</td>
-                        <td>coteAdversaire</td>
-                    </tr>
-                    {% for j2historique in j2Historiques %}
-                        <tr>
-                            <td>{{ j2historique.date|date("d/m/Y") }}</td>
-                            <td><{{ j2historique.competiton }}/td>
-                            <td>{{ j2historique.cote }}</td>
-                            <td>{{ j2historique.resultat }}</td>
-                            <td>{{ j2historique.victoire }}</td>
-                            <td>{{ j2historique.nomAdversaire }}</td>
-                            <td>{{ j2historique.coteAdversaire }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-
-
-
-
-            </div>
+        <div class="h2">
+            Pourcentage de chance de victoire :
         </div>
+        <table class="table table-striped">
+            <tr>
+                <td>Type</td>
+                <td>1 ou plus </td>
+                <td>2 ou moins </td>
+            </tr>
+
+            {% for key, allPari in allParis %}
+                {% if allPari.coteCumul != 'sup' %}
+                    <tr>
+                        <td>{{ allPari.marketType}}</td>
+                        {% if allPari.marketTypeId == 17 or allPari.marketTypeId == 7 %}
+                            <td> Plus : {{ allPari.coteCumul}} %</td>
+                            <td> Moins : {{ 100 - allPari.coteCumul }} %</td>
+                        {% else %}
+                            <td> 1 : {{ allPari.coteCumul}} %</td>
+                            <td> 2 : {{ 100 - allPari.coteCumul }} %</td>
+                        {% endif %}
+
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+        </table>
+        {#<div class="row">#}
+            {#<div class="col-6">#}
+                {#Joueur 1 : {{ JNoms.0 }}<br>#}
+                {#cote : {{ match.un }} (+/- 0.10)<br>#}
+                {#Taux de victoire de la cote : {{ txVictoireCote1 }}% sur {{ totalMatchJ1 }} matchs au global tennis <br>#}
+                {#Taux de victoire de la cote (+/- 0.20): {{ coteJ1HistoriqueFinale }}% sur {{ coteJ1HistoriqueTotal }} matchs au global du joueur <br>#}
+                {#<table class="table table-striped">#}
+                    {#<tr>#}
+                        {#<td>Date</td>#}
+                        {#<td>Competition</td>#}
+                        {#<td>Cote</td>#}
+                        {#<td>Resultat</td>#}
+                        {#<td>Victoire</td>#}
+                        {#<td>Adversaire</td>#}
+                        {#<td>coteAdversaire</td>#}
+                    {#</tr>#}
+                {#{% for j1historique in j1Historiques %}#}
+                    {#<tr>#}
+                        {#<td>{{ j1historique.date|date("d/m/Y") }}</td>#}
+                        {#<td><{{ j1historique.competiton }}/td>#}
+                        {#<td>{{ j1historique.cote }}</td>#}
+                        {#<td>{{ j1historique.resultat }}</td>#}
+                        {#<td>{{ j1historique.victoire }}</td>#}
+                        {#<td>{{ j1historique.nomAdversaire }}</td>#}
+                        {#<td>{{ j1historique.coteAdversaire }}</td>#}
+                    {#</tr>#}
+                {#{% endfor %}#}
+                {#</table>#}
+
+
+
+            {#</div>#}
+            {#<div class="col-6">#}
+                {#Joueur 2 : {{ JNoms.1 }}<br>#}
+                {#cote : {{ match.deux }} (+/- 0.10)<br>#}
+                {#Taux de victoire de la cote (+/- 0.10): {{ txVictoireCote2 }}% sur {{ totalMatchJ2 }} matchs au global tennis <br>#}
+                {#Taux de victoire de la cote (+/- 0.20): {{ coteJ2HistoriqueFinale }}% sur {{ coteJ2HistoriqueTotal }} matchs au global du joueur <br>#}
+                {#<table class="table table-striped">#}
+                    {#<tr>#}
+                        {#<td>Date</td>#}
+                        {#<td>Competition</td>#}
+                        {#<td>Cote</td>#}
+                        {#<td>Resultat</td>#}
+                        {#<td>Victoire</td>#}
+                        {#<td>Adversaire</td>#}
+                        {#<td>coteAdversaire</td>#}
+                    {#</tr>#}
+                    {#{% for j2historique in j2Historiques %}#}
+                        {#<tr>#}
+                            {#<td>{{ j2historique.date|date("d/m/Y") }}</td>#}
+                            {#<td><{{ j2historique.competiton }}/td>#}
+                            {#<td>{{ j2historique.cote }}</td>#}
+                            {#<td>{{ j2historique.resultat }}</td>#}
+                            {#<td>{{ j2historique.victoire }}</td>#}
+                            {#<td>{{ j2historique.nomAdversaire }}</td>#}
+                            {#<td>{{ j2historique.coteAdversaire }}</td>#}
+                        {#</tr>#}
+                    {#{% endfor %}#}
+                {#</table>#}
+
+
+
+
+            {#</div>#}
+        {#</div>#}
 
 
     </div>

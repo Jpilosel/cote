@@ -22,11 +22,20 @@ class FormulesRepository extends EntityRepository
             ->andWhere('f.scoreTennis = :scoreTennis')
             ->setParameter('scoreTennis', '1');
 
+        ;
+        return $qb->getQuery()->getResult();
+    }
 
-
+    public function findByCoteListTennisCote($sportId, $marketTypeId, $Ok)
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->where('f.sportId = :sportId AND f.marketTypeId = :marketTypeId AND f.ok = :Ok')
+            ->setParameter('sportId', $sportId)
+            ->setParameter('Ok', $Ok)
+            ->setParameter('marketTypeId', $marketTypeId);
 
 
         ;
-        return $qb->getQuery()->getResult();
+        return  $qb->getQuery()->getResult();
     }
 }

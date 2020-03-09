@@ -12,21 +12,30 @@ use Doctrine\ORM\EntityRepository;
  */
 class TennisCoteCumulRepository extends EntityRepository
 {
-    public function findByTennisCumulCote($data)
+    public function findByTennisCumulCote($data, $marketTypeId)
     {
         $qb = $this->createQueryBuilder('m');
-        $qb->where('m.cote BETWEEN :minCote AND :maxCote')
+        $qb->where('(m.cote BETWEEN :minCote AND :maxCote) AND m.marketTypeId = :marketTypeId')
             ->setParameter('minCote', $data['coteMin'])
             ->setParameter('maxCote', $data['coteMax'])
+            ->setParameter('marketTypeId', $marketTypeId)
 //        $qb->where('t.minCote <= :minCote')
 //            ->setParameter('minCote', $data['cote'])
 //            ->andWhere('t.nbSetGagnant = :nbSetGagnant')
 //            ->setParameter('nbSetGagnant', $data['nbSetGagnant']);
-
-
-
-
         ;
         return $qb->getQuery()->getResult();
     }
+
+    public function findByCoteMarketTypeId($cote, $marketTypeId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->where('t.cote = :cote AND t.marketTypeId = :marketTypeId')
+            ->setParameter('cote', $cote)
+            ->setParameter('marketTypeId', $marketTypeId)
+            ->setMaxResults(1);
+        ;
+        return  $qb->getQuery()->getResult();
+    }
+
 }

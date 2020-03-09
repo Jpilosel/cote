@@ -156,6 +156,13 @@ class Sport
     private $dateSasie;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="coteCumul", type="integer", nullable=true)
+     */
+    private $coteCumul;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -537,6 +544,22 @@ class Sport
     public function setDateSasie($dateSasie)
     {
         $this->dateSasie = $dateSasie;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCoteCumul()
+    {
+        return $this->coteCumul;
+    }
+
+    /**
+     * @param string $coteCumul
+     */
+    public function setCoteCumul($coteCumul)
+    {
+        $this->coteCumul = $coteCumul;
     }
 
 

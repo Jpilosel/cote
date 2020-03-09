@@ -17,7 +17,9 @@
         <p>le taux de défaite par 2-0 est de {{ (100-(deuxSetFani/deuxSet*100))|round }}%</p>
         <p>la statistique à été faite sur {{ deuxSet }} paris</p>
 
-        <p>Il y a {{ gagnant }} cote basse gagnante contre {{ perdant }} cote max gagnante soit un taux de réussite des petites cotes de {{ (gagnant/(gagnant+perdant)*100)|round }}%</p>
+        {% if gagnant != 0 %}
+            <p>Il y a {{ gagnant }} cote basse gagnante contre {{ perdant }} cote max gagnante soit un taux de réussite des petites cotes de {{ (gagnant/(gagnant+perdant)*100)|round }}%</p>
+        {% endif %}
 
     {% endif %}
     </div>
@@ -38,9 +40,21 @@
     </div>
     <div>
         {% if win != 0 %}
-        <p>Pourcentage de victoire de cote est {{ (win / total *100)|round }}% sur un échantillon de {{ total }} match</p>
+            <h2>1/N/2</h2>
+            <p>Pourcentage de victoire de cote est {{ (win / total *100)|round }}% sur un échantillon de {{ total }} match</p>
         {% endif %}
-
+    </div>
+    <div>
+        {% if marketTypeId != 0 %}
+            <h2>plus ou moins</h2>
+            <p>Pourcentage de victoire de cote est {{ (marketTypeId.win / marketTypeId.total *100)|round }}% sur un échantillon de {{ marketTypeId.total }} match</p>
+        {% endif %}
+    </div>
+    <div>
+        {% if marketTypeId17 != 0 %}
+            <h2>plus ou moins premier set</h2>
+            <p>Pourcentage de victoire de cote est {{ (marketTypeId17.win / marketTypeId17.total *100)|round }}% sur un échantillon de {{ marketTypeId17.total }} match</p>
+        {% endif %}
     </div>
 {#'deuxUn'=>$deuxUn,#}
 {#'zeroDeux'=>$zeroDeux,#}

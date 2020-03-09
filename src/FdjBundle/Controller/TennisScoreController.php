@@ -42,7 +42,7 @@ class TennisScoreController extends Controller
         $form = $this->createForm('FdjBundle\Form\TennisScore2Type');
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
-        $win = $loose = $total = $perdant = $gagnant =$deuxZero = $deuxUn = $zeroDeux = $troisUn = $zeroTrois = $troisDeux = $troisZero = $unDeux = $unTrois = $deuxTrois = $deuxSet = $toisSet = $deuxSetFani = $troisSetFani = 0;
+        $marketTypeId17 = $marketTypeId = $win = $loose = $total = $perdant = $gagnant =$deuxZero = $deuxUn = $zeroDeux = $troisUn = $zeroTrois = $troisDeux = $troisZero = $unDeux = $unTrois = $deuxTrois = $deuxSet = $toisSet = $deuxSetFani = $troisSetFani = 0;
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -55,7 +55,7 @@ class TennisScoreController extends Controller
             $cote2decimal2 = number_format($cote2, 2, ',', '');
             $data['coteMax']=$cote2decimal2;
             $tennisScores = $em->getRepository('FdjBundle:TennisScore')->findByTennisResult($data);
-//            dump($tennisScores);
+            dump($tennisScores);
             foreach ($tennisScores as $tennisScore) {
                 if ($tennisScore->getResultat() == '2 - 0'){
                     $deuxZero++;
@@ -113,13 +113,31 @@ class TennisScoreController extends Controller
                     $toisSet++;
                 }
             }
-            $tennisCoteCumuls = $em->getRepository('FdjBundle:TennisCoteCumul')->findByTennisCumulCote($data);
-
+            $tennisCoteCumuls = $em->getRepository('FdjBundle:TennisCoteCumul')->findByTennisCumulCote($data,1);
             foreach ($tennisCoteCumuls as $coteCumul){
                 $win = $win + $coteCumul->getWin();
                 $loose = $loose + $coteCumul->getloose();
                 $total = $total + $coteCumul->getWin() + $coteCumul->getloose();
+            }
 
+            $tennisCoteCumul7s = $em->getRepository('FdjBundle:TennisCoteCumul')->findByTennisCumulCote($data,7);
+
+            $win7 = $loose7= $total7 = 0;
+            foreach ($tennisCoteCumul7s as $coteCumul7){
+                $marketTypeId = [];
+                $marketTypeId['win'] = $win7 + $coteCumul7->getWin();
+                $marketTypeId['loose'] = $loose7 + $coteCumul7->getloose();
+                $marketTypeId['total'] = $total7 + $coteCumul7->getWin() + $coteCumul7->getloose();
+            }
+
+            $tennisCoteCumul17s = $em->getRepository('FdjBundle:TennisCoteCumul')->findByTennisCumulCote($data,17);
+
+            $win17 = $loose17= $total17 = 0;
+            foreach ($tennisCoteCumul17s as $coteCumul17){
+                $marketTypeId17 = [];
+                $marketTypeId17['win'] = $win17 + $coteCumul17->getWin();
+                $marketTypeId17['loose'] = $loose17 + $coteCumul17->getloose();
+                $marketTypeId17['total'] = $total17 + $coteCumul17->getWin() + $coteCumul17->getloose();
             }
 
             return $this->render('tennisscore/result.html.twig', array(
@@ -143,7 +161,9 @@ class TennisScoreController extends Controller
                 'perdant'=>$perdant,
                 'win'=> $win,
                 'loose'=>$loose,
-                'total'=>$total
+                'total'=>$total,
+                'marketTypeId'=>$marketTypeId,
+                'marketTypeId17'=>$marketTypeId17,
             ));
         }
 
@@ -163,7 +183,9 @@ class TennisScoreController extends Controller
             'troisSet'=>$toisSet,
             'win'=> $win,
             'loose'=>$loose,
-            'total'=>$total
+            'total'=>$total,
+            'marketTypeId'=>$marketTypeId,
+                'marketTypeId17'=>$marketTypeId17,
         ));
     }
 
