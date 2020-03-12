@@ -36,6 +36,13 @@ class TennisCoteCumul
     private $cote;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="sport", type="integer", nullable=true)
+     */
+    private $sport;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="win", type="integer")
@@ -144,5 +151,22 @@ class TennisCoteCumul
     {
         $this->marketTypeId = $marketTypeId;
     }
+
+    /**
+     * @return string
+     */
+    public function getSport()
+    {
+        return $this->sport;
+    }
+
+    /**
+     * @param string $sport
+     */
+    public function setSport($sport)
+    {
+        $this->sport = $sport;
+    }
+
 
 }

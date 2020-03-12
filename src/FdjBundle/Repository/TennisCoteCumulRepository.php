@@ -27,11 +27,12 @@ class TennisCoteCumulRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findByCoteMarketTypeId($cote, $marketTypeId)
+    public function findByCoteMarketTypeId($cote, $marketTypeId, $sport)
     {
         $qb = $this->createQueryBuilder('t');
-        $qb->where('t.cote = :cote AND t.marketTypeId = :marketTypeId')
+        $qb->where('t.cote = :cote AND t.marketTypeId = :marketTypeId AND t.sport = :sport')
             ->setParameter('cote', $cote)
+            ->setParameter('sport', $sport)
             ->setParameter('marketTypeId', $marketTypeId)
             ->setMaxResults(1);
         ;

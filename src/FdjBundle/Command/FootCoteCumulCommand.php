@@ -17,12 +17,13 @@ use Symfony\Component\HttpFoundation\Request;
 use FdjBundle\Entity\MatchFini;
 use FdjBundle\Entity\TennisScore;
 
-class TennisCoteCumulCommand extends ContainerAwareCommand
+class FootCoteCumulCommand extends ContainerAwareCommand
 {
+
     protected function configure()
     {
         $this
-            ->setName('fdj:tennisCoteCumul')
+            ->setName('fdj:footCoteCumul')
             ->setDescription('Reception des matchs avec les resultat.')
             ->setHelp("Cette commande lance une requette pour recevoir les matchs correspondant au sport");
     }
@@ -31,18 +32,25 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
     {
         $output->writeln(['cote inputt', '============',]);
         $em = $this->getContainer()->get('doctrine')->getManager();
-//        $formules = $em->getRepository('FdjBundle:TennisCoteCumul')->findAll();
+//        $formules = $em->getRepository('FdjBundle:Formules')->findByCoteListTennisCote(100,7,3);
 //        foreach ($formules as $formule){
-//            $formule->setSport(600);
+//            $formule->setOk(2);
 //            $em->persist($formule);
 //            $em->flush();
 //        }
 //        die;
 //        $marketTypeIds = [7, 17];
-        $marketTypeIds = [1, 7, 17, 29, 8];
+
+//        $marketTypeIds = [34,7,17,33,37,21,22];
+        $marketTypeIds = [1,2,3,15,7,17 ,34,33];
+        if ($marketTypeIds == 1 || $marketTypeIds == 2 ||$marketTypeIds == 3 ||$marketTypeIds == 15 ||$marketTypeIds == 6 ||$marketTypeIds == 9 ||$marketTypeIds == 35){
+            $nbCote = 3;
+        }else{
+            $nbCote = 2;
+        }
         foreach ($marketTypeIds as $marketTypeId){
             dump($marketTypeId);
-            $formules = $em->getRepository('FdjBundle:Formules')->findByCoteListTennisCote(600,$marketTypeId,2);
+            $formules = $em->getRepository('FdjBundle:Formules')->findByCoteListTennisCote(100,$marketTypeId,2);
             foreach ($formules as $formule){
 //                dump($formule);
                 if($marketTypeId == 1){
@@ -51,18 +59,18 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                     $sports = $em->getRepository('FdjBundle:Sport')->findByCoteListTennisCote($formule->getEventId(), $formule->getMarketType());
                 }
 //                dump($sports);
-                if ($sports != []){
+                if ($sports != [] && $sports[0]->getUn() != null){
 //                    dump($formule);
 //                    dump($sports);
-                    if($marketTypeId == 1 || $marketTypeId == 29){
+                    if($marketTypeId == 9 ||$marketTypeId == 1 ||$marketTypeId == 22 ||$marketTypeId == 21 ||$marketTypeId == 37 ||$marketTypeId == 33 ||$marketTypeId == 34){
                         $result[0] = $formule->getResult();
-                    }elseif ($marketTypeId == 7 || $marketTypeId == 17 || $marketTypeId == 8){
+                    }elseif ($marketTypeId == 7 || $marketTypeId == 17){
                         $result = explode(' ', $formule->getResult());
                     }
 //                    dump($result);
-                    if ($result[0] == 'Plus' || $result[0] == 1){
+                    if ($result[0] == 'Plus' || $result[0] == 1 || $result[0] == 'Oui'){
 //                    dump($result);
-                        $tennisCoteCumulUn = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getUn(),$marketTypeId,600);
+                        $tennisCoteCumulUn = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getUn(),$marketTypeId,100);
                         dump($tennisCoteCumulUn);
                         if ($tennisCoteCumulUn == []){
                             $newTennisCoteCumul = new TennisCoteCumul();
@@ -70,7 +78,7 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                             $newTennisCoteCumul->setMarketTypeId($marketTypeId);
                             $newTennisCoteCumul->setWin(1);
                             $newTennisCoteCumul->setLoose(0);
-                            $newTennisCoteCumul->setSport(600);
+                            $newTennisCoteCumul->setSport(100);
 //                        dump($newTennisCoteCumul);
                             $em->persist($newTennisCoteCumul);
                             $em->flush();
@@ -80,7 +88,7 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                             $em->persist($tennisCoteCumulUn[0]);
                             $em->flush();
                         }
-                        $tennisCoteCumulDeux = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getDeux(),$marketTypeId,600);
+                        $tennisCoteCumulDeux = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getDeux(),$marketTypeId,100);
 //                    dump($tennisCoteCumulDeux);
                         if ($tennisCoteCumulDeux == []){
                             $newTennisCoteCumul = new TennisCoteCumul();
@@ -88,7 +96,7 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                             $newTennisCoteCumul->setMarketTypeId($marketTypeId);
                             $newTennisCoteCumul->setWin(0);
                             $newTennisCoteCumul->setLoose(1);
-                            $newTennisCoteCumul->setSport(600);
+                            $newTennisCoteCumul->setSport(100);
 //                        dump($newTennisCoteCumul);
                             $em->persist($newTennisCoteCumul);
                             $em->flush();
@@ -98,10 +106,31 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                             $em->persist($tennisCoteCumulDeux[0]);
                             $em->flush();
                         }
+//                        dump($sports);
+                        if ($nbCote == 3){
+                            $tennisCoteCumulDeux = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getNul(),$marketTypeId,100);
+//                    dump($tennisCoteCumulDeux);
+                            if ($tennisCoteCumulDeux == []){
+                                $newTennisCoteCumul = new TennisCoteCumul();
+                                $newTennisCoteCumul->setCote($sports[0]->getNul());
+                                $newTennisCoteCumul->setMarketTypeId($marketTypeId);
+                                $newTennisCoteCumul->setWin(0);
+                                $newTennisCoteCumul->setLoose(1);
+                                $newTennisCoteCumul->setSport(100);
+//                        dump($newTennisCoteCumul);
+                                $em->persist($newTennisCoteCumul);
+                                $em->flush();
+                            }else{
+//                        $tennisCoteCumulDeux = $tennisCoteCumulDeux[0];
+                                $tennisCoteCumulDeux[0]->setLoose($tennisCoteCumulDeux[0]->getLoose()+1);
+                                $em->persist($tennisCoteCumulDeux[0]);
+                                $em->flush();
+                            }
+                        }
 
-                    }elseif($result[0] == 'Moins' || $result[0] == 2){
+                    }elseif($result[0] == 'Moins' || $result[0] == 2 || $result[0] == 'Non'){
 //                    dump($result);
-                        $tennisCoteCumulUn = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getUn(),$marketTypeId,600);
+                        $tennisCoteCumulUn = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getUn(),$marketTypeId,100);
                         dump($tennisCoteCumulUn);
                         if ($tennisCoteCumulUn == []){
                             $newTennisCoteCumul = new TennisCoteCumul();
@@ -109,7 +138,7 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                             $newTennisCoteCumul->setMarketTypeId($marketTypeId);
                             $newTennisCoteCumul->setWin(0);
                             $newTennisCoteCumul->setLoose(1);
-                            $newTennisCoteCumul->setSport(600);
+                            $newTennisCoteCumul->setSport(100);
 //                        dump($newTennisCoteCumul);
                             $em->persist($newTennisCoteCumul);
                             $em->flush();
@@ -121,7 +150,7 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                             $em->flush();
                         }
 //                    dump($sports[0]->getDeux());
-                        $tennisCoteCumulDeux = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getDeux(),$marketTypeId,600);
+                        $tennisCoteCumulDeux = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getDeux(),$marketTypeId,100);
 //                    dump($tennisCoteCumulDeux);
                         if ($tennisCoteCumulDeux == []){
                             $newTennisCoteCumul = new TennisCoteCumul();
@@ -129,7 +158,7 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                             $newTennisCoteCumul->setMarketTypeId($marketTypeId);
                             $newTennisCoteCumul->setWin(1);
                             $newTennisCoteCumul->setLoose(0);
-                            $newTennisCoteCumul->setSport(600);
+                            $newTennisCoteCumul->setSport(100);
 //                        dump($newTennisCoteCumul);
                             $em->persist($newTennisCoteCumul);
                             $em->flush();
@@ -138,6 +167,45 @@ class TennisCoteCumulCommand extends ContainerAwareCommand
                             $tennisCoteCumulDeux[0]->setWin($tennisCoteCumulDeux[0]->getWin()+1);
                             $em->persist($tennisCoteCumulDeux[0]);
                             $em->flush();
+                        }
+                        if ($nbCote == 3){
+                            $tennisCoteCumulDeux = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getNul(),$marketTypeId,100);
+//                    dump($tennisCoteCumulDeux);
+                            if ($tennisCoteCumulDeux == []){
+                                $newTennisCoteCumul = new TennisCoteCumul();
+                                $newTennisCoteCumul->setCote($sports[0]->getNul());
+                                $newTennisCoteCumul->setMarketTypeId($marketTypeId);
+                                $newTennisCoteCumul->setWin(0);
+                                $newTennisCoteCumul->setLoose(1);
+                                $newTennisCoteCumul->setSport(100);
+//                        dump($newTennisCoteCumul);
+                                $em->persist($newTennisCoteCumul);
+                                $em->flush();
+                            }else{
+//                        $tennisCoteCumulDeux = $tennisCoteCumulDeux[0];
+                                $tennisCoteCumulDeux[0]->setLoose($tennisCoteCumulDeux[0]->getLoose()+1);
+                                $em->persist($tennisCoteCumulDeux[0]);
+                                $em->flush();
+                            }
+                        }elseif($nbCote == 3 && $result[0] == 'N'){
+                            $tennisCoteCumulDeux = $em->getRepository('FdjBundle:TennisCoteCumul')->findByCoteMarketTypeId($sports[0]->getNul(),$marketTypeId,100);
+//                    dump($tennisCoteCumulDeux);
+                            if ($tennisCoteCumulDeux == []){
+                                $newTennisCoteCumul = new TennisCoteCumul();
+                                $newTennisCoteCumul->setCote($sports[0]->getNul());
+                                $newTennisCoteCumul->setMarketTypeId($marketTypeId);
+                                $newTennisCoteCumul->setWin(1);
+                                $newTennisCoteCumul->setLoose(0);
+                                $newTennisCoteCumul->setSport(100);
+//                        dump($newTennisCoteCumul);
+                                $em->persist($newTennisCoteCumul);
+                                $em->flush();
+                            }else{
+//                        $tennisCoteCumulDeux = $tennisCoteCumulDeux[0];
+                                $tennisCoteCumulDeux[0]->setLoose($tennisCoteCumulDeux[0]->getWin()+1);
+                                $em->persist($tennisCoteCumulDeux[0]);
+                                $em->flush();
+                            }
                         }
                     }
                 }
