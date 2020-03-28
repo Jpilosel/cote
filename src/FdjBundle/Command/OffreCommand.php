@@ -26,9 +26,11 @@ class OffreCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(['cote inputt', '============',]);
+//        var_dump(file_get_contents('https://www.pointdevente.parionssport.fdj.fr/api/date/last-update'));
         $em = $this->getContainer()->get('doctrine')->getManager();
 //        $sport = new Sport();
-        $api =file_get_contents('https://www.parionssport.fr/api/1n2/offre');//match sans resultat debut au lancement de l'api, beaucoup de match avec les cotes + cote alternative
+//        $api =file_get_contents('https://www.parionssport.fr/api/1n2/offre');//match sans resultat debut au lancement de l'api, beaucoup de match avec les cotes + cote alternative
+        $api =file_get_contents('https://www.pointdevente.parionssport.fdj.fr/api/1n2/offre?');//meme resultat que la ligne précédente. pas testé
         $jsonapi =  json_decode($api, true);
 
         $nbMatch = count($jsonapi);
@@ -40,9 +42,8 @@ class OffreCommand extends ContainerAwareCommand
             $formulesBdd = $em->getRepository('FdjBundle:Sport')->findByMarketId($jsonapi2['marketId']);
 
             if(!$formulesBdd) {
-                if(($jsonapi2['marketTypeId']) == 4 || ($jsonapi2['marketTypeId']) == 40 || ($jsonapi2['marketTypeId']) == 23 || ($jsonapi2['marketTypeId']) == 5){
-
-                }else {
+//                if(($jsonapi2['marketTypeId']) == 4 || ($jsonapi2['marketTypeId']) == 40 || ($jsonapi2['marketTypeId']) == 23 || ($jsonapi2['marketTypeId']) == 5){
+//                }else {
                     $sport = new sport();
                     $sport->setDateSasie(date("Y-m-d H:i:s"));
                     $sport->setEventId($jsonapi2['eventId']);
@@ -72,6 +73,12 @@ class OffreCommand extends ContainerAwareCommand
                     $em->persist($sport);
                     var_dump($sport);
                     $em->flush();
+//                }
+            }else{
+                if ( $formulesBdd->getEnd() !=  $jsonapi2['end']){
+                    $formulesBdd->setEnd($jsonapi2['end']);
+                    $em->persist($formulesBdd);
+                    $em->flush();
                 }
             }
 //            var_dump($jsonapi2['formules']);
@@ -80,9 +87,9 @@ class OffreCommand extends ContainerAwareCommand
 //                    var_dump($jsonapi3['marketId']);
                     $formulesBdd2 = $em->getRepository('FdjBundle:Sport')->findByMarketId($jsonapi3['marketId']);
                     if (!$formulesBdd2) {
-                        if(($jsonapi3['marketTypeId']) == 4 || ($jsonapi3['marketTypeId']) == 40 || ($jsonapi3['marketTypeId']) == 23 || ($jsonapi3['marketTypeId']) == 5){
-
-                        }else {
+//                        if(($jsonapi3['marketTypeId']) == 4 || ($jsonapi3['marketTypeId']) == 40 || ($jsonapi3['marketTypeId']) == 23 || ($jsonapi3['marketTypeId']) == 5){
+//
+//                        }else {
                             var_dump($formulesBdd2);
                             $sport = new sport();
                             $sport->setEventId($jsonapi3['eventId']);
@@ -112,11 +119,15 @@ class OffreCommand extends ContainerAwareCommand
                             $em->persist($sport);
                             var_dump($sport);
                             $em->flush();
+                    }else{
+                        if ( $formulesBdd2->getEnd() !=  $jsonapi3['end']){
+                            $formulesBdd2->setEnd($jsonapi3['end']);
+                            $em->persist($formulesBdd2);
+                            $em->flush();
                         }
                     }
                 }
             }
-
         }
         $output->writeln(['============','resultat fin',]);
     }

@@ -416,7 +416,35 @@ die;
     public function testAction()
     {
         $em = $this->getDoctrine()->getManager();
+//        $api =file_get_contents('https://www.sofascore.com/badminton//2020-03-14/json?');
+        $api =file_get_contents('https://www.unibet.fr/zones/event.json?eventId=1664412_1');
+//        $api =file_get_contents('https://www.unibet.fr/zones/calendar/nextbets.json?limitHours=&from=13/03/2020'); //unibet
+//        $api =file_get_contents('https://www.unibet.fr/zones/calendar/nextbets.json?limitHours=&from=13/03/2020&willBeLive=false&isOnPlayer=false'); //unibet
+//        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat
+//        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/bet_get/winamaxfr/0'); //winamax
+//        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat juste avec ID
 
+        $jsonapi =  json_decode($api, true);
+//        $jsonLastMaj =  json_decode($lastMaj, true);
+//        var_dump($jsonapi[0]['formules'][0]['outcomes']);
+//        var_dump($jsonLastMaj);
+//        dump($jsonapi['doc'][0]['data'][6]); //winamax nom
+//        dump($jsonapi['doc'][0]['data'][6]['match']['teams']); //winamax nom
+//        dump($jsonapi['doc'][0]['data'][6]['match']['periods']); //winamax nom
+//        dump($jsonapi['doc'][0]['data'][6]['match']['result']);//winamax result
+//          dump($jsonapi['doc'][0]['data']);//winamax result
+//        dump($jsonapi);//result unibet
+//        dump($jsonapi['doc'][0]['data'][0]);//result unibet
+//        dump($jsonapi[1]['selections']);//result unibet
+        dump($jsonapi);//result unibet
+        die;
+        dump($jsonapi['doc'][0]['data']);//result unibet
+        die;
+        dump($jsonapi['doc'][0]['data'][6]); //winamax nom
+        dump($jsonapi['doc'][0]['data'][6]['match']['teams']); //winamax nom
+        dump($jsonapi['doc'][0]['data'][6]['match']['periods']); //winamax nom
+        dump($jsonapi['doc'][0]['data'][6]['match']['result']);//winamax result
+//          dump($jsonapi['doc'][0]['data']);//winamax result
 
 
         die;
@@ -891,22 +919,22 @@ die;
 //        $api =file_get_contents('https://www.parionssport.fr/api/combi-bonus/resultats');// beaucoup de resultat sur des pronostic pas de resultat precis
 //        $api =file_get_contents('https://www.parionssport.fr/api/1n2/resultats?sport=600'); //9 résultat sans cote trier par sport
 //        $lastMaj =file_get_contents('https://www.parionssport.fr/api/date/last-update'); //dernière MAJ
-        $api =file_get_contents('https://www.unibet.fr/zones/calendar/nextbets.json?limitHours=&from=07/02/2017&willBeLive=false&isOnPlayer=false'); //unibet
+//        $api =file_get_contents('https://www.unibet.fr/zones/calendar/nextbets.json?limitHours=&from=07/02/2017&willBeLive=false&isOnPlayer=false'); //unibet
 //        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat
-//        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/bet_get/winamaxfr/0'); //winamax
+        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/bet_get/winamaxfr/0'); //winamax
 //        $api =file_get_contents('https://ls.betradar.com/ls/feeds/?/winamaxfr/fr/Africa:Lagos/gismo/event_get'); //winamax resultat juste avec ID
 
         $jsonapi =  json_decode($api, true);
 //        $jsonLastMaj =  json_decode($lastMaj, true);
 //        var_dump($jsonapi[0]['formules'][0]['outcomes']);
 //        var_dump($jsonLastMaj);
-//          dump($jsonapi['doc'][0]['data'][6]); //winamax nom
-//          dump($jsonapi['doc'][0]['data'][6]['match']['teams']); //winamax nom
-//          dump($jsonapi['doc'][0]['data'][6]['match']['periods']); //winamax nom
-//          dump($jsonapi['doc'][0]['data'][6]['match']['result']);//winamax result
+          dump($jsonapi['doc'][0]['data'][6]); //winamax nom
+          dump($jsonapi['doc'][0]['data'][6]['match']['teams']); //winamax nom
+          dump($jsonapi['doc'][0]['data'][6]['match']['periods']); //winamax nom
+          dump($jsonapi['doc'][0]['data'][6]['match']['result']);//winamax result
 //          dump($jsonapi['doc'][0]['data']);//winamax result
 //        dump($jsonapi['doc'][0]['data'][0]);//result unibet
-        dump($jsonapi[1]['selections']);//result unibet
+//        dump($jsonapi[1]['selections']);//result unibet
 //        dump($jsonapi['doc'][0]['data']);//result unibet
 
 
